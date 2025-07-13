@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { decryptMessage, isDateUnlocked, getTimeRemaining, SecretData } from '@/lib/crypto';
 
-export default function ViewSecret() {
+function ViewSecretContent() {
   const searchParams = useSearchParams();
   const [secretData, setSecretData] = useState<SecretData | null>(null);
   const [error, setError] = useState<string>('');
@@ -147,5 +147,20 @@ export default function ViewSecret() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ViewSecret() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 dark:from-gray-900 dark:to-purple-900 p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading secret...</p>
+        </div>
+      </div>
+    }>
+      <ViewSecretContent />
+    </Suspense>
   );
 }
