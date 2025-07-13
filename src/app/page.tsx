@@ -50,27 +50,27 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 dark:from-gray-900 dark:to-purple-900 p-8">
+    <div className="min-h-screen bg-gradient-radial from-orange-500 via-pink-500 to-purple-600 dark:from-orange-600 dark:via-pink-600 dark:to-purple-700 p-8" style={{background: 'radial-gradient(circle at 30% 35%, rgb(194 65 12) 15%, rgb(190 24 93) 40%, rgb(88 28 135) 70%)'}}>
       <div className="max-w-2xl mx-auto pt-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white dark:text-purple-100 mb-4">
+          <h1 className="text-4xl font-bold text-white drop-shadow-lg mb-4">
             Comings Secrets
           </h1>
-          <p className="text-lg text-purple-200 dark:text-purple-300">
-            Send time-locked messages that can only be opened on a comings date
+          <p className="text-lg text-white/90 drop-shadow-md">
+            Send time-locked messages that can only be opened on a <span className="text-yellow-300 font-bold italic transform rotate-2 inline-block bg-purple-900/30 px-2 py-1 rounded-lg border-2 border-dashed border-yellow-300/50 animate-pulse">comings</span> date
           </p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-purple-900 dark:text-purple-300 mb-2">
+              <label htmlFor="message" className="block text-sm font-semibold text-gray-800 mb-2">
                 Secret Message
               </label>
               <textarea
                 id="message"
                 name="message"
-                rows={4}
+                rows={8}
                 value={formData.message}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
@@ -80,7 +80,7 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="unlockDate" className="block text-sm font-medium text-purple-900 dark:text-purple-300 mb-2">
+              <label htmlFor="unlockDate" className="block text-sm font-semibold text-gray-800 mb-2">
                 Unlock Date
               </label>
               <input
@@ -95,53 +95,24 @@ export default function Home() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="senderEmail" className="block text-sm font-medium text-purple-900 dark:text-purple-300 mb-2">
-                  Your Email (optional)
-                </label>
-                <input
-                  type="email"
-                  id="senderEmail"
-                  name="senderEmail"
-                  value={formData.senderEmail}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
-                  placeholder="your@email.com"
-                />
-              </div>
 
-              <div>
-                <label htmlFor="recipientEmail" className="block text-sm font-medium text-purple-900 dark:text-purple-300 mb-2">
-                  Recipient&apos;s Email (optional)
-                </label>
-                <input
-                  type="email"
-                  id="recipientEmail"
-                  name="recipientEmail"
-                  value={formData.recipientEmail}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
-                  placeholder="recipient@email.com"
-                />
-              </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={isGenerating || !formData.message || !formData.unlockDate}
+                className="w-auto px-8 bg-purple-800 hover:bg-purple-900 disabled:bg-gray-400 text-white font-medium py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 disabled:cursor-not-allowed"
+              >
+                {isGenerating ? 'Generating...' : 'Generate Secret Link'}
+              </button>
             </div>
-
-            <button
-              type="submit"
-              disabled={isGenerating || !formData.message || !formData.unlockDate}
-              className="w-full bg-purple-800 hover:bg-purple-900 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 disabled:cursor-not-allowed"
-            >
-              {isGenerating ? 'Generating...' : 'Generate Secret Link'}
-            </button>
           </form>
 
           {generatedLink && (
             <div className="mt-8 p-6 bg-purple-900/10 dark:bg-purple-900/20 border border-purple-700 dark:border-purple-800 rounded-lg">
-              <h3 className="text-lg font-semibold text-purple-900 dark:text-purple-200 mb-3">
+              <h3 className="text-lg font-bold text-gray-800 mb-3">
                 Secret Link Generated! 🎉
               </h3>
-              <p className="text-sm text-purple-800 dark:text-purple-300 mb-3">
+              <p className="text-sm text-gray-700 mb-3">
                 Share this link with your recipient. They can only view the message after the unlock date.
               </p>
               <div className="flex gap-2">
@@ -164,6 +135,27 @@ export default function Home() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Features section */}
+        <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+          <h2 className="text-xl font-bold text-white mb-4 text-center">Coming Soon Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 bg-yellow-300 rounded-full mt-2 flex-shrink-0"></div>
+              <div>
+                <h3 className="text-white font-semibold">Password Protection</h3>
+                <p className="text-white/80 text-sm">Add an extra layer of security with custom passwords</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-2 h-2 bg-yellow-300 rounded-full mt-2 flex-shrink-0"></div>
+              <div>
+                <h3 className="text-white font-semibold">Email Integration</h3>
+                <p className="text-white/80 text-sm">Send messages directly via email with embedded preview</p>
+              </div>
+            </div>
+          </div>
         </div>
         
         {/* Garden digging icon at the bottom */}
