@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import Image from "next/image";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    senderEmail: '',
-    recipientEmail: '',
-    message: '',
-    unlockDate: ''
+    senderEmail: "",
+    recipientEmail: "",
+    message: "",
+    unlockDate: "",
   });
 
-  const [generatedLink, setGeneratedLink] = useState('');
+  const [generatedLink, setGeneratedLink] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsGenerating(true);
-    
+
     try {
-      const { encryptMessage } = await import('@/lib/crypto');
+      const { encryptMessage } = await import("@/lib/crypto");
       const encrypted = encryptMessage(formData);
       const baseUrl = window.location.origin;
       const link = `${baseUrl}/view?love=${encrypted}`;
       setGeneratedLink(link);
     } catch (error) {
-      console.error('Error generating link:', error);
+      console.error("Error generating link:", error);
     } finally {
       setIsGenerating(false);
     }
@@ -38,33 +38,75 @@ export default function Home() {
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
     } catch (error) {
-      console.error('Failed to copy link:', error);
+      console.error("Failed to copy link:", error);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-radial from-orange-500 via-pink-500 to-purple-600 dark:from-orange-600 dark:via-pink-600 dark:to-purple-700 p-8" style={{background: 'radial-gradient(circle at 30% 35%, rgb(194 65 12) 15%, rgb(190 24 93) 40%, rgb(88 28 135) 70%)'}}>
+    <div
+      className="min-h-screen bg-gradient-radial from-orange-500 via-pink-500 to-purple-600 dark:from-orange-600 dark:via-pink-600 dark:to-purple-700 p-8"
+      style={{
+        background:
+          "radial-gradient(circle at 30% 35%, rgb(194 65 12) 15%, rgb(190 24 93) 40%, rgb(88 28 135) 70%)",
+      }}
+    >
       <div className="max-w-2xl mx-auto pt-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white drop-shadow-lg mb-4">
-            Comings Secrets
+          <h1 className="text-5xl font-black text-white drop-shadow-2xl mb-4 tracking-wider" style={{fontFamily: 'Impact, "Arial Black", sans-serif', textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
+            COMINGS{" "}
+            <span 
+              className="relative inline-block"
+              style={{
+                background: 'linear-gradient(90deg, white 0%, white 70%, black 80%, black 90%, white 100%)',
+                backgroundSize: '300% 100%',
+                backgroundPosition: '100% 0',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent',
+                animation: 'blackSplash 7s ease-out infinite'
+              }}
+            >
+              SECRETS
+            </span>
           </h1>
+          <style jsx>{`
+            @keyframes blackSplash {
+              0% {
+                background-position: 100% 0;
+              }
+              21% {
+                background-position: -100% 0;
+              }
+              100% {
+                background-position: 100% 0;
+              }
+            }
+          `}</style>
           <p className="text-lg text-white/90 drop-shadow-md">
-            Send time-locked messages that can only be opened on a <span className="text-yellow-300 font-bold italic transform rotate-2 inline-block bg-purple-900/30 px-2 py-1 rounded-lg border-2 border-dashed border-yellow-300/50 animate-pulse">comings</span> date
+            Send time-locked messages that can only be opened on a{" "}
+            <span className="text-yellow-300 font-bold italic transform rotate-2 inline-block bg-purple-900/30 px-2 py-1 rounded-lg border-2 border-dashed border-yellow-300/50 animate-pulse">
+              comings
+            </span>{" "}
+            date
           </p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-gray-800 mb-2">
+              <label
+                htmlFor="message"
+                className="block text-sm font-semibold text-gray-800 mb-2"
+              >
                 Secret Message
               </label>
               <textarea
@@ -80,7 +122,10 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="unlockDate" className="block text-sm font-semibold text-gray-800 mb-2">
+              <label
+                htmlFor="unlockDate"
+                className="block text-sm font-semibold text-gray-800 mb-2"
+              >
                 Unlock Date
               </label>
               <input
@@ -89,20 +134,25 @@ export default function Home() {
                 name="unlockDate"
                 value={formData.unlockDate}
                 onChange={handleChange}
-                min={new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                min={
+                  new Date(Date.now() + 24 * 60 * 60 * 1000)
+                    .toISOString()
+                    .split("T")[0]
+                }
                 className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
                 required
               />
             </div>
 
-
             <div className="flex justify-center">
               <button
                 type="submit"
-                disabled={isGenerating || !formData.message || !formData.unlockDate}
+                disabled={
+                  isGenerating || !formData.message || !formData.unlockDate
+                }
                 className="w-auto px-8 bg-purple-800 hover:bg-purple-900 disabled:bg-gray-400 text-white font-medium py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 disabled:cursor-not-allowed"
               >
-                {isGenerating ? 'Generating...' : 'Generate Secret Link'}
+                {isGenerating ? "Generating..." : "Generate Secret Link"}
               </button>
             </div>
           </form>
@@ -113,7 +163,8 @@ export default function Home() {
                 Secret Link Generated! 🎉
               </h3>
               <p className="text-sm text-gray-700 mb-3">
-                Share this link with your recipient. They can only view the message after the unlock date.
+                Share this link with your recipient. They can only view the
+                message after the unlock date.
               </p>
               <div className="flex gap-2">
                 <input
@@ -125,12 +176,12 @@ export default function Home() {
                 <button
                   onClick={copyToClipboard}
                   className={`px-4 py-2 text-white text-sm font-medium rounded-md transition-all duration-200 ${
-                    isCopied 
-                      ? 'bg-green-600 hover:bg-green-700' 
-                      : 'bg-purple-800 hover:bg-purple-900'
+                    isCopied
+                      ? "bg-green-600 hover:bg-green-700"
+                      : "bg-purple-800 hover:bg-purple-900"
                   }`}
                 >
-                  {isCopied ? '✓ Copied!' : 'Copy'}
+                  {isCopied ? "✓ Copied!" : "Copy"}
                 </button>
               </div>
             </div>
@@ -139,28 +190,19 @@ export default function Home() {
 
         {/* Features section */}
         <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-          <h2 className="text-xl font-bold text-white mb-4 text-center">Coming Soon Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-yellow-300 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <h3 className="text-white font-semibold">Password Protection</h3>
-                <p className="text-white/80 text-sm">Add an extra layer of security with custom passwords</p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-yellow-300 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <h3 className="text-white font-semibold">Email Integration</h3>
-                <p className="text-white/80 text-sm">Send messages directly via email with embedded preview</p>
-              </div>
-            </div>
-          </div>
+          <p className="text-white/80 text-lg font-medium text-center">
+            More features coming soon!
+          </p>
         </div>
-        
+
         {/* Garden digging icon at the bottom */}
         <div className="flex justify-center mt-16">
-          <Image src="/icon-garden-dig.svg" alt="Garden Digging" width={120} height={120} />
+          <Image
+            src="/icon-garden-dig.svg"
+            alt="Garden Digging"
+            width={120}
+            height={120}
+          />
         </div>
       </div>
     </div>
