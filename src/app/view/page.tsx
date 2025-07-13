@@ -40,7 +40,7 @@ export default function ViewSecret() {
         
         return () => clearInterval(interval);
       }
-    } catch (err) {
+    } catch {
       setError('Invalid or corrupted secret link');
     }
   }, [searchParams]);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -88,6 +89,7 @@ export default function Home() {
                 name="unlockDate"
                 value={formData.unlockDate}
                 onChange={handleChange}
+                min={new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
                 className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
                 required
               />
@@ -111,7 +113,7 @@ export default function Home() {
 
               <div>
                 <label htmlFor="recipientEmail" className="block text-sm font-medium text-purple-900 dark:text-purple-300 mb-2">
-                  Recipient's Email (optional)
+                  Recipient&apos;s Email (optional)
                 </label>
                 <input
                   type="email"
@@ -166,7 +168,7 @@ export default function Home() {
         
         {/* Garden digging icon at the bottom */}
         <div className="flex justify-center mt-16">
-          <img src="/icon-garden-dig.svg" alt="Garden Digging" width="120" height="120" />
+          <Image src="/icon-garden-dig.svg" alt="Garden Digging" width={120} height={120} />
         </div>
       </div>
     </div>

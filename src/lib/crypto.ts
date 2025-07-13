@@ -14,7 +14,7 @@ export function encryptMessage(data: SecretData): string {
     const jsonString = JSON.stringify(data);
     const encrypted = CryptoJS.AES.encrypt(jsonString, SECRET_KEY).toString();
     return encodeURIComponent(encrypted);
-  } catch (error) {
+  } catch {
     throw new Error('Failed to encrypt message');
   }
 }
@@ -30,7 +30,7 @@ export function decryptMessage(encryptedData: string): SecretData {
     }
     
     return JSON.parse(jsonString);
-  } catch (error) {
+  } catch {
     throw new Error('Failed to decrypt message');
   }
 }
