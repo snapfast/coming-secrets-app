@@ -42,12 +42,38 @@ export default function Home() {
     }
   };
 
+  const shareLink = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Coming Secrets - Secret Message',
+          text: 'I have a secret message for you that will unlock on a specific date!',
+          url: generatedLink,
+        });
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      // Fallback to copy to clipboard if Web Share API is not available
+      copyToClipboard();
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const setQuickDate = (days: number) => {
+    const futureDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+    const dateString = futureDate.toISOString().split("T")[0];
+    setFormData({
+      ...formData,
+      unlockDate: dateString,
     });
   };
 
@@ -61,7 +87,7 @@ export default function Home() {
     >
       <div className="max-w-2xl mx-auto pt-16">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-black text-white drop-shadow-2xl mb-4 tracking-wider" style={{fontFamily: 'Impact, "Arial Black", sans-serif', textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
+          <h1 className="text-3xl font-black text-white drop-shadow-2xl mb-4 tracking-wider font-sans" style={{textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
             COMINGS{" "}
             <span 
               className="relative inline-block"
@@ -142,6 +168,31 @@ export default function Home() {
                 className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
                 required
               />
+              <div className="mt-3">
+                <div className="flex gap-2 flex-wrap justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setQuickDate(7)}
+                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                  >
+                    1 Week
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setQuickDate(30)}
+                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                  >
+                    1 Month
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setQuickDate(365)}
+                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                  >
+                    1 Year
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="flex justify-center">
@@ -173,6 +224,12 @@ export default function Home() {
                   readOnly
                   className="flex-1 px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-purple-600 dark:border-purple-600 rounded-md focus:outline-none"
                 />
+                <button
+                  onClick={shareLink}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-all duration-200"
+                >
+                  Share
+                </button>
                 <button
                   onClick={copyToClipboard}
                   className={`px-4 py-2 text-white text-sm font-medium rounded-md transition-all duration-200 ${
