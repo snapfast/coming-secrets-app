@@ -172,6 +172,13 @@ export default function Home() {
                 <div className="flex gap-2 flex-wrap justify-center">
                   <button
                     type="button"
+                    onClick={() => setQuickDate(1)}
+                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                  >
+                    1 Day
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => setQuickDate(7)}
                     className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
                   >
