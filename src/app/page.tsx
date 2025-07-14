@@ -224,29 +224,31 @@ export default function Home() {
                 Share this link with your recipient. They can only view the
                 message after the unlock date.
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={generatedLink}
                   readOnly
                   className="flex-1 px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-purple-600 dark:border-purple-600 rounded-md focus:outline-none"
                 />
-                <button
-                  onClick={shareLink}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-all duration-200"
-                >
-                  Share
-                </button>
-                <button
-                  onClick={copyToClipboard}
-                  className={`px-4 py-2 text-white text-sm font-medium rounded-md transition-all duration-200 ${
-                    isCopied
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-purple-800 hover:bg-purple-900"
-                  }`}
-                >
-                  {isCopied ? "✓ Copied!" : "Copy"}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={shareLink}
+                    className="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-all duration-200"
+                  >
+                    Share
+                  </button>
+                  <button
+                    onClick={copyToClipboard}
+                    className={`flex-1 sm:flex-initial px-4 py-2 text-white text-sm font-medium rounded-md transition-all duration-200 ${
+                      isCopied
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-purple-800 hover:bg-purple-900"
+                    }`}
+                  >
+                    {isCopied ? "✓ Copied!" : "Copy"}
+                  </button>
+                </div>
               </div>
             </div>
           )}
