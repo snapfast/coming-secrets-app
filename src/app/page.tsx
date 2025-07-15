@@ -85,9 +85,9 @@ export default function Home() {
           "radial-gradient(circle at 30% 35%, rgb(194 65 12) 15%, rgb(190 24 93) 40%, rgb(88 28 135) 70%)",
       }}
     >
-      <div className="max-w-2xl mx-auto pt-16">
+      <div className="max-w-2xl mx-auto pt-6">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-black text-white drop-shadow-2xl mb-4 tracking-wider font-sans" style={{textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
+          <h1 className="text-4xl font-bold text-white drop-shadow-2xl mb-4 tracking-wider" style={{fontFamily: 'var(--font-cinzel-decorative)', textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
             COMINGS{" "}
             <span 
               className="relative inline-block"
