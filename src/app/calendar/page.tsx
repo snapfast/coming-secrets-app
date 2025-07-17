@@ -390,7 +390,7 @@ function CalendarSetupContent() {
               {/* Google Calendar */}
               <button
                 onClick={() => handleAddToCalendar('google')}
-                className="group bg-white border-2 border-blue-200 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
+                className="group bg-white rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
               >
                 <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg"></div>
                 <div className="relative z-10 text-center">
@@ -411,7 +411,7 @@ function CalendarSetupContent() {
               {/* Apple Calendar */}
               <button
                 onClick={() => handleAddToCalendar('apple')}
-                className="group bg-white border-2 border-gray-200 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
+                className="group bg-white rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
               >
                 <div className="absolute -top-2 -right-2 w-16 h-16 bg-gray-100/30 rounded-full blur-lg"></div>
                 <div className="relative z-10 text-center">
@@ -432,7 +432,7 @@ function CalendarSetupContent() {
               {/* Outlook Calendar */}
               <button
                 onClick={() => handleAddToCalendar('outlook')}
-                className="group bg-white border-2 border-blue-200 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
+                className="group bg-white rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
               >
                 <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg"></div>
                 <div className="relative z-10 text-center">
