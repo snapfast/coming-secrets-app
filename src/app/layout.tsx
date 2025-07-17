@@ -19,11 +19,33 @@ const cinzelDecorative = Cinzel_Decorative({
 });
 
 export const metadata: Metadata = {
-  title: "Comings Secrets",
-  description: "Send time-locked messages that can only be opened on a comings date",
+  title: "Coming Secrets",
+  description: "Send time-locked messages that can only be opened on a specific date",
   icons: {
     icon: '/icon-garden-dig.svg',
   },
+  openGraph: {
+    title: "Coming Secrets",
+    description: "Send time-locked messages that can only be opened on a specific date",
+    url: "https://comingss.netlify.app",
+    siteName: "Coming Secrets",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "Coming Secrets - Send time-locked messages that unlock on a specific date",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Coming Secrets",
+    description: "Send time-locked messages that can only be opened on a specific date",
+    images: ["/og-image.svg"],
+  },
+  metadataBase: new URL("https://comingss.netlify.app"),
 };
 
 export default function RootLayout({
