@@ -5,13 +5,13 @@ import Image from "next/image";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    senderEmail: "",
-    recipientEmail: "",
     message: "",
     unlockDate: "",
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState("");
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,12 +21,33 @@ export default function Home() {
       const { encryptMessage } = await import("@/lib/crypto");
       const encrypted = encryptMessage(formData);
       
-      // Redirect to calendar setup page instead of showing link
-      window.location.href = `/calendar?love=${encrypted}`;
+      // Generate view URL instead of redirecting to calendar
+      const viewUrl = `${window.location.origin}/view?love=${encrypted}`;
+      setGeneratedLink(viewUrl);
+      setIsGenerating(false);
     } catch (error) {
       console.error("Error generating link:", error);
       setIsGenerating(false);
     }
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedLink);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      message: "",
+      unlockDate: "",
+    });
+    setGeneratedLink("");
+    setCopySuccess(false);
   };
 
   const handleChange = (
@@ -48,13 +69,7 @@ export default function Home() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-gradient-radial from-orange-500 via-pink-500 to-purple-600 dark:from-orange-600 dark:via-pink-600 dark:to-purple-700 p-8"
-      style={{
-        background:
-          "radial-gradient(circle at 30% 35%, rgb(194 65 12) 15%, rgb(190 24 93) 40%, rgb(88 28 135) 70%)",
-      }}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800 p-8">
       <div className="max-w-2xl mx-auto pt-6">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white drop-shadow-2xl mb-4 tracking-wider" style={{fontFamily: 'var(--font-cinzel-decorative)', textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
@@ -101,7 +116,7 @@ export default function Home() {
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-semibold text-gray-800 mb-2"
+                className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2"
               >
                 Secret Message
               </label>
@@ -120,7 +135,7 @@ export default function Home() {
             <div>
               <label
                 htmlFor="unlockDate"
-                className="block text-sm font-semibold text-gray-800 mb-2"
+                className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2"
               >
                 Unlock Date
               </label>
@@ -143,28 +158,28 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setQuickDate(1)}
-                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Day
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(7)}
-                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Week
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(30)}
-                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Month
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(365)}
-                    className="px-3 py-1 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-md transition-colors duration-200"
+                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Year
                   </button>
@@ -178,12 +193,69 @@ export default function Home() {
                 disabled={
                   isGenerating || !formData.message || !formData.unlockDate
                 }
-                className="w-auto px-8 bg-purple-800 hover:bg-purple-900 disabled:bg-gray-400 text-white font-medium py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 disabled:cursor-not-allowed"
+                className="w-auto px-8 bg-purple-800 disabled:bg-gray-400 text-white font-medium py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 disabled:cursor-not-allowed"
               >
                 {isGenerating ? "Creating Message..." : "Create Secret Message"}
               </button>
             </div>
           </form>
+
+          {/* Generated link section */}
+          {generatedLink && (
+            <div className="mt-8 p-6 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+              <h3 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-4">
+                Secret Message Created Successfully!
+              </h3>
+              
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-green-700 dark:text-green-300 mb-2">
+                  Shareable Link:
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={generatedLink}
+                    readOnly
+                    className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-green-300 dark:border-green-600 rounded-md text-sm font-mono text-gray-800 dark:text-gray-200"
+                  />
+                  <button
+                    onClick={copyToClipboard}
+                    className="px-4 py-2 bg-green-600 text-white font-medium rounded-md transition-colors duration-200"
+                  >
+                    {copySuccess ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: 'Secret Message',
+                        text: 'I have a secret message for you!',
+                        url: generatedLink
+                      });
+                    } else {
+                      // Fallback for browsers that don't support Web Share API
+                      const shareText = `I have a secret message for you! ${generatedLink}`;
+                      navigator.clipboard.writeText(shareText);
+                      alert('Link copied to clipboard!');
+                    }
+                  }}
+                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 backdrop-blur-sm"
+                >
+                  📤 Share Message
+                </button>
+                <button
+                  onClick={resetForm}
+                  className="px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                >
+                  Create Another
+                </button>
+              </div>
+            </div>
+          )}
 
         </div>
 

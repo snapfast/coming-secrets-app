@@ -1,8 +1,6 @@
 import CryptoJS from 'crypto-js';
 
 export interface SecretData {
-  senderEmail?: string;
-  recipientEmail?: string;
   message: string;
   unlockDate: string;
 }
