@@ -172,7 +172,7 @@ function ViewSecretContent() {
                 }}
                 className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg"
               >
-                📅 Add to Calendar
+                📅 Set Reminder
               </button>
             </div>
             </div>

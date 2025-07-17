@@ -262,7 +262,7 @@ export default function Home() {
         {/* Features section */}
         <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
           <p className="text-white/80 text-lg font-medium text-center">
-            More features coming soon!
+            Added new reminder feature
           </p>
         </div>
 
