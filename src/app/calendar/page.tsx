@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { decryptMessage, SecretData } from "@/lib/crypto";
 
 // Generate Apple Calendar iCal/ICS file content
@@ -389,12 +390,19 @@ function CalendarSetupContent() {
               {/* Google Calendar */}
               <button
                 onClick={() => handleAddToCalendar('google')}
-                className="group bg-white hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-6 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
+                className="group bg-white border-2 border-blue-200 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
               >
-                <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg group-hover:bg-blue-200/50 transition-all duration-200"></div>
+                <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg"></div>
                 <div className="relative z-10 text-center">
-                  <div className="text-3xl mb-2">📅</div>
-                  <div className="text-xl font-bold text-blue-600 mb-1">Google</div>
+                  <div className="mb-3">
+                    <Image 
+                      src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" 
+                      alt="Google" 
+                      width={96}
+                      height={32}
+                      className="mx-auto"
+                    />
+                  </div>
                   <div className="text-sm text-blue-500 font-medium">Calendar</div>
                   <div className="text-xs text-gray-600 mt-2">Opens in new window</div>
                 </div>
@@ -403,12 +411,19 @@ function CalendarSetupContent() {
               {/* Apple Calendar */}
               <button
                 onClick={() => handleAddToCalendar('apple')}
-                className="group bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-400 rounded-xl p-6 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
+                className="group bg-white border-2 border-gray-200 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
               >
-                <div className="absolute -top-2 -right-2 w-16 h-16 bg-gray-100/30 rounded-full blur-lg group-hover:bg-gray-200/50 transition-all duration-200"></div>
+                <div className="absolute -top-2 -right-2 w-16 h-16 bg-gray-100/30 rounded-full blur-lg"></div>
                 <div className="relative z-10 text-center">
-                  <div className="text-3xl mb-2">🍎</div>
-                  <div className="text-xl font-bold text-gray-800 mb-1">Apple</div>
+                  <div className="mb-3">
+                    <Image 
+                      src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" 
+                      alt="Apple" 
+                      width={32}
+                      height={40}
+                      className="mx-auto"
+                    />
+                  </div>
                   <div className="text-sm text-gray-600 font-medium">Calendar</div>
                   <div className="text-xs text-gray-600 mt-2">Downloads .ics file</div>
                 </div>
@@ -417,13 +432,20 @@ function CalendarSetupContent() {
               {/* Outlook Calendar */}
               <button
                 onClick={() => handleAddToCalendar('outlook')}
-                className="group bg-white hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-6 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
+                className="group bg-white border-2 border-blue-200 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg relative overflow-hidden"
               >
-                <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg group-hover:bg-blue-200/50 transition-all duration-200"></div>
+                <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg"></div>
                 <div className="relative z-10 text-center">
-                  <div className="text-3xl mb-2">📧</div>
-                  <div className="text-xl font-bold text-blue-600 mb-1">Outlook</div>
-                  <div className="text-sm text-blue-500 font-medium">Calendar</div>
+                  <div className="mb-3">
+                    <Image 
+                      src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" 
+                      alt="Microsoft" 
+                      width={96}
+                      height={20}
+                      className="mx-auto"
+                    />
+                  </div>
+                  <div className="text-sm text-blue-500 font-medium">Outlook Calendar</div>
                   <div className="text-xs text-gray-600 mt-2">Opens in new window</div>
                 </div>
               </button>
