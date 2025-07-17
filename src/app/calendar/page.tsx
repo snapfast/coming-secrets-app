@@ -5,6 +5,61 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { decryptMessage, SecretData } from "@/lib/crypto";
 
+// Generate Apple Calendar iCal/ICS file content
+function generateAppleCalendarICS(unlockDate: string, messageUrl: string): string {
+  const startDate = new Date(unlockDate);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
+  
+  // Format dates for iCal (YYYYMMDDTHHMMSSZ)
+  const formatICalDate = (date: Date) => {
+    return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  };
+  
+  const startFormatted = formatICalDate(startDate);
+  const endFormatted = formatICalDate(endDate);
+  const nowFormatted = formatICalDate(new Date());
+  
+  const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Coming Secrets//EN
+BEGIN:VEVENT
+UID:${Date.now()}@comingsecrets.app
+DTSTAMP:${nowFormatted}
+DTSTART:${startFormatted}
+DTEND:${endFormatted}
+SUMMARY:Secret Message Ready to Open
+DESCRIPTION:🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule
+LOCATION:
+END:VEVENT
+END:VCALENDAR`;
+  
+  return icsContent;
+}
+
+// Generate Outlook Calendar URL with proper encoding
+function generateOutlookCalendarUrl(unlockDate: string, messageUrl: string): string {
+  const startDate = new Date(unlockDate);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
+  
+  // Format dates for Outlook (ISO format)
+  const startFormatted = startDate.toISOString();
+  const endFormatted = endDate.toISOString();
+  
+  const eventDetails = {
+    subject: 'Secret Message Ready to Open',
+    startdt: startFormatted,
+    enddt: endFormatted,
+    body: `🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
+    location: '',
+    allday: 'false',
+    path: '/calendar/action/compose',
+    rru: 'addevent'
+  };
+  
+  const params = new URLSearchParams(eventDetails);
+  return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+}
+
 // Generate Google Calendar URL with proper encoding
 function generateGoogleCalendarUrl(unlockDate: string, messageUrl: string): string {
   const startDate = new Date(unlockDate);
@@ -53,6 +108,7 @@ function CalendarSetupContent() {
   const [secretData, setSecretData] = useState<SecretData | null>(null);
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [calendarError, setCalendarError] = useState<string>("");
 
   useEffect(() => {
     const data = searchParams.get("love");
@@ -72,28 +128,76 @@ function CalendarSetupContent() {
     }
   }, [searchParams]);
 
-  const handleAddToCalendar = () => {
+  const handleAddToCalendar = (provider: string) => {
     if (!secretData) return;
     
+    setCalendarError("");
     const currentUrl = window.location.origin + '/view?' + searchParams.toString();
-    const calendarUrl = generateGoogleCalendarUrl(secretData.unlockDate, currentUrl);
     
-    // Open Google Calendar in popup window
-    const popup = window.open(
-      calendarUrl, 
-      'google-calendar-popup',
-      'width=800,height=600,scrollbars=yes,resizable=yes,location=yes'
-    );
-    
-    // Focus the popup if it opened successfully
-    if (popup) {
-      popup.focus();
+    try {
+      if (provider === 'google') {
+        const calendarUrl = generateGoogleCalendarUrl(secretData.unlockDate, currentUrl);
+        
+        // Open Google Calendar in popup window
+        const popup = window.open(
+          calendarUrl, 
+          'google-calendar-popup',
+          'width=800,height=600,scrollbars=yes,resizable=yes,location=yes'
+        );
+        
+        // Check if popup was blocked
+        if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+          setCalendarError('Popup blocked. Please allow popups for this site and try again.');
+          return;
+        }
+        
+        // Focus the popup if it opened successfully
+        if (popup) {
+          popup.focus();
+        }
+      } else if (provider === 'outlook') {
+        const calendarUrl = generateOutlookCalendarUrl(secretData.unlockDate, currentUrl);
+        
+        // Open Outlook Calendar in popup window
+        const popup = window.open(
+          calendarUrl, 
+          'outlook-calendar-popup',
+          'width=800,height=600,scrollbars=yes,resizable=yes,location=yes'
+        );
+        
+        // Check if popup was blocked
+        if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+          setCalendarError('Popup blocked. Please allow popups for this site and try again.');
+          return;
+        }
+        
+        // Focus the popup if it opened successfully
+        if (popup) {
+          popup.focus();
+        }
+      } else if (provider === 'apple') {
+        const icsContent = generateAppleCalendarICS(secretData.unlockDate, currentUrl);
+        
+        // Create and download ICS file
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'secret-message-reminder.ics';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      }
+      
+      // Redirect to success page
+      setTimeout(() => {
+        router.push(`/calendar/success?${searchParams.toString()}&provider=${provider}`);
+      }, 1000);
+    } catch (error) {
+      console.error('Calendar integration error:', error);
+      setCalendarError(`Failed to add to ${provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}. Please try again.`);
     }
-    
-    // Redirect to success page
-    setTimeout(() => {
-      router.push(`/calendar/success?${searchParams.toString()}`);
-    }, 1000);
   };
 
   const handleSkip = () => {
@@ -235,7 +339,7 @@ function CalendarSetupContent() {
                 Calendar Event Details
               </h3>
               <p className="text-gray-600 text-sm">
-                This will be added to your Google Calendar
+                This will be added to your selected calendar
               </p>
             </div>
 
@@ -276,19 +380,68 @@ function CalendarSetupContent() {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button
-              onClick={handleAddToCalendar}
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              <span>📅</span>
-              Add to Google Calendar
-            </button>
-            
+          {/* Calendar Provider Selection */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-purple-900 mb-4 text-center drop-shadow-sm">
+              Choose Your Calendar
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              {/* Google Calendar */}
+              <button
+                onClick={() => handleAddToCalendar('google')}
+                className="group bg-white hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-6 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
+              >
+                <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg group-hover:bg-blue-200/50 transition-all duration-200"></div>
+                <div className="relative z-10 text-center">
+                  <div className="text-3xl mb-2">📅</div>
+                  <div className="text-xl font-bold text-blue-600 mb-1">Google</div>
+                  <div className="text-sm text-blue-500 font-medium">Calendar</div>
+                  <div className="text-xs text-gray-600 mt-2">Opens in new window</div>
+                </div>
+              </button>
+
+              {/* Apple Calendar */}
+              <button
+                onClick={() => handleAddToCalendar('apple')}
+                className="group bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-400 rounded-xl p-6 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
+              >
+                <div className="absolute -top-2 -right-2 w-16 h-16 bg-gray-100/30 rounded-full blur-lg group-hover:bg-gray-200/50 transition-all duration-200"></div>
+                <div className="relative z-10 text-center">
+                  <div className="text-3xl mb-2">🍎</div>
+                  <div className="text-xl font-bold text-gray-800 mb-1">Apple</div>
+                  <div className="text-sm text-gray-600 font-medium">Calendar</div>
+                  <div className="text-xs text-gray-600 mt-2">Downloads .ics file</div>
+                </div>
+              </button>
+
+              {/* Outlook Calendar */}
+              <button
+                onClick={() => handleAddToCalendar('outlook')}
+                className="group bg-white hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-6 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
+              >
+                <div className="absolute -top-2 -right-2 w-16 h-16 bg-blue-100/30 rounded-full blur-lg group-hover:bg-blue-200/50 transition-all duration-200"></div>
+                <div className="relative z-10 text-center">
+                  <div className="text-3xl mb-2">📧</div>
+                  <div className="text-xl font-bold text-blue-600 mb-1">Outlook</div>
+                  <div className="text-sm text-blue-500 font-medium">Calendar</div>
+                  <div className="text-xs text-gray-600 mt-2">Opens in new window</div>
+                </div>
+              </button>
+            </div>
+          </div>
+          
+          {/* Error Message */}
+          {calendarError && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
+              <strong>Error:</strong> {calendarError}
+            </div>
+          )}
+          
+          {/* Skip Button */}
+          <div className="text-center">
             <button
               onClick={handleSkip}
-              className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Skip for Now
             </button>
@@ -299,7 +452,7 @@ function CalendarSetupContent() {
         {/* Info Card */}
         <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-4 text-center shadow-lg">
           <p className="text-white/90 text-sm drop-shadow-md">
-            💡 <strong>Tip:</strong> After adding to your calendar, you&apos;ll get the shareable link to send to others
+            💡 <strong>Tip:</strong> Choose your preferred calendar app. After adding the reminder, you&apos;ll get the shareable link to send to others
           </p>
         </div>
       </div>

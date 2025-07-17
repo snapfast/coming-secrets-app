@@ -12,9 +12,12 @@ function SuccessContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [messageUrl, setMessageUrl] = useState<string>("");
   const [copied, setCopied] = useState(false);
+  const [provider, setProvider] = useState<string>('google');
 
   useEffect(() => {
     const data = searchParams.get("love");
+    const providerParam = searchParams.get("provider") || 'google';
+    
     if (!data) {
       setError("No message data found in URL");
       setIsLoading(false);
@@ -24,9 +27,10 @@ function SuccessContent() {
     try {
       const decrypted = decryptMessage(data);
       setSecretData(decrypted);
+      setProvider(providerParam);
       
       // Generate the message URL
-      const currentUrl = window.location.origin + '/view?' + searchParams.toString();
+      const currentUrl = window.location.origin + '/view?' + searchParams.toString().replace(/&provider=[^&]*/g, '');
       setMessageUrl(currentUrl);
       
       setIsLoading(false);
@@ -116,7 +120,7 @@ function SuccessContent() {
             Calendar Reminder Added!
           </h1>
           <p className="text-white/90 drop-shadow-lg font-medium relative z-10">
-            Your secret message reminder has been added to Google Calendar
+            Your secret message reminder has been added to {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}
           </p>
           {/* Decorative line */}
           <div className="mt-4 mx-auto w-24 h-0.5 bg-gradient-to-r from-transparent via-green-400/60 to-transparent"></div>
@@ -135,16 +139,16 @@ function SuccessContent() {
                 All Set!
               </h2>
               <p className="text-gray-600 text-sm">
-                You&apos;ll receive a calendar notification on {new Date(secretData.unlockDate).toLocaleString()}
+                You&apos;ll receive a {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'} notification on {new Date(secretData.unlockDate).toLocaleString()}
               </p>
             </div>
 
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 mb-6 border border-green-200/50 shadow-inner">
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
-                <span className="text-green-600">📅</span>
+                <span className="text-green-600">{provider === 'google' ? '📅' : provider === 'apple' ? '🍎' : '📧'}</span>
                 <span className="text-green-700">
-                  Event added to your Google Calendar
+                  Event added to your {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -219,7 +223,7 @@ function SuccessContent() {
         {/* Tips Card */}
         <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-4 text-center shadow-lg">
           <p className="text-white/90 text-sm drop-shadow-md">
-            💡 <strong>Pro Tip:</strong> Check your Google Calendar to make sure the event was added correctly. You can edit the event details if needed.
+            💡 <strong>Pro Tip:</strong> Check your {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'} to make sure the event was added correctly. You can edit the event details if needed.
           </p>
         </div>
       </div>
