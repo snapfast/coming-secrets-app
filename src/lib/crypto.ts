@@ -3,6 +3,8 @@ import CryptoJS from 'crypto-js';
 export interface SecretData {
   message: string;
   unlockDate: string;
+  senderName?: string;
+  hints?: string[];
 }
 
 const SECRET_KEY = 'comings-secrets-app-key';
