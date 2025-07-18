@@ -102,10 +102,10 @@ function SuccessContent() {
           <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-green-400/20 rounded-full blur-xl"></div>
           <div className="text-6xl mb-4 relative z-10 drop-shadow-2xl">✅</div>
           <h1 className="text-3xl font-bold text-white dark:text-white mb-2 drop-shadow-2xl relative z-10" style={{textShadow: '0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(255,255,255,0.1)'}}>
-            Calendar Reminder Added!
+            Smart Reminder Added!
           </h1>
           <p className="text-white/90 dark:text-white/80 drop-shadow-lg font-medium relative z-10">
-            Your secret message reminder has been added to {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}
+            Your smart reminder has been set up with {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}
           </p>
           {/* Decorative line */}
           <div className="mt-4 mx-auto w-24 h-0.5 bg-gradient-to-r from-transparent via-green-400/60 to-transparent"></div>
@@ -124,7 +124,7 @@ function SuccessContent() {
                 All Set!
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
-                You&apos;ll receive a {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'} notification on {new Date(secretData.unlockDate).toLocaleString()}
+                You&apos;ll receive a smart reminder notification on {new Date(secretData.unlockDate).toLocaleString()}
               </p>
             </div>
 
@@ -133,7 +133,7 @@ function SuccessContent() {
               <div className="flex items-center gap-2">
                 <span className="text-green-600">{provider === 'google' ? '📅' : provider === 'apple' ? '🍎' : '📧'}</span>
                 <span className="text-green-700 dark:text-green-300">
-                  Event added to your {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}
+                  Smart reminder activated in your {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -208,7 +208,7 @@ function SuccessContent() {
         {/* Tips Card */}
         <div className="bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 dark:border-white/20 rounded-xl p-4 text-center shadow-lg">
           <p className="text-white/90 dark:text-white/80 text-sm drop-shadow-md">
-            💡 <strong>Pro Tip:</strong> Check your {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'} to make sure the event was added correctly. You can edit the event details if needed.
+            💡 <strong>Pro Tip:</strong> Check your {provider === 'google' ? 'Google Calendar' : provider === 'apple' ? 'Apple Calendar' : 'Outlook Calendar'} to make sure the reminder was added correctly. You can edit the reminder details if needed.
           </p>
         </div>
       </div>

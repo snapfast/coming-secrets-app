@@ -524,9 +524,53 @@ export default function Home() {
 
         {/* Features section */}
         <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-          <p className="text-white/80 text-lg font-medium text-center">
-            Added new reminder feature
-          </p>
+          <h3 className="text-white text-xl font-semibold text-center mb-4">
+            ✨ Key Features
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white/90">
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-300 text-xl">🔒</div>
+              <div>
+                <h4 className="font-medium text-white mb-1">Time-Locked Messages</h4>
+                <p className="text-sm text-white/80">Messages are encrypted and can only be opened on the date you choose</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-300 text-xl">🔔</div>
+              <div>
+                <h4 className="font-medium text-white mb-1">Smart Reminders</h4>
+                <p className="text-sm text-white/80">Get notified when your secret message is ready to unlock</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-300 text-xl">💡</div>
+              <div>
+                <h4 className="font-medium text-white mb-1">Progressive Hints</h4>
+                <p className="text-sm text-white/80">Add optional hints that reveal as the unlock date approaches</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-300 text-xl">📱</div>
+              <div>
+                <h4 className="font-medium text-white mb-1">Easy Sharing</h4>
+                <p className="text-sm text-white/80">Share via WhatsApp, email, social media, or copy the link</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-300 text-xl">🎨</div>
+              <div>
+                <h4 className="font-medium text-white mb-1">Message Templates</h4>
+                <p className="text-sm text-white/80">Pre-made templates for birthdays, anniversaries, and special occasions</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="text-yellow-300 text-xl">🎉</div>
+              <div>
+                <h4 className="font-medium text-white mb-1">Celebration Effects</h4>
+                <p className="text-sm text-white/80">Animated countdown and celebration when messages unlock</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Garden digging icon at the bottom */}

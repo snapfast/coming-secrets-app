@@ -3,12 +3,98 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   decryptMessage,
   isDateUnlocked,
   getTimeRemaining,
   SecretData,
 } from "@/lib/crypto";
+
+// Generate Google Calendar URL with proper encoding
+function generateGoogleCalendarUrl(
+  unlockDate: string,
+  messageUrl: string
+): string {
+  const startDate = new Date(unlockDate);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
+
+  // Format dates as YYYYMMDDTHHMMSSZ (UTC)
+  const formatDate = (date: Date) => {
+    return date
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "");
+  };
+
+  const startFormatted = formatDate(startDate);
+  const endFormatted = formatDate(endDate);
+
+  const eventDetails = {
+    action: "TEMPLATE",
+    text: "Secret Message Ready to Open",
+    dates: `${startFormatted}/${endFormatted}`,
+    details: `🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
+    location: "",
+    sf: "true",
+    output: "xml",
+  };
+
+  const params = new URLSearchParams(eventDetails);
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+// Generate Outlook Calendar URL with proper encoding
+function generateOutlookCalendarUrl(
+  unlockDate: string,
+  messageUrl: string
+): string {
+  const startDate = new Date(unlockDate);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
+
+  const eventDetails = {
+    subject: "Secret Message Ready to Open",
+    startdt: startDate.toISOString(),
+    enddt: endDate.toISOString(),
+    body: `🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
+    location: "",
+    path: "/calendar/action/compose",
+  };
+
+  const params = new URLSearchParams(eventDetails);
+  return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+}
+
+// Generate Apple Calendar iCal/ICS file content
+function generateAppleCalendarICS(
+  unlockDate: string,
+  messageUrl: string
+): string {
+  const startDate = new Date(unlockDate);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+
+  const formatDate = (date: Date) => {
+    return date
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "");
+  };
+
+  const startFormatted = formatDate(startDate);
+  const endFormatted = formatDate(endDate);
+
+  return `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Coming Secrets//EN
+BEGIN:VEVENT
+DTSTAMP:${formatDate(new Date())}
+DTSTART:${startFormatted}
+DTEND:${endFormatted}
+SUMMARY:Secret Message Ready to Open
+DESCRIPTION:🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule
+END:VEVENT
+END:VCALENDAR`;
+}
 
 function ViewSecretContent() {
   const searchParams = useSearchParams();
@@ -24,6 +110,95 @@ function ViewSecretContent() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [currentHint, setCurrentHint] = useState<string>("");
+  const [calendarError, setCalendarError] = useState<string>("");
+
+  const handleAddToCalendar = (provider: string) => {
+    if (!secretData) return;
+
+    setCalendarError("");
+    const currentUrl = window.location.href;
+
+    try {
+      if (provider === "google") {
+        const calendarUrl = generateGoogleCalendarUrl(
+          secretData.unlockDate,
+          currentUrl
+        );
+
+        // Open Google Calendar in popup window
+        const popup = window.open(
+          calendarUrl,
+          "google-calendar-popup",
+          "width=800,height=600,scrollbars=yes,resizable=yes,location=yes"
+        );
+
+        // Check if popup was blocked
+        if (!popup || popup.closed || typeof popup.closed === "undefined") {
+          setCalendarError(
+            "Popup blocked. Please allow popups for this site and try again."
+          );
+          return;
+        }
+
+        // Focus the popup if it opened successfully
+        if (popup) {
+          popup.focus();
+        }
+      } else if (provider === "outlook") {
+        const calendarUrl = generateOutlookCalendarUrl(
+          secretData.unlockDate,
+          currentUrl
+        );
+
+        // Open Outlook Calendar in popup window
+        const popup = window.open(
+          calendarUrl,
+          "outlook-calendar-popup",
+          "width=800,height=600,scrollbars=yes,resizable=yes,location=yes"
+        );
+
+        // Check if popup was blocked
+        if (!popup || popup.closed || typeof popup.closed === "undefined") {
+          setCalendarError(
+            "Popup blocked. Please allow popups for this site and try again."
+          );
+          return;
+        }
+
+        // Focus the popup if it opened successfully
+        if (popup) {
+          popup.focus();
+        }
+      } else if (provider === "apple") {
+        // Generate and download ICS file for Apple Calendar
+        const icsContent = generateAppleCalendarICS(
+          secretData.unlockDate,
+          currentUrl
+        );
+
+        const blob = new Blob([icsContent], {
+          type: "text/calendar;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "secret-message-reminder.ics";
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error("Calendar integration error:", error);
+      setCalendarError(
+        `Failed to add reminder to ${
+          provider === "google"
+            ? "Google Calendar"
+            : provider === "apple"
+            ? "Apple Calendar"
+            : "Outlook Calendar"
+        }. Please try again.`
+      );
+    }
+  };
 
   useEffect(() => {
     const data = searchParams.get("love");
@@ -269,54 +444,96 @@ function ViewSecretContent() {
                 Please check back when the countdown reaches zero!
               </p>
               
-              {/* Inline Calendar Integration */}
+              {/* Smart Reminders */}
               <div className="pt-4 border-t border-purple-300/50 dark:border-purple-600/50">
-                <p className="text-sm text-purple-600 dark:text-purple-400 mb-3">
-                  Want a reminder?
+                <p className="text-sm text-purple-600 dark:text-purple-400 mb-3 text-center">
+                  Get notified when this unlocks:
                 </p>
                 
-                <div className="flex gap-2 justify-center flex-wrap">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                  {/* Google Calendar */}
                   <button
-                    onClick={() => {
-                      const eventDate = new Date(secretData.unlockDate);
-                      const title = encodeURIComponent('Secret Message Unlocks!');
-                      const details = encodeURIComponent(`Your secret message will be available to read. Click to view: ${window.location.href}`);
-                      const startDate = eventDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-                      const endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-                      const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}`;
-                      window.open(googleUrl, '_blank');
-                    }}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium py-2 px-3 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg text-sm"
+                    onClick={() => handleAddToCalendar("google")}
+                    className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
                   >
-                    📅 Google
+                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-blue-100/30 dark:bg-blue-900/30 rounded-full blur-lg"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="mb-2">
+                        <Image
+                          src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
+                          alt="Google"
+                          width={60}
+                          height={20}
+                          className="mx-auto"
+                        />
+                      </div>
+                      <div className="text-xs text-blue-500 dark:text-blue-400 font-medium">
+                        Calendar
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Opens in new window
+                      </div>
+                    </div>
                   </button>
-                  
+
+                  {/* Apple Calendar */}
                   <button
-                    onClick={() => {
-                      const eventDate = new Date(secretData.unlockDate);
-                      const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Coming Secrets//EN
-BEGIN:VEVENT
-DTSTART:${eventDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTEND:${new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-SUMMARY:Secret Message Unlocks!
-DESCRIPTION:Your secret message will be available to read. Click to view: ${window.location.href}
-END:VEVENT
-END:VCALENDAR`;
-                      const blob = new Blob([icsContent], { type: 'text/calendar' });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = 'secret-message-reminder.ics';
-                      a.click();
-                      URL.revokeObjectURL(url);
-                    }}
-                    className="bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium py-2 px-3 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg text-sm"
+                    onClick={() => handleAddToCalendar("apple")}
+                    className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
                   >
-                    📱 Apple/Outlook
+                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-gray-100/30 dark:bg-gray-900/30 rounded-full blur-lg"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="mb-2">
+                        <Image
+                          src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+                          alt="Apple"
+                          width={20}
+                          height={24}
+                          className="mx-auto dark:invert"
+                        />
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                        Calendar
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Downloads .ics file
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Outlook Calendar */}
+                  <button
+                    onClick={() => handleAddToCalendar("outlook")}
+                    className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
+                  >
+                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-blue-100/30 dark:bg-blue-900/30 rounded-full blur-lg"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="mb-2">
+                        <Image
+                          src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg"
+                          alt="Microsoft"
+                          width={60}
+                          height={13}
+                          className="mx-auto"
+                        />
+                      </div>
+                      <div className="text-xs text-blue-500 dark:text-blue-400 font-medium">
+                        Outlook Calendar
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Opens in new window
+                      </div>
+                    </div>
                   </button>
                 </div>
+                
+                {calendarError && (
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-center">
+                    <p className="text-red-600 dark:text-red-400 text-sm">
+                      <strong>Error:</strong> {calendarError}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -427,53 +644,95 @@ END:VCALENDAR`;
               </div>
             </div>
             
-            {/* Calendar integration option for viewers */}
+            {/* Smart Reminders for unlocked messages */}
             <div className="mb-4">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                Want to remember this date? Add it to your calendar:
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">
+                Set a reminder for this special date:
               </p>
-              <div className="flex gap-2 justify-center flex-wrap">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                {/* Google Calendar */}
                 <button
-                  onClick={() => {
-                    const eventDate = new Date(secretData.unlockDate);
-                    const title = encodeURIComponent('Secret Message Unlocked!');
-                    const details = encodeURIComponent(`Your secret message was unlocked. Message: ${secretData.message}`);
-                    const startDate = eventDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-                    const endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-                    const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}`;
-                    window.open(googleUrl, '_blank');
-                  }}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium py-2 px-3 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg text-sm"
+                  onClick={() => handleAddToCalendar("google")}
+                  className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
                 >
-                  📅 Google Calendar
+                  <div className="absolute -top-2 -right-2 w-12 h-12 bg-blue-100/30 dark:bg-blue-900/30 rounded-full blur-lg"></div>
+                  <div className="relative z-10 text-center">
+                    <div className="mb-2">
+                      <Image
+                        src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
+                        alt="Google"
+                        width={60}
+                        height={20}
+                        className="mx-auto"
+                      />
+                    </div>
+                    <div className="text-xs text-blue-500 dark:text-blue-400 font-medium">
+                      Calendar
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Opens in new window
+                    </div>
+                  </div>
                 </button>
-                
+
+                {/* Apple Calendar */}
                 <button
-                  onClick={() => {
-                    const eventDate = new Date(secretData.unlockDate);
-                    const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Coming Secrets//EN
-BEGIN:VEVENT
-DTSTART:${eventDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTEND:${new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-SUMMARY:Secret Message Unlocked!
-DESCRIPTION:Your secret message was unlocked. Message: ${secretData.message}
-END:VEVENT
-END:VCALENDAR`;
-                    const blob = new Blob([icsContent], { type: 'text/calendar' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'secret-message-unlocked.ics';
-                    a.click();
-                    URL.revokeObjectURL(url);
-                  }}
-                  className="bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium py-2 px-3 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg text-sm"
+                  onClick={() => handleAddToCalendar("apple")}
+                  className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
                 >
-                  📱 Apple/Outlook
+                  <div className="absolute -top-2 -right-2 w-12 h-12 bg-gray-100/30 dark:bg-gray-900/30 rounded-full blur-lg"></div>
+                  <div className="relative z-10 text-center">
+                    <div className="mb-2">
+                      <Image
+                        src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+                        alt="Apple"
+                        width={20}
+                        height={24}
+                        className="mx-auto dark:invert"
+                      />
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                      Calendar
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Downloads .ics file
+                    </div>
+                  </div>
+                </button>
+
+                {/* Outlook Calendar */}
+                <button
+                  onClick={() => handleAddToCalendar("outlook")}
+                  className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
+                >
+                  <div className="absolute -top-2 -right-2 w-12 h-12 bg-blue-100/30 dark:bg-blue-900/30 rounded-full blur-lg"></div>
+                  <div className="relative z-10 text-center">
+                    <div className="mb-2">
+                      <Image
+                        src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg"
+                        alt="Microsoft"
+                        width={60}
+                        height={13}
+                        className="mx-auto"
+                      />
+                    </div>
+                    <div className="text-xs text-blue-500 dark:text-blue-400 font-medium">
+                      Outlook Calendar
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Opens in new window
+                    </div>
+                  </div>
                 </button>
               </div>
+              
+              {calendarError && (
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-center">
+                  <p className="text-red-600 dark:text-red-400 text-sm">
+                    <strong>Error:</strong> {calendarError}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
           </div>

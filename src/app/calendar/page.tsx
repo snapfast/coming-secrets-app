@@ -315,7 +315,7 @@ function CalendarSetupContent() {
                 "0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(255,255,255,0.1)",
             }}
           >
-            Set Calendar Reminder
+            Set Smart Reminder
           </h1>
           <p className="text-white/90 dark:text-white/80 drop-shadow-lg font-medium relative z-10">
             Get notified when this secret message unlocks
@@ -358,7 +358,7 @@ function CalendarSetupContent() {
             {/* Calendar Provider Selection */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-purple-900 mb-4 text-center drop-shadow-sm">
-                Choose Your Calendar
+                Choose Your Reminder Method
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 {/* Google Calendar */}
@@ -460,7 +460,7 @@ function CalendarSetupContent() {
         {/* Info Card */}
         <div className="bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 dark:border-white/20 rounded-xl p-4 text-center shadow-lg">
           <p className="text-white/90 dark:text-white/80 text-sm drop-shadow-md">
-            💡 <strong>Tip:</strong> Choose your preferred calendar app to get
+            💡 <strong>Tip:</strong> Choose your preferred reminder method to get
             notified when this secret message unlocks
           </p>
         </div>
