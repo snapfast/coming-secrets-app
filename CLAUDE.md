@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Coming Secrets** is a Next.js web application that allows users to create time-locked secret messages that can only be opened on a specific future date. The app features a beautiful gradient UI with animated elements and integrates with Google Calendar for notification reminders.
+**Coming Secrets** is a Next.js web application that allows users to create time-locked secret messages that can only be opened on a specific future date. The app features a beautiful gradient UI with animated elements, comprehensive UX enhancements, and integrated smart reminders through calendar systems.
 
 ## Tech Stack
 
@@ -37,351 +37,342 @@ npm run lint
 src/
 ├── app/
 │   ├── layout.tsx          # Root layout with fonts and metadata
-│   ├── page.tsx            # Main message creation form
+│   ├── page.tsx            # Enhanced message creation form with templates & preview
 │   ├── globals.css         # Global styles
 │   ├── view/
-│   │   └── page.tsx        # Secret message viewing page
+│   │   └── page.tsx        # Enhanced message viewing with smart reminders
 │   └── calendar/
-│       ├── page.tsx        # Calendar integration setup
+│       ├── page.tsx        # Calendar integration setup (legacy)
 │       └── success/
 │           └── page.tsx    # Success page after calendar setup
 └── lib/
-    └── crypto.ts           # Encryption/decryption utilities
+    └── crypto.ts           # Enhanced encryption/decryption utilities
 ```
 
 ### Key Features
 
-1. **Message Creation** (`src/app/page.tsx:16-30`)
-   - Form for creating secret messages with unlock dates
+1. **Enhanced Message Creation** (`src/app/page.tsx`)
+   - Form with message templates for common occasions
+   - Preview functionality showing recipient experience
+   - Progressive hints system
+   - Enhanced sharing options (WhatsApp, Email, Discord, Telegram, LinkedIn)
+   - Sender personalization with optional name field
    - Real-time encryption using CryptoJS
-   - Quick date selection buttons (1 day, 1 week, 1 month, 1 year)
 
-2. **Time-Locked Viewing** (`src/app/view/page.tsx:26-58`)
-   - Decrypts messages only after unlock date
-   - Real-time countdown timer
-   - Animated UI with floating decorative elements
+2. **Advanced Time-Locked Viewing** (`src/app/view/page.tsx`)
+   - Progressive hints that unlock as time approaches
+   - Enhanced countdown with multiple formats and progress bar
+   - Celebration animations for unlock moment
+   - Integrated smart reminders (Google, Apple, Outlook calendars)
+   - Reaction/reply system for unlocked messages
+   - Sender context display
 
-3. **Calendar Integration** (`src/app/calendar/page.tsx:8-48`)
-   - Google Calendar event generation
-   - Automatic URL encoding and formatting
-   - Calendar reminder with direct message link
+3. **Smart Reminders Integration** 
+   - Beautiful calendar buttons with logos (Google, Apple, Outlook)
+   - Inline integration within viewer flow
+   - Popup handling for web calendars
+   - ICS file generation for offline calendars
+   - Error handling for blocked popups
 
-4. **Encryption System** (`src/lib/crypto.ts:12-65`)
+4. **Enhanced Encryption System** (`src/lib/crypto.ts`)
    - AES encryption with fixed secret key
+   - Support for sender name and hints in message data
    - Base64 encoding for URL safety
    - Time validation utilities
 
-## User Flows
+## Enhanced User Flows
 
-The application has two distinct user flows:
+### Flow 1: Message Creator (Sender) - Enhanced
+**User Journey:** Template → Create → Preview → Share → Track
 
-### Flow 1: Message Creator (Sender)
-**User Journey:** Create → Share → Track
+1. **Template Selection** (Optional)
+   - Choose from 8 pre-built templates (birthday, anniversary, graduation, etc.)
+   - Templates auto-fill message content
+   - Customizable after selection
 
-1. **Create Message** (`src/app/page.tsx`)
-   - Write secret message content
-   - Choose unlock date (quick options: 1 day, 1 week, 1 month, 1 year, or custom)
-   - Click "Create Secret Message"
-   - System encrypts message and generates view URL
+2. **Enhanced Message Creation**
+   - Write or customize message content
+   - Add optional sender name for personalization
+   - Add progressive hints that unlock over time
+   - Choose unlock date (quick options or custom)
+   - Preview how recipients will see the message
 
-2. **Share Message** (`src/app/page.tsx`)
+3. **Advanced Sharing**
    - Copy generated view URL to clipboard
-   - Share via WhatsApp, Email, or any other method
-   - Optionally create another message
+   - Share via multiple platforms (WhatsApp, Email, Discord, Telegram, LinkedIn)
+   - Social media integration with platform-specific formatting
+   - Clean, emoji-free interface
 
-**Key Features:**
-- Message encryption before URL generation
-- Multiple sharing options (copy, WhatsApp, email)
-- Quick date selection buttons
-- Form validation and error handling
-- "Create Another" functionality
+**Enhanced Features:**
+- Message preview with live countdown simulation
+- Template system for common occasions
+- Progressive hints management
+- Sender personalization
+- Multi-platform sharing with proper formatting
 
-### Flow 2: Message Viewer (Recipient)
-**User Journey:** View → Wait/Read → Optionally Remind
+### Flow 2: Message Viewer (Recipient) - Enhanced
+**User Journey:** View → Engage → Remind → Unlock → React
 
-1. **View Message** (`src/app/view/page.tsx`)
-   - Click on shared URL containing encrypted message
-   - System decrypts and validates unlock date
-   - If locked: Shows countdown timer with days/hours/minutes/seconds
-   - If unlocked: Displays the secret message content
+1. **Enhanced Viewing Experience**
+   - Sender name display when provided
+   - Progressive hints that appear over time
+   - Enhanced countdown with multiple formats
+   - Progress bar showing time elapsed
+   - Celebration animations for unlock
 
-2. **Calendar Integration** (`src/app/calendar/page.tsx`)
-   - Optional step for viewers who want reminders
-   - Add unlock date to Google Calendar
-   - Calendar event includes direct link back to message
-   - Can skip calendar integration
+2. **Smart Reminders Integration**
+   - Beautiful calendar buttons directly in viewer
+   - Support for Google, Apple, and Outlook calendars
+   - One-click reminder setup
+   - Error handling for blocked popups
 
-**Key Features:**
-- Real-time countdown timer
-- Automatic unlock when timer reaches zero
-- Animated UI with floating decorative elements
-- Calendar integration for reminders
-- Error handling for invalid/corrupted links
+3. **Post-Unlock Experience**
+   - Celebration effects with confetti animation
+   - Message display with sender context
+   - Emoji reaction system
+   - Reply/comment functionality
+   - Option to set reminder for the special date
 
-## User Stories
+**Enhanced Features:**
+- Progressive hints system
+- Multi-format countdown display
+- Celebration animations
+- Integrated calendar setup
+- Reaction and reply system
+- Enhanced personalization
 
-### 1. Message Creator (Sender)
-**As a user who wants to send a time-locked message**
+## User Stories - Enhanced
 
-- I want to create a secret message that can only be opened on a specific date
-- I want to choose from quick date options (1 day, 1 week, 1 month, 1 year) or pick a custom date
-- I want to receive a shareable link that I can send to others
-- I want multiple ways to share the link (copy, WhatsApp, email)
-- I want to create multiple messages easily
-- I want the message to be encrypted so it cannot be read before the unlock date
+### 1. Enhanced Message Creator
+**As a user who wants to send a personalized time-locked message**
 
-**Acceptance Criteria:**
-- Message form requires a message and unlock date (minimum 1 day in future)
-- Form validates that unlock date is in the future
-- System generates encrypted view URL containing the message data
-- Success section shows generated link with copy and share options
-- "Create Another" button resets form for new messages
+- I want to use pre-built templates for common occasions
+- I want to preview how my message will look to recipients
+- I want to add my name so recipients know who sent it
+- I want to include hints that reveal progressively
+- I want to share via multiple platforms easily
+- I want a clean, professional sharing interface
 
-### 2. Message Viewer (Recipient)
-**As a user who receives a time-locked message link**
+**New Acceptance Criteria:**
+- Template selection with 8 common occasion types
+- Preview modal showing recipient experience with live countdown
+- Sender name field for personalization
+- Progressive hints with add/remove functionality
+- Enhanced sharing grid with 6 platforms (no emojis)
+- Purple-themed success section
 
-- I want to click the link and see if the message is available to read
-- If the message is locked, I want to see exactly when it will unlock
-- I want to see a real-time countdown until the unlock time
-- Once unlocked, I want to read the secret message
-- I want to optionally add the unlock date to my calendar for reminders
-- I want to be able to create my own secret messages
+### 2. Enhanced Message Viewer
+**As a recipient who wants an engaging waiting experience**
 
-**Acceptance Criteria:**
-- Link automatically detects if message is locked or unlocked
-- Locked messages show countdown timer with days, hours, minutes, seconds
-- Timer updates every second and automatically unlocks when countdown reaches zero
-- Unlocked messages display the full message content
-- Optional calendar integration for setting reminders
-- Error handling for invalid or corrupted links
-- Navigation to create new messages
+- I want to see who sent me the message
+- I want progressive hints as the unlock date approaches
+- I want an engaging countdown with different formats
+- I want celebration effects when the message unlocks
+- I want to react to messages with emojis
+- I want to reply to messages
+- I want easy reminder setup without navigating away
 
-### 3. Calendar User (Viewer who wants reminders)
-**As a message viewer who wants calendar reminders**
+**New Acceptance Criteria:**
+- Sender name display in both locked and unlocked states
+- Progressive hints that appear based on time elapsed
+- Multi-format countdown (grid view + digital clock for close dates)
+- Progress bar showing time remaining
+- Celebration animation with confetti effects
+- Emoji reaction buttons and reply textarea
+- Beautiful calendar buttons integrated in viewer
 
-- I want to add the message unlock date to my Google Calendar
-- I want the calendar event to include the direct link to view the message
-- I want to see a preview of what will be added to my calendar
-- I want to be able to skip calendar integration if I don't want it
+### 3. Smart Reminders User
+**As a user who wants convenient reminder setup**
 
-**Acceptance Criteria:**
-- Calendar setup page shows message details and unlock date
-- Google Calendar integration opens in popup window
-- Calendar event includes proper title, date, time, and message link
-- User can choose to skip calendar integration
-- Success page confirms calendar was added and provides shareable link
+- I want beautiful, professional calendar integration buttons
+- I want to set reminders without leaving the message page
+- I want support for my preferred calendar system
+- I want clear feedback if something goes wrong
+- I want one-click setup for each calendar type
 
-### 4. Security-Conscious User
-**As a user concerned about message security**
+**New Acceptance Criteria:**
+- Professional calendar buttons with logos and descriptions
+- Support for Google (popup), Apple (ICS download), Outlook (popup)
+- Inline integration within both locked and unlocked views
+- Error handling with clear user feedback
+- Responsive design for all screen sizes
 
-- I want my messages to be encrypted so they cannot be read before unlock time
-- I want the system to validate unlock dates client-side
-- I want error handling for corrupted or invalid message links
+## Enhanced Key Components
 
-**Acceptance Criteria:**
-- Messages are encrypted using AES encryption before URL generation
-- Decryption only occurs when viewing the message
-- System validates unlock dates and shows appropriate error messages
-- Invalid or corrupted links show clear error messages
+### 1. Enhanced Message Creation Form (`src/app/page.tsx`)
+- **Purpose**: Comprehensive message creation with templates and preview
+- **Enhanced Features**: 
+  - Template selection grid with 8 common occasions
+  - Sender name field for personalization
+  - Progressive hints management (add/remove)
+  - Preview modal with live countdown simulation
+  - Enhanced sharing options (6 platforms)
+  - Purple-themed success section
+- **State Management**: Complex state for templates, preview, hints, and sharing
 
-## Key Components
+### 2. Advanced Message Viewer (`src/app/view/page.tsx`)
+- **Purpose**: Engaging viewing experience with smart reminders
+- **Enhanced Features**:
+  - Progressive hints system
+  - Multi-format countdown display
+  - Celebration animations
+  - Integrated calendar buttons
+  - Reaction/reply system
+  - Sender context display
+- **State Management**: Enhanced state for hints, celebrations, and calendar integration
 
-### 1. Message Creation Form (`src/app/page.tsx`)
-- **Purpose**: Main interface for creating time-locked messages
-- **Features**: 
-  - Animated gradient background
-  - Quick date selection buttons
-  - Form validation
-  - Real-time encryption
-- **State Management**: Local state for form data and loading states
-
-### 2. Message Viewer (`src/app/view/page.tsx`)
-- **Purpose**: Display locked/unlocked messages with countdown
+### 3. Smart Reminders Integration
+- **Purpose**: Seamless calendar integration within viewer flow
 - **Features**:
-  - Time validation and countdown timer
-  - Animated decorative elements
-  - Responsive design
-  - Error handling
-- **State Management**: Local state for message data and timer
+  - Beautiful calendar buttons with logos
+  - Google Calendar popup integration
+  - Apple Calendar ICS file generation
+  - Outlook Calendar popup integration
+  - Error handling for blocked popups
+- **Integration**: Direct integration within viewer pages
 
-### 3. Calendar Integration (`src/app/calendar/page.tsx`)
-- **Purpose**: Google Calendar integration for unlock reminders
-- **Features**:
-  - Calendar URL generation
-  - Popup window handling
-  - Message preview
-  - Skip option
-- **Integration**: Google Calendar API via URL parameters
+### 4. Enhanced Encryption Utilities (`src/lib/crypto.ts`)
+- **Purpose**: Handle enhanced message data with sender info and hints
+- **Enhanced Functions**:
+  - Support for optional sender name
+  - Support for progressive hints array
+  - Backward compatibility with existing messages
+  - Enhanced TypeScript interfaces
 
-### 4. Encryption Utilities (`src/lib/crypto.ts`)
-- **Purpose**: Handle message encryption/decryption and time validation
-- **Functions**:
-  - `encryptMessage()`: AES encrypt message data
-  - `decryptMessage()`: AES decrypt message data
-  - `isDateUnlocked()`: Check if current time >= unlock time
-  - `getTimeRemaining()`: Calculate countdown values
+## Enhanced UI/UX Features
 
-## UI/UX Features & Design System
+### New Visual Elements
+- **Template Grid**: 2x4 grid with colored buttons for message templates
+- **Preview Modal**: Full-screen modal showing recipient experience
+- **Progressive Hints**: Cards that appear/disappear based on time
+- **Calendar Buttons**: Professional cards with logos and descriptions
+- **Celebration Effects**: Confetti animation with countdown
+- **Reaction System**: Emoji buttons and reply textarea
 
-### Visual Design
-- **Theme**: Radial gradient background (orange → pink → purple)
-- **Typography**: Cinzel Decorative for headings, Geist for body text
-- **Animations**: CSS keyframes for text effects, floating elements
-- **Layout**: Responsive design with mobile-first approach
+### Enhanced Design System
 
-### Design System & Consistency Guidelines
-
-#### Color Palette
+#### Updated Color Palette
 - **Primary Gradient**: `bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700`
-- **Dark Mode**: `dark:from-orange-700 dark:via-pink-700 dark:to-purple-800`
-- **Button Gradients**: 
-  - Primary: `bg-gradient-to-r from-purple-600 to-pink-600`
-  - Secondary: `bg-gradient-to-r from-gray-500 to-gray-600`
-  - Success: `bg-gradient-to-r from-green-600 to-emerald-600`
-  - Info: `bg-gradient-to-r from-blue-500 to-purple-600`
+- **Success Theme**: Updated to purple (`bg-purple-50 dark:bg-purple-900/20`)
+- **Template Buttons**: Blue theme (`bg-blue-100 dark:bg-blue-800`)
+- **Calendar Cards**: White cards with colored accents
+- **Celebration**: Yellow confetti with bounce animations
 
-#### Typography Scale
-- **Display**: Cinzel Decorative for main headings (4xl, 3xl)
-- **Headers**: Geist font, bold weight (2xl, xl, lg)
-- **Body**: Geist font, regular weight (base, sm)
-- **Captions**: Geist font, medium weight (xs, sm)
+#### New Component Patterns
+- **Template Grid**: `grid-cols-2 sm:grid-cols-4 gap-2` for template selection
+- **Preview Modal**: Fixed overlay with centered content
+- **Calendar Cards**: `grid-cols-1 sm:grid-cols-3 gap-3` with hover effects
+- **Sharing Grid**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3`
+- **Reaction Bar**: Horizontal emoji buttons with hover scaling
 
-#### Button Styles
-- **Primary Action**: `px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2`
-- **Secondary Action**: `px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2`
-- **Quick Actions**: `px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200`
+### Enhanced Accessibility
+- **Focus Management**: Proper focus handling in modals and forms
+- **Keyboard Navigation**: Full keyboard support for all new features
+- **Screen Reader Support**: Proper ARIA labels for complex components
+- **Error Handling**: Clear error messages for calendar integration
+- **Loading States**: Proper loading indicators for all async operations
 
-#### Card Styles
-- **Main Cards**: `bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 border border-white/30 dark:border-gray-700/30 relative overflow-hidden`
-- **Success Cards**: `bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800`
-- **Info Cards**: `bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 dark:border-white/20 rounded-xl shadow-lg`
-
-#### Decorative Elements
-- **Floating Bubbles**: Various sizes with blur effects and pulse/bounce animations
-- **Background Gradients**: Subtle overlays with transparency
-- **Shadow Effects**: `drop-shadow-2xl`, `shadow-lg`, `shadow-2xl`
-- **Blur Effects**: `backdrop-blur-sm`, `blur-xl`, `blur-2xl`
-
-#### Animation Patterns
-- **Transitions**: `transition-all duration-200` for interactive elements
-- **Loading States**: Spinning circles with `animate-spin`
-- **Decorative**: `animate-pulse`, `animate-bounce` with staggered delays
-- **Text Effects**: Custom keyframes for title animations
-
-#### Layout Patterns
-- **Page Container**: `min-h-screen p-8 relative overflow-hidden` with gradient background
-- **Content Wrapper**: `max-w-2xl mx-auto pt-8 relative z-10`
-- **Form Layout**: `space-y-6` for form elements
-- **Button Groups**: `flex gap-3 justify-center` or `grid grid-cols-1 sm:grid-cols-3 gap-4`
-
-### Interactive Elements
-- **Loading States**: Spinner animations during processing
-- **Button Feedback**: Focus rings and subtle transitions (NO HOVER EFFECTS)
-- **Form Validation**: Real-time validation with error messages
-- **Copy Functionality**: One-click link copying with feedback
-- **Share Integration**: Native Web Share API with clipboard fallback
-
-### Accessibility Features
-- **Focus Management**: Proper focus rings on all interactive elements
-- **Keyboard Navigation**: Full keyboard support for all actions
-- **Screen Reader Support**: Semantic HTML and proper ARIA labels
-- **Color Contrast**: High contrast ratios for text readability
-- **Loading States**: Clear feedback for async operations
-
-### Responsive Design
-- **Mobile First**: Base styles for mobile, progressive enhancement
-- **Breakpoints**: `sm:`, `md:`, `lg:` for larger screens
-- **Flexible Layouts**: Flexbox and CSS Grid for adaptive layouts
-- **Touch Friendly**: Adequate touch target sizes (minimum 44px)
-
-### Design Principles
-1. **Consistency**: Use established color palette and typography scale
-2. **Accessibility**: Maintain focus management and keyboard navigation
-3. **Performance**: Optimize animations and use backdrop-blur sparingly
-4. **Clarity**: Clear visual hierarchy and intuitive user flows
-5. **Elegance**: Subtle animations and premium feel with gradients
-
-## Security Considerations
+## Enhanced Security Considerations
 
 ### Current Implementation
-- **Encryption**: AES encryption with fixed secret key
-- **URL Encoding**: Base64 encoding for URL safety
-- **Client-Side Validation**: Date validation prevents early unlocking
+- **Enhanced Encryption**: AES encryption supporting sender name and hints
+- **Backward Compatibility**: Existing links continue to work
+- **Client-Side Validation**: Enhanced date validation
+- **Error Handling**: Improved error messages for invalid data
 
-### Potential Improvements
-- **Key Management**: Consider dynamic key generation
-- **Server-Side Validation**: Add server-side unlock time validation
-- **Rate Limiting**: Implement to prevent abuse
-- **HTTPS**: Ensure all traffic is encrypted
+### Data Structure
+```typescript
+interface SecretData {
+  message: string;
+  unlockDate: string;
+  senderName?: string;  // New: Optional sender name
+  hints?: string[];     // New: Optional progressive hints
+}
+```
 
-## Future Enhancements
+## Enhanced Testing Checklist
 
-### Planned Features
-1. **Email Integration**: Send encrypted messages via email
-2. **User Accounts**: Save and manage multiple messages
-3. **Message Templates**: Pre-built message formats
-4. **Advanced Scheduling**: Recurring messages, timezone support
-5. **Delivery Confirmation**: Track when messages are viewed
+### New Feature Testing
+- [ ] Template selection and application
+- [ ] Preview modal functionality with countdown
+- [ ] Progressive hints display timing
+- [ ] Sender name display in both states
+- [ ] Enhanced sharing options (6 platforms)
+- [ ] Calendar integration (Google, Apple, Outlook)
+- [ ] Celebration animations
+- [ ] Reaction system functionality
+- [ ] Error handling for calendar popups
+- [ ] Mobile responsiveness for all new features
 
-### Technical Improvements
-1. **Database Integration**: Store encrypted messages server-side
-2. **API Routes**: RESTful API for message management
-3. **Authentication**: User login and message ownership
-4. **Mobile App**: React Native companion app
-5. **Analytics**: Track message creation and viewing metrics
-
-## Common Tasks
-
-### Adding New Pages
-1. Create page component in `src/app/[route]/page.tsx`
-2. Use consistent background gradient styling
-3. Implement proper loading states and error handling
-4. Add navigation links to other pages
-
-### Modifying Encryption
-1. Update `src/lib/crypto.ts` with new encryption methods
-2. Ensure backward compatibility with existing links
-3. Test encryption/decryption thoroughly
-4. Update TypeScript interfaces if needed
-
-### Styling Updates
-1. Modify `src/app/globals.css` for global styles
-2. Use Tailwind classes for component styling
-3. Maintain consistent gradient and animation patterns
-4. Test responsive design across devices
-
-### Testing Checklist
+### Existing Feature Testing
 - [ ] Message creation with various dates
 - [ ] Link sharing and access
 - [ ] Timer countdown accuracy
-- [ ] Calendar integration functionality
 - [ ] Error handling for invalid links
 - [ ] Responsive design on mobile/tablet
 - [ ] Browser compatibility (Chrome, Firefox, Safari)
+- [ ] Dark mode support
 
-## Dependencies
+## Common Tasks - Enhanced
+
+### Adding New Templates
+1. Update `messageTemplates` object in `src/app/page.tsx`
+2. Add new template with appropriate content
+3. Test template application and preview
+4. Ensure template content works with hints system
+
+### Modifying Calendar Integration
+1. Update calendar generation functions for new providers
+2. Test popup handling and ICS file generation
+3. Update button styling and descriptions
+4. Test error handling for blocked popups
+
+### Enhancing Sharing Options
+1. Add new platform to sharing grid
+2. Implement platform-specific URL formatting
+3. Test platform integration and fallbacks
+4. Update button styling consistency
+
+## Performance Optimizations
+
+### New Optimizations
+- **useCallback**: Proper memoization for timer functions
+- **Component Splitting**: Separate components for complex features
+- **Lazy Loading**: Dynamic imports for calendar functions
+- **Error Boundaries**: Proper error handling for all new features
+
+### Bundle Size Considerations
+- **External Images**: Uses CDN for platform logos
+- **Code Splitting**: Calendar functions loaded on demand
+- **Tree Shaking**: Unused template functions eliminated
+
+## Dependencies - Enhanced
 
 ### Core Dependencies
 - `next`: React framework with App Router
-- `react`: UI library
+- `react`: UI library with hooks
 - `react-dom`: React DOM bindings
 - `crypto-js`: Encryption library
 - `tailwindcss`: CSS framework
 
 ### Development Dependencies
 - `typescript`: Type checking
-- `eslint`: Code linting
+- `eslint`: Code linting with enhanced rules
 - `@types/*`: TypeScript definitions
 
-## Environment Variables
-None currently required - all configuration is handled through constants in the code.
+## Deployment Notes - Enhanced
 
-## Deployment Notes
-- **Platform**: Can be deployed on Vercel, Netlify, or any Node.js hosting
-- **Build**: Requires `npm run build` for production
-- **Environment**: No special environment variables needed
-- **Domain**: Currently references `comingss.netlify.app` in calendar integration
+### Build Requirements
+- **Static Images**: External CDN images for platform logos
+- **Build Size**: Optimized with proper tree shaking
+- **Environment**: No additional environment variables needed
+- **Performance**: Enhanced with proper memoization
+
+### Production Considerations
+- **Calendar Integration**: Popup handling requires proper CORS setup
+- **Image Loading**: External images may need CSP configuration
+- **Error Handling**: Proper error boundaries for all new features
 
 ---
 
-*Last updated: Based on codebase analysis as of current session*
+*Last updated: December 2024 - Enhanced with comprehensive UX improvements, smart reminders, and advanced user experience features*
