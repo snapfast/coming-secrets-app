@@ -219,7 +219,10 @@ src/
   - Integrated calendar buttons
   - Reaction/reply system
   - Sender context display
+  - Centered "Create New Message" button
+  - Natural footer positioning with optimal spacing
 - **State Management**: Enhanced state for hints, celebrations, and calendar integration
+- **Layout**: Consistent vertical layout with centered elements and proper content-footer spacing
 
 ### 3. Smart Reminders Integration
 - **Purpose**: Seamless calendar integration within viewer flow
@@ -261,9 +264,11 @@ src/
 #### New Component Patterns
 - **Template Grid**: `grid-cols-2 sm:grid-cols-4 gap-2` for template selection
 - **Preview Modal**: Fixed overlay with centered content
-- **Calendar Cards**: `grid-cols-1 sm:grid-cols-3 gap-3` with hover effects
+- **Calendar Cards**: Vertical layout with `flex flex-col gap-3` for clean stacking
 - **Sharing Grid**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3`
-- **Reaction Bar**: Horizontal emoji buttons with hover scaling
+- **Reaction Bar**: Vertical layout with `flex flex-col gap-2 items-center`
+- **Button Positioning**: Centered buttons using `flex justify-center`
+- **Content Spacing**: Optimal `pb-8` and `mb-8` spacing for footer separation
 
 ### Enhanced Accessibility
 - **Focus Management**: Proper focus handling in modals and forms
@@ -313,6 +318,28 @@ interface SecretData {
 - [ ] Browser compatibility (Chrome, Firefox, Safari)
 - [ ] Dark mode support
 
+## Recent Layout Improvements (January 2025)
+
+### UI/UX Design Decisions
+- **Vertical Layout Priority**: Changed from horizontal grids to vertical layouts for better mobile experience
+- **Centered Navigation**: "Create New Message" button centered for better visual balance
+- **Footer Positioning**: Moved from fixed positioning to natural document flow
+- **Optimal Spacing**: Reduced spacing from 32 units to 8 units (`pb-8`, `mb-8`) to match home page consistency
+- **Clean Layout**: Removed excessive padding that created awkward gaps between content and footer
+
+### Layout Changes Applied
+1. **Calendar Buttons**: Changed from `grid-cols-3` to `flex flex-col` for vertical stacking
+2. **Button Centering**: Updated navigation buttons from `justify-end` to `justify-center`
+3. **Footer Integration**: Removed fixed positioning wrappers, uses natural flow
+4. **Spacing Consistency**: Applied consistent `pb-8` and `mb-8` across all page states
+5. **Content Separation**: Proper spacing between main content and footer without excessive gaps
+
+### Design Philosophy
+- **"Less is More"**: Reduced spacing creates cleaner, more professional appearance
+- **Consistency**: Matching spacing patterns between home and view pages
+- **Mobile-First**: Vertical layouts work better on smaller screens
+- **Natural Flow**: Footer follows document flow rather than fixed positioning
+
 ## Common Tasks - Enhanced
 
 ### Adding New Templates
@@ -332,6 +359,13 @@ interface SecretData {
 2. Implement platform-specific URL formatting
 3. Test platform integration and fallbacks
 4. Update button styling consistency
+
+### Layout Modifications
+1. Maintain vertical layout pattern for new components
+2. Use `flex justify-center` for button positioning
+3. Apply consistent spacing (`pb-8`, `mb-8`) for content separation
+4. Avoid fixed positioning unless absolutely necessary
+5. Test spacing on both mobile and desktop viewports
 
 ## Performance Optimizations
 
@@ -375,4 +409,27 @@ interface SecretData {
 
 ---
 
-*Last updated: December 2024 - Enhanced with comprehensive UX improvements, smart reminders, and advanced user experience features*
+## Current App State (January 2025)
+
+### View Page Layout (`src/app/view/page.tsx`)
+- **Navigation**: Centered "Create New Message" button for better visual balance
+- **Content Layout**: Vertical-first design with proper spacing
+- **Calendar Integration**: Vertical stacking of calendar options for cleaner mobile experience
+- **Footer**: Natural document flow positioning with consistent spacing
+- **Spacing System**: Optimized `pb-8` and `mb-8` values matching home page design
+- **Responsive Design**: Mobile-optimized vertical layouts throughout
+
+### Footer Component (`src/components/Footer.tsx`)
+- **Simple Design**: Clean garden icon without excessive margins
+- **Natural Positioning**: Flows with document rather than fixed positioning
+- **Consistent Spacing**: Matches home page footer treatment
+
+### Design System Consistency
+- **Cross-Page Harmony**: View page now matches home page spacing and layout patterns
+- **Mobile-First Approach**: Vertical layouts prioritized for better mobile UX
+- **Clean Aesthetics**: Reduced excessive spacing for professional appearance
+- **Centered Elements**: Key navigation elements centered for visual balance
+
+---
+
+*Last updated: January 2025 - Enhanced with layout improvements, vertical design patterns, and spacing consistency across pages*
