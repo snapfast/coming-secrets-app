@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -162,45 +163,7 @@ export default function Home() {
   return (
     <div className="page-container p-8">
       <div className="max-w-2xl mx-auto pt-6">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-white drop-shadow-2xl mb-4 tracking-wider" style={{fontFamily: 'var(--font-cinzel-decorative)', textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
-            COMINGS{" "}
-            <span 
-              className="relative inline-block"
-              style={{
-                background: 'linear-gradient(90deg, white 0%, white 70%, black 80%, black 90%, white 100%)',
-                backgroundSize: '300% 100%',
-                backgroundPosition: '100% 0',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-                animation: 'blackSplash 7s ease-out infinite'
-              }}
-            >
-              SECRETS
-            </span>
-          </h1>
-          <style jsx>{`
-            @keyframes blackSplash {
-              0% {
-                background-position: 100% 0;
-              }
-              21% {
-                background-position: -100% 0;
-              }
-              100% {
-                background-position: 100% 0;
-              }
-            }
-          `}</style>
-          <p className="text-lg text-white/90 drop-shadow-md">
-            Send time-locked messages that can only be opened on a{" "}
-            <span className="text-yellow-300 font-bold italic transform rotate-2 inline-block bg-purple-900/30 px-2 py-1 rounded-lg border-2 border-dashed border-yellow-300/50 animate-pulse">
-              comings
-            </span>{" "}
-            date
-          </p>
-        </div>
+        <Header />
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700">
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -320,32 +283,32 @@ export default function Home() {
                 required
               />
               <div className="mt-3">
-                <div className="flex gap-2 flex-wrap justify-center">
+                <div className="grid grid-cols-2 sm:flex gap-2 sm:justify-center">
                   <button
                     type="button"
                     onClick={() => setQuickDate(1)}
-                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Day
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(7)}
-                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Week
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(30)}
-                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Month
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(365)}
-                    className="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
                   >
                     1 Year
                   </button>
@@ -353,12 +316,12 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button
                 type="button"
                 onClick={handlePreview}
                 disabled={!formData.message || !formData.unlockDate}
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
               >
                 Preview
               </button>
@@ -367,7 +330,7 @@ export default function Home() {
                 disabled={
                   isGenerating || !formData.message || !formData.unlockDate
                 }
-                className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed"
               >
                 {isGenerating ? "Creating Message..." : "Create Secret Message"}
               </button>
@@ -444,7 +407,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <button
                   onClick={() => {
                     if (navigator.share) {
@@ -459,7 +422,7 @@ export default function Home() {
                       alert('Link copied to clipboard!');
                     }
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-sm"
+                  className="px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-sm"
                 >
                   Share
                 </button>
@@ -468,7 +431,7 @@ export default function Home() {
                     const whatsappText = encodeURIComponent(`I have a secret message for you! ${generatedLink}`);
                     window.open(`https://wa.me/?text=${whatsappText}`, '_blank');
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm"
+                  className="px-4 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm"
                 >
                   WhatsApp
                 </button>
@@ -478,7 +441,7 @@ export default function Home() {
                     const emailBody = encodeURIComponent(`I have a secret message for you!\n\n${generatedLink}`);
                     window.open(`mailto:?subject=${emailSubject}&body=${emailBody}`, '_blank');
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm"
+                  className="px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm"
                 >
                   Email
                 </button>
@@ -487,7 +450,7 @@ export default function Home() {
                     navigator.clipboard.writeText(`I have a secret message for you! ${generatedLink}`);
                     alert('Message copied for Discord!');
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
+                  className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
                 >
                   Discord
                 </button>
@@ -496,7 +459,7 @@ export default function Home() {
                     const telegramText = encodeURIComponent(`I have a secret message for you! ${generatedLink}`);
                     window.open(`https://t.me/share/url?url=${encodeURIComponent(generatedLink)}&text=${telegramText}`, '_blank');
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 text-sm"
+                  className="px-4 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 text-sm"
                 >
                   Telegram
                 </button>
@@ -504,7 +467,7 @@ export default function Home() {
                   onClick={() => {
                     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(generatedLink)}`, '_blank');
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-blue-700 to-blue-800 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 text-sm"
+                  className="px-4 py-3 bg-gradient-to-r from-blue-700 to-blue-800 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 text-sm"
                 >
                   LinkedIn
                 </button>
@@ -512,7 +475,7 @@ export default function Home() {
               <div className="flex justify-center mt-4">
                 <button
                   onClick={resetForm}
-                  className="px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 >
                   Create Another
                 </button>
@@ -573,15 +536,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Garden digging icon at the bottom */}
-        <div className="flex justify-center mt-16">
-          <Image
-            src="/icon-garden-dig.svg"
-            alt="Garden Digging"
-            width={120}
-            height={120}
-          />
-        </div>
+        <Footer />
       </div>
     </div>
   );
