@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MessageTemplatesDialog from "@/components/MessageTemplatesDialog";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ export default function Home() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [previewTimeRemaining, setPreviewTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [showTemplatesDialog, setShowTemplatesDialog] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -167,24 +169,6 @@ export default function Home() {
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Message Templates */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                Message Templates (Optional)
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-                {Object.entries(messageTemplates).map(([key]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => applyTemplate(key)}
-                    className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 rounded-md transition-colors duration-200 capitalize"
-                  >
-                    {key.replace(/([A-Z])/g, ' $1').trim()}
-                  </button>
-                ))}
-              </div>
-            </div>
 
             {/* Sender Name */}
             <div>
@@ -206,12 +190,21 @@ export default function Home() {
             </div>
 
             <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2"
-              >
-                Secret Message
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                >
+                  Secret Message
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowTemplatesDialog(true)}
+                  className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                >
+                  📝 Use Template
+                </button>
+              </div>
               <textarea
                 id="message"
                 name="message"
@@ -538,6 +531,14 @@ export default function Home() {
 
         <Footer />
       </div>
+
+      {/* Message Templates Dialog */}
+      <MessageTemplatesDialog
+        isOpen={showTemplatesDialog}
+        onClose={() => setShowTemplatesDialog(false)}
+        onSelectTemplate={applyTemplate}
+        templates={messageTemplates}
+      />
     </div>
   );
 }
