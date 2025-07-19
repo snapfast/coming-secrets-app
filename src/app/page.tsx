@@ -196,7 +196,7 @@ export default function Home() {
           <p className="text-lg text-white/90 drop-shadow-md">
             Send time-locked messages that can only be opened on a{" "}
             <span className="text-yellow-300 font-bold italic transform rotate-2 inline-block bg-purple-900/30 px-2 py-1 rounded-lg border-2 border-dashed border-yellow-300/50 animate-pulse">
-              coming
+              comings
             </span>{" "}
             date
           </p>
