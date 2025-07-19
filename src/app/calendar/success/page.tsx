@@ -52,7 +52,7 @@ function SuccessContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen p-8 flex items-center justify-center bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+      <div className="min-h-screen p-8 flex items-center justify-center page-container">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
           <p className="text-white/90 dark:text-white/80 drop-shadow-md font-medium">Loading...</p>
@@ -63,7 +63,7 @@ function SuccessContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen p-8 flex items-center justify-center bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+      <div className="min-h-screen p-8 flex items-center justify-center page-container">
         <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 max-w-md w-full text-center border border-red-400/50 dark:border-red-500/50 relative overflow-hidden">
           {/* Decorative background elements */}
           <div className="absolute -top-4 -right-4 w-24 h-24 bg-red-100/30 dark:bg-red-900/30 rounded-full blur-xl"></div>
@@ -90,7 +90,7 @@ function SuccessContent() {
   if (!secretData) return null;
 
   return (
-    <div className="min-h-screen p-8 relative overflow-hidden bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+    <div className="min-h-screen p-8 relative overflow-hidden page-container">
       {/* Floating decorative elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 dark:bg-white/5 rounded-full blur-xl animate-pulse"></div>
       <div className="absolute top-40 right-20 w-24 h-24 bg-yellow-300/20 dark:bg-yellow-400/15 rounded-full blur-lg animate-bounce" style={{animationDelay: '1s'}}></div>
@@ -220,7 +220,7 @@ export default function CalendarSuccess() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen p-8 flex items-center justify-center bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+        <div className="min-h-screen p-8 flex items-center justify-center page-container">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
             <p className="text-white/90 dark:text-white/80 drop-shadow-md font-medium">Loading...</p>

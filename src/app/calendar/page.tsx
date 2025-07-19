@@ -248,7 +248,7 @@ function CalendarSetupContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen p-8 flex items-center justify-center bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+      <div className="min-h-screen p-8 flex items-center justify-center page-container">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
           <p className="text-white/90 dark:text-white/80 drop-shadow-md font-medium">
@@ -261,7 +261,7 @@ function CalendarSetupContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen p-8 flex items-center justify-center bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+      <div className="min-h-screen p-8 flex items-center justify-center page-container">
         <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 max-w-md w-full text-center border border-red-400/50 dark:border-red-500/50 relative overflow-hidden">
           {/* Decorative background elements */}
           <div className="absolute -top-4 -right-4 w-24 h-24 bg-red-100/30 dark:bg-red-900/30 rounded-full blur-xl"></div>
@@ -288,7 +288,7 @@ function CalendarSetupContent() {
   if (!secretData) return null;
 
   return (
-    <div className="min-h-screen p-8 relative overflow-hidden bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+    <div className="min-h-screen p-8 relative overflow-hidden page-container">
       {/* Floating decorative elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 dark:bg-white/5 rounded-full blur-xl animate-pulse"></div>
       <div
@@ -473,7 +473,7 @@ export default function CalendarSetup() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen p-8 flex items-center justify-center bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800">
+        <div className="min-h-screen p-8 flex items-center justify-center page-container">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
             <p className="text-white/90 dark:text-white/80 drop-shadow-md font-medium">

@@ -160,7 +160,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800 p-8">
+    <div className="page-container p-8">
       <div className="max-w-2xl mx-auto pt-6">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white drop-shadow-2xl mb-4 tracking-wider" style={{fontFamily: 'var(--font-cinzel-decorative)', textShadow: '0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3)'}}>
@@ -389,7 +389,7 @@ export default function Home() {
                 </h3>
                 
                 {/* Preview Content */}
-                <div className="bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700 dark:from-orange-700 dark:via-pink-700 dark:to-purple-800 p-4 rounded-lg text-white min-h-[200px] flex flex-col items-center justify-center text-center">
+                <div className="element-background p-4 rounded-lg text-white min-h-[200px] flex flex-col items-center justify-center text-center">
                   {formData.senderName && (
                     <p className="text-sm text-white/80 mb-2">From: {formData.senderName}</p>
                   )}
