@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MessageTemplatesDialog from "@/components/MessageTemplatesDialog";
+import { trackSecretCreated, trackShareAction, trackTemplateUsed } from "@/lib/analytics";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -38,6 +39,7 @@ export default function Home() {
       // Generate view URL instead of redirecting to calendar
       const viewUrl = `${window.location.origin}/view?love=${encrypted}`;
       setGeneratedLink(viewUrl);
+      trackSecretCreated();
       setIsGenerating(false);
     } catch (error) {
       console.error("Error generating link:", error);
@@ -103,6 +105,7 @@ export default function Home() {
       message: messageTemplates[templateKey as keyof typeof messageTemplates],
       template: templateKey
     });
+    trackTemplateUsed(templateKey);
   };
 
   const addHint = () => {
@@ -403,6 +406,7 @@ export default function Home() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <button
                   onClick={() => {
+                    trackShareAction('native_share');
                     if (navigator.share) {
                       navigator.share({
                         title: 'Secret Message',
@@ -421,6 +425,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => {
+                    trackShareAction('whatsapp');
                     const whatsappText = encodeURIComponent(`I have a secret message for you! ${generatedLink}`);
                     window.open(`https://wa.me/?text=${whatsappText}`, '_blank');
                   }}
@@ -430,6 +435,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => {
+                    trackShareAction('email');
                     const emailSubject = encodeURIComponent('Secret Message for You');
                     const emailBody = encodeURIComponent(`I have a secret message for you!\n\n${generatedLink}`);
                     window.open(`mailto:?subject=${emailSubject}&body=${emailBody}`, '_blank');
@@ -440,6 +446,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => {
+                    trackShareAction('discord');
                     navigator.clipboard.writeText(`I have a secret message for you! ${generatedLink}`);
                     alert('Message copied for Discord!');
                   }}
@@ -449,6 +456,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => {
+                    trackShareAction('telegram');
                     const telegramText = encodeURIComponent(`I have a secret message for you! ${generatedLink}`);
                     window.open(`https://t.me/share/url?url=${encodeURIComponent(generatedLink)}&text=${telegramText}`, '_blank');
                   }}
@@ -458,6 +466,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => {
+                    trackShareAction('linkedin');
                     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(generatedLink)}`, '_blank');
                   }}
                   className="px-4 py-3 bg-gradient-to-r from-blue-700 to-blue-800 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 text-sm"

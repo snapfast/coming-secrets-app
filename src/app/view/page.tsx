@@ -12,6 +12,7 @@ import {
   getTimeRemaining,
   SecretData,
 } from "@/lib/crypto";
+import { trackSecretViewed, trackCalendarReminder } from "@/lib/analytics";
 
 // Generate Google Calendar URL with proper encoding
 function generateGoogleCalendarUrl(
@@ -117,6 +118,7 @@ function ViewSecretContent() {
   const handleAddToCalendar = (provider: string) => {
     if (!secretData) return;
 
+    trackCalendarReminder(provider);
     setCalendarError("");
     const currentUrl = window.location.href;
 
@@ -215,6 +217,9 @@ function ViewSecretContent() {
 
       const unlocked = isDateUnlocked(decrypted.unlockDate);
       setIsUnlocked(unlocked);
+      
+      // Track secret viewing
+      trackSecretViewed(unlocked);
 
       if (!unlocked) {
         const updateTimer = () => {
@@ -226,6 +231,8 @@ function ViewSecretContent() {
             setTimeout(() => {
               setShowCelebration(false);
               setIsUnlocked(true);
+              // Track when message unlocks
+              trackSecretViewed(true);
             }, 3000);
           }
         };
@@ -689,133 +696,7 @@ function ViewSecretContent() {
                 Unlocked on {new Date(secretData.unlockDate).toLocaleString()}
               </p>
 
-              {/* Reaction/Reply Section */}
-              <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-200/50 dark:border-green-700/50">
-                <p className="text-sm text-green-700 dark:text-green-300 mb-3">
-                  How did this message make you feel?
-                </p>
-                <div className="flex gap-2 justify-center flex-wrap">
-                  <button className="text-2xl px-3 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-sm transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    ❤️
-                  </button>
-                  <button className="text-2xl px-3 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-sm transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    😍
-                  </button>
-                  <button className="text-2xl px-3 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-sm transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    😭
-                  </button>
-                  <button className="text-2xl px-3 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-sm transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    😲
-                  </button>
-                  <button className="text-2xl px-3 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-sm transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    😄
-                  </button>
-                  <button className="text-2xl px-3 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg shadow-sm transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    👏
-                  </button>
-                </div>
-                <div className="mt-3">
-                  <textarea
-                    placeholder="Want to send a reply? Write your thoughts here..."
-                    className="w-full px-3 py-2 border border-green-300 dark:border-green-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700/80 dark:text-white text-sm"
-                    rows={3}
-                  />
-                  <button className="mt-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 shadow-lg text-sm">
-                    Send Reply
-                  </button>
-                </div>
-              </div>
 
-              {/* Smart Reminders for unlocked messages */}
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">
-                  Set a reminder for this special date:
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                  {/* Google Calendar */}
-                  <button
-                    onClick={() => handleAddToCalendar("google")}
-                    className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
-                  >
-                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-blue-100/30 dark:bg-blue-900/30 rounded-full blur-lg"></div>
-                    <div className="relative z-10 text-center">
-                      <div className="mb-2">
-                        <Image
-                          src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
-                          alt="Google"
-                          width={60}
-                          height={20}
-                          className="mx-auto"
-                        />
-                      </div>
-                      <div className="text-xs text-blue-500 dark:text-blue-400 font-medium">
-                        Calendar
-                      </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Opens in new window
-                      </div>
-                    </div>
-                  </button>
-
-                  {/* Apple Calendar */}
-                  <button
-                    onClick={() => handleAddToCalendar("apple")}
-                    className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
-                  >
-                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-gray-100/30 dark:bg-gray-900/30 rounded-full blur-lg"></div>
-                    <div className="relative z-10 text-center">
-                      <div className="mb-2">
-                        <Image
-                          src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-                          alt="Apple"
-                          width={20}
-                          height={24}
-                          className="mx-auto dark:invert"
-                        />
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
-                        Calendar
-                      </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Downloads .ics file
-                      </div>
-                    </div>
-                  </button>
-
-                  {/* Outlook Calendar */}
-                  <button
-                    onClick={() => handleAddToCalendar("outlook")}
-                    className="group bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700"
-                  >
-                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-blue-100/30 dark:bg-blue-900/30 rounded-full blur-lg"></div>
-                    <div className="relative z-10 text-center">
-                      <div className="mb-2">
-                        <Image
-                          src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg"
-                          alt="Microsoft"
-                          width={60}
-                          height={13}
-                          className="mx-auto"
-                        />
-                      </div>
-                      <div className="text-xs text-blue-500 dark:text-blue-400 font-medium">
-                        Outlook Calendar
-                      </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Opens in new window
-                      </div>
-                    </div>
-                  </button>
-                </div>
-
-                {calendarError && (
-                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-center">
-                    <p className="text-red-600 dark:text-red-400 text-sm">
-                      <strong>Error:</strong> {calendarError}
-                    </p>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>
