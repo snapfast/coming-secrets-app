@@ -37,7 +37,7 @@ function generateGoogleCalendarUrl(
     action: "TEMPLATE",
     text: "Secret Message Ready to Open",
     dates: `${startFormatted}/${endFormatted}`,
-    details: `🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
+    details: ` Your secret message is ready to open! \n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
     location: "",
     sf: "true",
     output: "xml",
@@ -59,7 +59,7 @@ function generateOutlookCalendarUrl(
     subject: "Secret Message Ready to Open",
     startdt: startDate.toISOString(),
     enddt: endDate.toISOString(),
-    body: `🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
+    body: ` Your secret message is ready to open! \n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule`,
     location: "",
     path: "/calendar/action/compose",
   };
@@ -94,7 +94,7 @@ DTSTAMP:${formatDate(new Date())}
 DTSTART:${startFormatted}
 DTEND:${endFormatted}
 SUMMARY:Secret Message Ready to Open
-DESCRIPTION:🎉 Your secret message is ready to open! 🎉\n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule
+DESCRIPTION: Your secret message is ready to open! \n\nClick the link to view it: ${messageUrl}\n\n✨ Created with Coming Secrets - Send time-locked messages that unlock on a specific date!\n\n🔒 Perfect for:\n• Birthday surprises\n• Anniversary messages\n• Future reminders\n• Secret reveals\n• Time capsule notes\n\n🌟 Try it yourself at comingss.netlify.app\n\n#ComingSecrets #TimeLocked #SecretMessage #TimeCapule
 END:VEVENT
 END:VCALENDAR`;
 }

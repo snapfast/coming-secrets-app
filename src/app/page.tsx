@@ -18,8 +18,6 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedLink, setGeneratedLink] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
-  const [previewTimeRemaining, setPreviewTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [showTemplatesDialog, setShowTemplatesDialog] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,7 +82,6 @@ export default function Home() {
     });
     setGeneratedLink("");
     setCopySuccess(false);
-    setShowPreview(false);
   };
 
   const handleChange = (
@@ -126,38 +123,6 @@ export default function Home() {
   };
 
 
-  const calculateTimeRemaining = useCallback(() => {
-    if (!formData.unlockDate) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-    
-    const now = new Date().getTime();
-    const unlock = new Date(formData.unlockDate).getTime();
-    const difference = unlock - now;
-    
-    if (difference > 0) {
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      
-      return { days, hours, minutes, seconds };
-    }
-    
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }, [formData.unlockDate]);
-
-  useEffect(() => {
-    if (showPreview) {
-      const timer = setInterval(() => {
-        setPreviewTimeRemaining(calculateTimeRemaining());
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [showPreview, formData.unlockDate, calculateTimeRemaining]);
-
-  const handlePreview = () => {
-    setPreviewTimeRemaining(calculateTimeRemaining());
-    setShowPreview(true);
-  };
 
   return (
     <div className="page-container p-8">
@@ -333,69 +298,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button
-                type="button"
-                onClick={handlePreview}
-                disabled={!formData.message || !formData.unlockDate}
-                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-              >
-                Preview
-              </button>
+            <div className="flex justify-center">
               <button
                 type="submit"
                 disabled={
                   isGenerating || !formData.message || !formData.unlockDate
                 }
-                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-purple-600 to-pink-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed"
               >
                 {isGenerating ? "Creating Message..." : "Create Secret Message"}
               </button>
             </div>
           </form>
 
-          {/* Preview Modal */}
-          {showPreview && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-md w-full p-6 relative">
-                <button
-                  onClick={() => setShowPreview(false)}
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl"
-                >
-                  ✕
-                </button>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                  Preview: How Recipients Will See Your Message
-                </h3>
-                
-                {/* Preview Content */}
-                <div className="element-background p-4 rounded-lg text-white min-h-[200px] flex flex-col items-center justify-center text-center">
-                  {formData.senderName && (
-                    <p className="text-sm text-white/80 mb-2">From: {formData.senderName}</p>
-                  )}
-                  <h4 className="text-xl font-bold mb-4">Secret Message Locked 🔒</h4>
-                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 mb-4">
-                    <p className="text-sm mb-2">Unlocks in:</p>
-                    <div className="text-2xl font-bold">
-                      {previewTimeRemaining.days}d {previewTimeRemaining.hours}h {previewTimeRemaining.minutes}m {previewTimeRemaining.seconds}s
-                    </div>
-                  </div>
-                  {formData.hint.trim() && (
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm">
-                      <p className="font-medium mb-1">Hint:</p>
-                      <p className="text-white/90">{formData.hint}</p>
-                    </div>
-                  )}
-                </div>
-                
-                <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    This is how your message will appear to recipients until the unlock date.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Generated link section */}
           {generatedLink && (
@@ -417,7 +332,7 @@ export default function Home() {
                   />
                   <button
                     onClick={copyToClipboard}
-                    className="w-full sm:w-auto px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-lg"
+                    className="w-full sm:w-auto px-8 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                   >
                     {copySuccess ? "Copied!" : "Copy"}
                   </button>
@@ -440,7 +355,7 @@ export default function Home() {
                       alert('Link copied to clipboard!');
                     }
                   }}
-                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-lg"
+                  className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                 >
                   Share
                 </button>
@@ -448,7 +363,7 @@ export default function Home() {
               <div className="flex justify-center mt-4">
                 <button
                   onClick={resetForm}
-                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  className="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 >
                   Create Another
                 </button>
@@ -461,50 +376,26 @@ export default function Home() {
         {/* Features section */}
         <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
           <h3 className="text-white text-xl font-semibold text-center mb-4">
-            ✨ Key Features
+            Key Features
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white/90">
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-300 text-xl">🔒</div>
-              <div>
-                <h4 className="font-medium text-white mb-1">Time-Locked Messages</h4>
-                <p className="text-sm text-white/80">Messages are encrypted and can only be opened on the date you choose</p>
-              </div>
+            <div>
+              <h4 className="font-medium text-white">Time-Locked Messages</h4>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-300 text-xl">🔔</div>
-              <div>
-                <h4 className="font-medium text-white mb-1">Smart Reminders</h4>
-                <p className="text-sm text-white/80">Get notified when your secret message is ready to unlock</p>
-              </div>
+            <div>
+              <h4 className="font-medium text-white">Smart Reminders</h4>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-300 text-xl">💡</div>
-              <div>
-                <h4 className="font-medium text-white mb-1">Progressive Hints</h4>
-                <p className="text-sm text-white/80">Add optional hints that reveal as the unlock date approaches</p>
-              </div>
+            <div>
+              <h4 className="font-medium text-white">Progressive Hints</h4>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-300 text-xl">📱</div>
-              <div>
-                <h4 className="font-medium text-white mb-1">Easy Sharing</h4>
-                <p className="text-sm text-white/80">Share via WhatsApp, email, social media, or copy the link</p>
-              </div>
+            <div>
+              <h4 className="font-medium text-white">Easy Sharing</h4>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-300 text-xl">🎨</div>
-              <div>
-                <h4 className="font-medium text-white mb-1">Message Templates</h4>
-                <p className="text-sm text-white/80">Pre-made templates for birthdays, anniversaries, and special occasions</p>
-              </div>
+            <div>
+              <h4 className="font-medium text-white">Message Templates</h4>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="text-yellow-300 text-xl">🎉</div>
-              <div>
-                <h4 className="font-medium text-white mb-1">Celebration Effects</h4>
-                <p className="text-sm text-white/80">Animated countdown and celebration when messages unlock</p>
-              </div>
+            <div>
+              <h4 className="font-medium text-white">Celebration Effects</h4>
             </div>
           </div>
         </div>
