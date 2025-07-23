@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Coming Secrets** is a Next.js web application that allows users to create time-locked secret messages that can only be opened on a specific future date. The app features a beautiful gradient UI with animated elements, comprehensive UX enhancements, and integrated smart reminders through calendar systems.
+**Coming Secrets** is a Next.js web application that allows users to create time-locked secret messages that can only be opened on a specific future date. The app features a beautiful gradient UI with animated elements and smart reminders through calendar systems (for locked messages only).
 
 ## Tech Stack
 
@@ -10,7 +10,8 @@
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4.0
 - **UI Components**: Custom React components
-- **Encryption**: CryptoJS for AES encryption
+- **Encryption**: CryptoJS for AES encryption with Brotli compression
+- **Compression**: Brotli compression for URL size optimization
 - **Time Security**: Server-synchronized UTC time (WorldTimeAPI)
 - **Fonts**: Google Fonts (Geist, Geist Mono, Cinzel Decorative)
 - **Build Tool**: Turbopack (dev mode)
@@ -38,49 +39,50 @@ npm run lint
 src/
 ├── app/
 │   ├── layout.tsx          # Root layout with fonts and metadata
-│   ├── page.tsx            # Enhanced message creation form with templates & preview
+│   ├── page.tsx            # Message creation form with character limits (1000 chars)
 │   ├── globals.css         # Global styles
 │   ├── view/
-│   │   └── page.tsx        # Enhanced message viewing with smart reminders
-│   └── calendar/
-│       ├── page.tsx        # Calendar integration setup (legacy)
-│       └── success/
-│           └── page.tsx    # Success page after calendar setup
+│   │   └── page.tsx        # Message viewing with single hint (no reactions/calendar)
+│   ├── test/
+│   │   └── page.tsx        # Comprehensive 1000-word integrity testing suite
 └── lib/
-    ├── crypto.ts           # Enhanced encryption/decryption utilities
+    ├── crypto.ts           # Brotli compression + AES encryption (v3 format only)
     ├── time.ts             # Server time synchronization utilities
     └── analytics.ts        # Google Analytics tracking functions
 ```
 
 ### Key Features
 
-1. **Enhanced Message Creation** (`src/app/page.tsx`)
+1. **Alpha Message Creation** (`src/app/page.tsx`)
    - Form with message templates for common occasions
    - Preview functionality showing recipient experience
-   - Progressive hints system
+   - Single hint system (always visible)
    - Enhanced sharing options (WhatsApp, Email, Discord, Telegram, LinkedIn)
    - Sender personalization with optional name field
-   - Real-time encryption using CryptoJS
+   - Character limits: 1000 chars message, 100 chars sender, 200 chars hint
+   - Real-time Brotli compression + AES encryption
 
-2. **Advanced Time-Locked Viewing** (`src/app/view/page.tsx`)
-   - Progressive hints that unlock as time approaches
+2. **Simplified Time-Locked Viewing** (`src/app/view/page.tsx`)
+   - Single hint display (always visible, no progressive unlock)
    - Enhanced countdown with multiple formats and progress bar
    - Celebration animations for unlock moment
-   - Integrated smart reminders (Google, Apple, Outlook calendars)
-   - Reaction/reply system for unlocked messages
+   - Calendar reminders only for locked messages (hidden after unlock)
+   - No reaction/reply system (removed for alpha)
    - Sender context display
 
-3. **Smart Reminders Integration** 
-   - Beautiful calendar buttons with logos (Google, Apple, Outlook)
-   - Inline integration within viewer flow
+3. **Smart Reminders Integration** (Locked Messages Only)
+   - Calendar buttons with logos (Google, Apple, Outlook)
+   - Inline integration within viewer flow (locked state only)
    - Popup handling for web calendars
    - ICS file generation for offline calendars
    - Error handling for blocked popups
 
-4. **Enhanced Encryption System** (`src/lib/crypto.ts`)
+4. **Brotli Compression + AES Encryption** (`src/lib/crypto.ts`)
+   - Brotli compression for significant URL size reduction
    - AES encryption with fixed secret key
-   - Support for sender name and hints in message data
-   - Base64 encoding for URL safety
+   - v3 format only (no backward compatibility for alpha)
+   - Support for sender name and single hint
+   - Base64URL encoding for URL safety
    - Secure time validation using server-synchronized time
 
 5. **Server Time Security System** (`src/lib/time.ts`)
@@ -95,6 +97,14 @@ src/
    - Calendar integration and viewing behavior tracking
    - Complete user journey analytics
 
+7. **Comprehensive Testing Suite** (`src/app/test/page.tsx`)
+   - 1000-word message integrity testing
+   - SHA-256 cryptographic verification
+   - Character-by-character data preservation testing
+   - Unicode, emoji, and special character handling
+   - Compression ratio and performance analysis
+   - Random and deterministic test modes
+
 ## Enhanced User Flows
 
 ### Flow 1: Message Creator (Sender) - Enhanced
@@ -105,10 +115,10 @@ src/
    - Templates auto-fill message content
    - Customizable after selection
 
-2. **Enhanced Message Creation**
-   - Write or customize message content
-   - Add optional sender name for personalization
-   - Add progressive hints that unlock over time
+2. **Alpha Message Creation**
+   - Write or customize message content (max 1000 characters)
+   - Add optional sender name for personalization (max 100 characters)
+   - Add single hint that's always visible (max 200 characters)
    - Choose unlock date (quick options or custom)
    - Preview how recipients will see the message
 
@@ -118,43 +128,44 @@ src/
    - Social media integration with platform-specific formatting
    - Clean, emoji-free interface
 
-**Enhanced Features:**
+**Alpha Features:**
 - Message preview with live countdown simulation
 - Template system for common occasions
-- Progressive hints management
-- Sender personalization
+- Single hint system (always visible)
+- Sender personalization with character limits
 - Multi-platform sharing with proper formatting
+- Brotli compression for optimized URL lengths
 
-### Flow 2: Message Viewer (Recipient) - Enhanced
-**User Journey:** View → Engage → Remind → Unlock → React
+### Flow 2: Message Viewer (Recipient) - Alpha Simplified
+**User Journey:** View → Remind → Unlock → Read
 
-1. **Enhanced Viewing Experience**
+1. **Simplified Viewing Experience**
    - Sender name display when provided
-   - Progressive hints that appear over time
+   - Single hint always visible (no progressive unlock)
    - Enhanced countdown with multiple formats
    - Progress bar showing time elapsed
    - Celebration animations for unlock
 
-2. **Smart Reminders Integration**
-   - Beautiful calendar buttons directly in viewer
+2. **Smart Reminders Integration** (Locked Messages Only)
+   - Calendar buttons directly in viewer (locked state only)
    - Support for Google, Apple, and Outlook calendars
    - One-click reminder setup
    - Error handling for blocked popups
+   - Hidden after message unlocks
 
-3. **Post-Unlock Experience**
+3. **Post-Unlock Experience** (Simplified)
    - Celebration effects with confetti animation
    - Message display with sender context
-   - Emoji reaction system
-   - Reply/comment functionality
-   - Option to set reminder for the special date
+   - No reaction/reply system (removed for alpha)
+   - Clean, focused reading experience
 
-**Enhanced Features:**
-- Progressive hints system
+**Alpha Features:**
+- Single hint system (always visible)
 - Multi-format countdown display
 - Celebration animations
-- Integrated calendar setup
-- Reaction and reply system
-- Enhanced personalization
+- Calendar setup only for locked messages
+- Simplified post-unlock experience
+- Brotli-compressed URLs for better sharing
 
 ## User Stories - Enhanced
 
@@ -164,7 +175,7 @@ src/
 - I want to use pre-built templates for common occasions
 - I want to preview how my message will look to recipients
 - I want to add my name so recipients know who sent it
-- I want to include hints that reveal progressively
+- I want to include a single hint that's always visible
 - I want to share via multiple platforms easily
 - I want a clean, professional sharing interface
 
@@ -172,7 +183,7 @@ src/
 - Template selection with 8 common occasion types
 - Preview modal showing recipient experience with live countdown
 - Sender name field for personalization
-- Progressive hints with add/remove functionality
+- Single hint field with 200 character limit
 - Enhanced sharing grid with 6 platforms (no emojis)
 - Purple-themed success section
 
@@ -180,21 +191,19 @@ src/
 **As a recipient who wants an engaging waiting experience**
 
 - I want to see who sent me the message
-- I want progressive hints as the unlock date approaches
+- I want to see a single hint that's always visible
 - I want an engaging countdown with different formats
 - I want celebration effects when the message unlocks
-- I want to react to messages with emojis
-- I want to reply to messages
-- I want easy reminder setup without navigating away
+- I want easy reminder setup without navigating away (locked messages only)
 
-**New Acceptance Criteria:**
+**Alpha Acceptance Criteria:**
 - Sender name display in both locked and unlocked states
-- Progressive hints that appear based on time elapsed
+- Single hint always visible (no progressive unlock)
 - Multi-format countdown (grid view + digital clock for close dates)
 - Progress bar showing time remaining
 - Celebration animation with confetti effects
-- Emoji reaction buttons and reply textarea
-- Beautiful calendar buttons integrated in viewer
+- Calendar buttons only visible for locked messages
+- No reaction/reply system (removed for alpha)
 
 ### 3. Smart Reminders User
 **As a user who wants convenient reminder setup**
@@ -208,64 +217,64 @@ src/
 **New Acceptance Criteria:**
 - Professional calendar buttons with logos and descriptions
 - Support for Google (popup), Apple (ICS download), Outlook (popup)
-- Inline integration within both locked and unlocked views
+- Inline integration within locked views only
 - Error handling with clear user feedback
 - Responsive design for all screen sizes
 
 ## Enhanced Key Components
 
-### 1. Enhanced Message Creation Form (`src/app/page.tsx`)
-- **Purpose**: Comprehensive message creation with templates and preview
-- **Enhanced Features**: 
+### 1. Alpha Message Creation Form (`src/app/page.tsx`)
+- **Purpose**: Streamlined message creation with templates and preview
+- **Alpha Features**: 
   - Template selection grid with 8 common occasions
-  - Sender name field for personalization
-  - Progressive hints management (add/remove)
+  - Sender name field for personalization (100 char limit)
+  - Single hint field (200 char limit)
   - Preview modal with live countdown simulation
   - Enhanced sharing options (6 platforms)
   - Purple-themed success section
-- **State Management**: Complex state for templates, preview, hints, and sharing
+- **State Management**: State for templates, preview, single hint, and sharing
 
-### 2. Advanced Message Viewer (`src/app/view/page.tsx`)
-- **Purpose**: Engaging viewing experience with smart reminders
-- **Enhanced Features**:
-  - Progressive hints system
+### 2. Simplified Message Viewer (`src/app/view/page.tsx`)
+- **Purpose**: Clean viewing experience with calendar reminders for locked messages
+- **Alpha Features**:
+  - Single hint display (always visible)
   - Multi-format countdown display
   - Celebration animations
-  - Integrated calendar buttons
-  - Reaction/reply system
+  - Calendar buttons (locked messages only)
   - Sender context display
   - Centered "Create New Message" button
   - Natural footer positioning with optimal spacing
-- **State Management**: Enhanced state for hints, celebrations, and calendar integration
+- **State Management**: State for single hint, celebrations, and calendar integration (locked only)
 - **Layout**: Consistent vertical layout with centered elements and proper content-footer spacing
 
-### 3. Smart Reminders Integration
-- **Purpose**: Seamless calendar integration within viewer flow
+### 3. Smart Reminders Integration (Locked Messages Only)
+- **Purpose**: Calendar integration for locked messages only
 - **Features**:
   - Beautiful calendar buttons with logos
   - Google Calendar popup integration
   - Apple Calendar ICS file generation
   - Outlook Calendar popup integration
   - Error handling for blocked popups
-- **Integration**: Direct integration within viewer pages
+- **Integration**: Direct integration within locked message view only
 
-### 4. Enhanced Encryption Utilities (`src/lib/crypto.ts`)
-- **Purpose**: Handle enhanced message data with sender info and hints
-- **Enhanced Functions**:
-  - Support for optional sender name
-  - Support for progressive hints array
-  - Backward compatibility with existing messages
+### 4. Alpha Brotli Compression + AES Encryption (`src/lib/crypto.ts`)
+- **Purpose**: Efficient compression and encryption for alpha product
+- **Alpha Functions**:
+  - Brotli compression for significant URL size reduction
+  - Support for optional sender name (100 char limit)
+  - Support for single hint (200 char limit)
+  - v3 format only (no backward compatibility)
   - Enhanced TypeScript interfaces
+  - Base64URL encoding for URL safety
 
 ## Enhanced UI/UX Features
 
-### New Visual Elements
+### Alpha Visual Elements
 - **Template Grid**: 2x4 grid with colored buttons for message templates
 - **Preview Modal**: Full-screen modal showing recipient experience
-- **Progressive Hints**: Cards that appear/disappear based on time
-- **Calendar Buttons**: Professional cards with logos and descriptions
+- **Single Hint Display**: Always visible hint card
+- **Calendar Buttons**: Professional cards with logos (locked messages only)
 - **Celebration Effects**: Confetti animation with countdown
-- **Reaction System**: Emoji buttons and reply textarea
 
 ### Enhanced Design System
 
@@ -276,12 +285,11 @@ src/
 - **Calendar Cards**: White cards with colored accents
 - **Celebration**: Yellow confetti with bounce animations
 
-#### New Component Patterns
+#### Alpha Component Patterns
 - **Template Grid**: `grid-cols-2 sm:grid-cols-4 gap-2` for template selection
 - **Preview Modal**: Fixed overlay with centered content
-- **Calendar Cards**: Vertical layout with `flex flex-col gap-3` for clean stacking
+- **Calendar Cards**: Vertical layout with `flex flex-col gap-3` (locked messages only)
 - **Sharing Grid**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3`
-- **Reaction Bar**: Vertical layout with `flex flex-col gap-2 items-center`
 - **Button Positioning**: Centered buttons using `flex justify-center`
 - **Content Spacing**: Optimal `pb-8` and `mb-8` spacing for footer separation
 
@@ -308,36 +316,40 @@ src/
 - `getTimeRemainingServer()`: Secure countdown using server time
 - `initTimeSync()`: Initialize time synchronization on app load
 
-### Enhanced Encryption & Validation
-- **Enhanced Encryption**: AES encryption supporting sender name and hints
+### Alpha Encryption & Validation
+- **Brotli + AES Encryption**: Compression with encryption supporting sender name and single hint
 - **Secure Time Validation**: All unlock checks use `isDateUnlockedSecure()` instead of local time
-- **Backward Compatibility**: Existing links continue to work
+- **v3 Format Only**: No backward compatibility for alpha product
 - **Client-Side Validation**: Enhanced date validation with server time
 - **Error Handling**: Improved error messages for invalid data and time sync failures
 
-### Data Structure
+### Data Structure (Alpha)
 ```typescript
 interface SecretData {
-  message: string;
+  message: string;       // Max 1000 characters
   unlockDate: string;
-  senderName?: string;  // New: Optional sender name
-  hints?: string[];     // New: Optional progressive hints
+  senderName?: string;   // Optional sender name (max 100 chars)
+  hint?: string;         // Single optional hint (max 200 chars)
 }
 ```
 
 ## Enhanced Testing Checklist
 
-### New Feature Testing
+### Alpha Feature Testing
 - [ ] Template selection and application
 - [ ] Preview modal functionality with countdown
-- [ ] Progressive hints display timing
+- [ ] Single hint display (always visible)
 - [ ] Sender name display in both states
+- [ ] Character limits: 1000/100/200 chars (message/sender/hint)
 - [ ] Enhanced sharing options (6 platforms)
-- [ ] Calendar integration (Google, Apple, Outlook)
+- [ ] Calendar integration only for locked messages
+- [ ] Calendar buttons hidden after unlock
 - [ ] Celebration animations
 - [ ] Analytics tracking for all user interactions
-- [ ] Error handling for calendar popups
-- [ ] Mobile responsiveness for all new features
+- [ ] Brotli compression and URL optimization
+- [ ] v3 format encryption/decryption
+- [ ] No reaction/reply system (removed)
+- [ ] Mobile responsiveness for all features
 
 ### Security Testing
 - [ ] Server time synchronization on page load
@@ -384,7 +396,7 @@ interface SecretData {
 1. Update `messageTemplates` object in `src/app/page.tsx`
 2. Add new template with appropriate content
 3. Test template application and preview
-4. Ensure template content works with hints system
+4. Ensure template content works with single hint system
 
 ### Modifying Calendar Integration
 1. Update calendar generation functions for new providers
@@ -447,12 +459,36 @@ interface SecretData {
 
 ---
 
-## Current App State (January 2025)
+## Current App State (January 2025) - Alpha Version
+
+### Major Alpha Changes Completed
+1. **Simplified Hints System**: Changed from progressive hints to single always-visible hint
+2. **Removed Reaction System**: Eliminated emoji reactions and reply functionality for cleaner UX
+3. **Calendar Button Management**: Hidden calendar reminders after message unlocks
+4. **Brotli Compression**: Implemented Brotli compression with AES encryption (v3 format)
+5. **Character Limits**: Enforced 1000/100/200 character limits for message/sender/hint
+6. **Backward Compatibility Removal**: v3 format only, no legacy support for alpha product
+7. **Comprehensive Testing Suite**: Added `/test` page for 1000-word message integrity testing
+
+### Current Feature Set (Alpha)
+- ✅ Message creation with templates and preview
+- ✅ Single hint system (always visible)
+- ✅ Character limits with validation
+- ✅ Brotli compression + AES encryption
+- ✅ Server time synchronization
+- ✅ Calendar reminders (locked messages only)
+- ✅ Multi-platform sharing
+- ✅ Analytics tracking
+- ✅ Comprehensive testing suite
+- ❌ Progressive hints (removed)
+- ❌ Reaction/reply system (removed)
+- ❌ Calendar buttons for unlocked messages (removed)
+- ❌ Backward compatibility (removed)
 
 ### View Page Layout (`src/app/view/page.tsx`)
 - **Navigation**: Centered "Create New Message" button for better visual balance
 - **Content Layout**: Vertical-first design with proper spacing
-- **Calendar Integration**: Vertical stacking of calendar options for cleaner mobile experience
+- **Calendar Integration**: Vertical stacking of calendar options (locked messages only)
 - **Footer**: Natural document flow positioning with consistent spacing
 - **Spacing System**: Optimized `pb-8` and `mb-8` values matching home page design
 - **Responsive Design**: Mobile-optimized vertical layouts throughout
@@ -470,4 +506,25 @@ interface SecretData {
 
 ---
 
-*Last updated: January 2025 - Enhanced with layout improvements, vertical design patterns, and spacing consistency across pages*
+### Testing Suite (`src/app/test/page.tsx`)
+- **Comprehensive Testing**: 1000-word message integrity verification
+- **Two Test Modes**: Random (with special chars/emojis) and Deterministic (predictable sequence)
+- **SHA-256 Verification**: Cryptographic hashing for data integrity confirmation
+- **Character Analysis**: Unicode, emoji, and special character preservation testing
+- **Performance Metrics**: Compression ratio analysis and URL length validation
+- **Error Detection**: Precise character-level difference reporting
+
+### Dependencies (Alpha)
+```json
+{
+  "brotli-compress": "^1.3.3",    // New: Brotli compression
+  "crypto-js": "^4.2.0",          // AES encryption
+  "next": "^15.3.5",              // React framework
+  "react": "^19.0.0",             // UI library
+  "tailwindcss": "^4"             // CSS framework
+}
+```
+
+---
+
+*Last updated: January 2025 - Alpha version with Brotli compression, simplified UX, character limits, comprehensive testing suite, and removal of backward compatibility*

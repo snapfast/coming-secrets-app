@@ -161,7 +161,7 @@ export default function Home() {
 
   return (
     <div className="page-container p-8">
-      <div className="max-w-2xl mx-auto pt-6">
+      <div className="max-w-4xl mx-auto pt-6">
         <Header />
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700">
@@ -218,7 +218,7 @@ export default function Home() {
                     onClick={() => setShowTemplatesDialog(true)}
                     className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                   >
-                    📝 Use Template
+                    Use Template
                   </button>
                 </div>
               </div>
@@ -408,23 +408,23 @@ export default function Home() {
                 <label className="block text-sm font-medium text-purple-700 dark:text-purple-300 mb-2">
                   Shareable Link:
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="text"
                     value={generatedLink}
                     readOnly
-                    className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-purple-300 dark:border-purple-600 rounded-md text-sm font-mono text-gray-800 dark:text-gray-200"
+                    className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-purple-300 dark:border-purple-600 rounded-lg text-sm font-mono text-gray-800 dark:text-gray-200"
                   />
                   <button
                     onClick={copyToClipboard}
-                    className="px-4 py-2 bg-purple-600 text-white font-medium rounded-md transition-colors duration-200"
+                    className="w-full sm:w-auto px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-lg"
                   >
                     {copySuccess ? "Copied!" : "Copy"}
                   </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <button
                   onClick={() => {
                     trackShareAction('native_share');
@@ -440,59 +440,9 @@ export default function Home() {
                       alert('Link copied to clipboard!');
                     }
                   }}
-                  className="px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-sm"
+                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 text-lg"
                 >
                   Share
-                </button>
-                <button
-                  onClick={() => {
-                    trackShareAction('whatsapp');
-                    const whatsappText = encodeURIComponent(`I have a secret message for you! ${generatedLink}`);
-                    window.open(`https://wa.me/?text=${whatsappText}`, '_blank');
-                  }}
-                  className="px-4 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm"
-                >
-                  WhatsApp
-                </button>
-                <button
-                  onClick={() => {
-                    trackShareAction('email');
-                    const emailSubject = encodeURIComponent('Secret Message for You');
-                    const emailBody = encodeURIComponent(`I have a secret message for you!\n\n${generatedLink}`);
-                    window.open(`mailto:?subject=${emailSubject}&body=${emailBody}`, '_blank');
-                  }}
-                  className="px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm"
-                >
-                  Email
-                </button>
-                <button
-                  onClick={() => {
-                    trackShareAction('discord');
-                    navigator.clipboard.writeText(`I have a secret message for you! ${generatedLink}`);
-                    alert('Message copied for Discord!');
-                  }}
-                  className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
-                >
-                  Discord
-                </button>
-                <button
-                  onClick={() => {
-                    trackShareAction('telegram');
-                    const telegramText = encodeURIComponent(`I have a secret message for you! ${generatedLink}`);
-                    window.open(`https://t.me/share/url?url=${encodeURIComponent(generatedLink)}&text=${telegramText}`, '_blank');
-                  }}
-                  className="px-4 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 text-sm"
-                >
-                  Telegram
-                </button>
-                <button
-                  onClick={() => {
-                    trackShareAction('linkedin');
-                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(generatedLink)}`, '_blank');
-                  }}
-                  className="px-4 py-3 bg-gradient-to-r from-blue-700 to-blue-800 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 text-sm"
-                >
-                  LinkedIn
                 </button>
               </div>
               <div className="flex justify-center mt-4">

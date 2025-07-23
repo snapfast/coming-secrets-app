@@ -262,7 +262,7 @@ function ViewSecretContent() {
   if (error) {
     return (
       <div className="page-container p-8">
-        <div className="max-w-2xl mx-auto pt-6">
+        <div className="max-w-4xl mx-auto pt-6">
           <Header />
           <div className="flex items-center justify-center min-h-[50vh] pb-8">
             <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 max-w-md w-full text-center border border-red-400/50 dark:border-red-500/50 relative overflow-hidden">
@@ -291,7 +291,7 @@ function ViewSecretContent() {
   if (!secretData) {
     return (
       <div className="page-container p-8">
-        <div className="max-w-2xl mx-auto pt-6">
+        <div className="max-w-4xl mx-auto pt-6">
           <Header />
           <div className="flex items-center justify-center min-h-[50vh] pb-8">
             <div className="text-center">
@@ -312,7 +312,7 @@ function ViewSecretContent() {
   if (showCelebration) {
     return (
       <div className="page-container p-8 relative overflow-hidden">
-        <div className="max-w-2xl mx-auto pt-6">
+        <div className="max-w-4xl mx-auto pt-6">
           <Header />
           {/* Celebration Effects */}
           <div className="absolute inset-0 pointer-events-none">
@@ -332,7 +332,7 @@ function ViewSecretContent() {
 
           <div className="flex items-center justify-center min-h-[50vh] pb-8 relative z-10">
             <div className="text-center">
-              <div className="text-9xl mb-4 animate-bounce">🎉</div>
+              <div className="text-6xl mb-4 animate-bounce text-yellow-400 font-bold">★</div>
               <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-2xl animate-pulse">
                 Unlocking...
               </h1>
@@ -366,7 +366,7 @@ function ViewSecretContent() {
           style={{ animationDelay: "3s" }}
         ></div>
 
-        <div className="max-w-2xl mx-auto pt-6 relative z-10">
+        <div className="max-w-4xl mx-auto pt-6 relative z-10">
           <Header />
 
           {/* Create New Message button */}
@@ -380,7 +380,7 @@ function ViewSecretContent() {
           </div>
 
           <div className="flex items-center justify-center min-h-[50vh] pb-8">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 max-w-lg w-full text-center border border-white/30 dark:border-gray-700/30 relative overflow-hidden">
+            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 max-w-2xl w-full text-center border border-white/30 dark:border-gray-700/30 relative overflow-hidden">
               {/* Decorative background elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-100/30 dark:bg-purple-900/30 rounded-full blur-xl"></div>
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-pink-100/20 dark:bg-pink-900/20 rounded-full blur-xl"></div>
@@ -398,8 +398,7 @@ function ViewSecretContent() {
                   </div>
                 )}
 
-                <div className="text-6xl mb-4 drop-shadow-lg">🔒</div>
-                <h1 className="text-2xl font-bold text-purple-900 dark:text-purple-100 mb-4 drop-shadow-sm">
+                <h1 className="text-3xl font-bold text-purple-900 dark:text-purple-100 mb-4 drop-shadow-sm">
                   Secret Locked
                 </h1>
                 <p className="text-purple-800 dark:text-purple-200 mb-6">
@@ -492,7 +491,7 @@ function ViewSecretContent() {
                 {secretData.hint && (
                   <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200/50 dark:border-yellow-700/50">
                     <p className="text-sm text-yellow-800 dark:text-yellow-200 font-medium mb-1">
-                      💡 Hint:
+                      Hint:
                     </p>
                     <p className="text-sm text-yellow-700 dark:text-yellow-300">
                       {secretData.hint}
@@ -622,7 +621,7 @@ function ViewSecretContent() {
         style={{ animationDelay: "3s" }}
       ></div>
 
-      <div className="max-w-2xl mx-auto pt-6 relative z-10">
+      <div className="max-w-4xl mx-auto pt-6 relative z-10">
         <Header />
 
         {/* Create New Message button */}
@@ -636,7 +635,7 @@ function ViewSecretContent() {
         </div>
         <div className="text-center mb-8 relative">
           <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-green-400/20 rounded-full blur-xl"></div>
-          <div className="text-6xl mb-4 relative z-10 drop-shadow-2xl">🎉</div>
+          <div className="text-6xl mb-4 relative z-10 drop-shadow-2xl text-green-400 font-bold">★</div>
           <h1
             className="text-3xl font-bold text-white mb-2 drop-shadow-2xl relative z-10"
             style={{
@@ -701,7 +700,7 @@ export default function ViewSecret() {
     <Suspense
       fallback={
         <div className="page-container p-8">
-          <div className="max-w-2xl mx-auto pt-6">
+          <div className="max-w-4xl mx-auto pt-6">
             <Header />
             <div className="flex items-center justify-center min-h-[50vh] pb-8">
               <div className="text-center">

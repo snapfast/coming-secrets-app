@@ -25,33 +25,33 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Global darker gradient background for all pages */
+/* Global grey and black background for all pages */
 .app-background {
   background: linear-gradient(to bottom right, 
-    rgb(194, 65, 12),     /* from-orange-800 (50% darker than orange-600) */
-    rgb(190, 24, 93),     /* via-pink-800 (50% darker than pink-600) */
-    rgb(107, 33, 168)     /* to-purple-800 (50% darker than purple-700) */
+    rgb(75, 85, 99),      /* from-gray-600 */
+    rgb(55, 65, 81),      /* via-gray-700 */
+    rgb(31, 41, 55)       /* to-gray-800 */
   );
 }
 
-/* Dark mode version - even darker */
+/* Dark mode version - darker grey to black */
 @media (prefers-color-scheme: dark) {
   .app-background {
     background: linear-gradient(to bottom right, 
-      rgb(154, 52, 18),   /* from-orange-900 (darker than orange-700) */
-      rgb(131, 24, 67),   /* via-pink-900 (darker than pink-700) */
-      rgb(88, 28, 135)    /* to-purple-900 (darker than purple-800) */
+      rgb(55, 65, 81),    /* from-gray-700 */
+      rgb(31, 41, 55),    /* via-gray-800 */
+      rgb(17, 24, 39)     /* to-gray-900 */
     );
   }
 }
 
-/* Apply to all page containers */
+/* Apply grey and black theme to all page containers */
 .page-container {
   @apply min-h-screen;
   background: linear-gradient(to bottom right, 
-    rgb(194, 65, 12),     /* from-orange-800 (50% darker than orange-600) */
-    rgb(190, 24, 93),     /* via-pink-800 (50% darker than pink-600) */
-    rgb(107, 33, 168)     /* to-purple-800 (50% darker than purple-700) */
+    rgb(75, 85, 99),      /* from-gray-600 */
+    rgb(55, 65, 81),      /* via-gray-700 */
+    rgb(31, 41, 55)       /* to-gray-800 */
   );
 }
 
@@ -59,9 +59,9 @@ body {
 @media (prefers-color-scheme: dark) {
   .page-container {
     background: linear-gradient(to bottom right, 
-      rgb(154, 52, 18),   /* from-orange-900 (darker than orange-700) */
-      rgb(131, 24, 67),   /* via-pink-900 (darker than pink-700) */
-      rgb(88, 28, 135)    /* to-purple-900 (darker than purple-800) */
+      rgb(55, 65, 81),    /* from-gray-700 */
+      rgb(31, 41, 55),    /* via-gray-800 */
+      rgb(17, 24, 39)     /* to-gray-900 */
     );
   }
 }
@@ -71,12 +71,12 @@ body {
   /* This handles cases where both classes are present */
 }
 
-/* Darker gradient for smaller elements (modals, cards, etc.) */
+/* Grey and black theme for smaller elements (modals, cards, etc.) */
 .element-background {
   background: linear-gradient(to bottom right, 
-    rgb(194, 65, 12),     /* from-orange-800 (50% darker than orange-600) */
-    rgb(190, 24, 93),     /* via-pink-800 (50% darker than pink-600) */
-    rgb(107, 33, 168)     /* to-purple-800 (50% darker than purple-700) */
+    rgb(75, 85, 99),      /* from-gray-600 */
+    rgb(55, 65, 81),      /* via-gray-700 */
+    rgb(31, 41, 55)       /* to-gray-800 */
   );
 }
 
@@ -84,9 +84,9 @@ body {
 @media (prefers-color-scheme: dark) {
   .element-background {
     background: linear-gradient(to bottom right, 
-      rgb(154, 52, 18),   /* from-orange-900 (darker than orange-700) */
-      rgb(131, 24, 67),   /* via-pink-900 (darker than pink-700) */
-      rgb(88, 28, 135)    /* to-purple-900 (darker than purple-800) */
+      rgb(55, 65, 81),    /* from-gray-700 */
+      rgb(31, 41, 55),    /* via-gray-800 */
+      rgb(17, 24, 39)     /* to-gray-900 */
     );
   }
 }
