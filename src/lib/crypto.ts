@@ -1,37 +1,109 @@
 import CryptoJS from 'crypto-js';
+import { compress, decompress } from 'brotli-compress';
 import { isDateUnlockedServer, getTimeRemainingServer } from './time';
 
 export interface SecretData {
   message: string;
   unlockDate: string;
   senderName?: string;
-  hints?: string[];
+  hint?: string;
 }
 
 const SECRET_KEY = 'comings-secrets-app-key';
 
-export function encryptMessage(data: SecretData): string {
+// Base64URL encoding (URL-safe without padding)
+function base64urlEncode(data: Uint8Array): string {
+  return btoa(String.fromCharCode(...data))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+function base64urlDecode(str: string): Uint8Array {
+  // Add back padding if needed
+  const padded = str + '='.repeat((4 - str.length % 4) % 4);
+  const base64 = padded.replace(/-/g, '+').replace(/_/g, '/');
+  const binary = atob(base64);
+  return new Uint8Array(binary.split('').map(c => c.charCodeAt(0)));
+}
+
+// Compression utilities using Brotli
+async function compressData(jsonString: string): Promise<string> {
   try {
+    const textEncoder = new TextEncoder();
+    const textBytes = textEncoder.encode(jsonString);
+    const compressed = await compress(textBytes);
+    return base64urlEncode(compressed);
+  } catch (error) {
+    console.error('Brotli compression failed:', error);
+    throw new Error('Failed to compress data');
+  }
+}
+
+async function decompressData(compressedData: string): Promise<string> {
+  try {
+    const compressed = base64urlDecode(compressedData);
+    const decompressed = await decompress(compressed);
+    const textDecoder = new TextDecoder();
+    return textDecoder.decode(decompressed);
+  } catch (error) {
+    console.error('Brotli decompression failed:', error);
+    throw new Error('Failed to decompress data');
+  }
+}
+
+export async function encryptMessage(data: SecretData): Promise<string> {
+  try {
+    // Step 1: Convert to JSON
     const jsonString = JSON.stringify(data);
-    const encrypted = CryptoJS.AES.encrypt(jsonString, SECRET_KEY).toString();
-    return encodeURIComponent(encrypted);
-  } catch {
+    
+    // Step 2: Compress the data with Brotli
+    const compressed = await compressData(jsonString);
+    
+    // Step 3: Encrypt the compressed data
+    const encrypted = CryptoJS.AES.encrypt(compressed, SECRET_KEY).toString();
+    
+    // Step 4: Make URL-safe (base64url encode)
+    const textEncoder = new TextEncoder();
+    const urlSafe = base64urlEncode(textEncoder.encode(encrypted));
+    
+    // Step 5: Add version prefix (v3 for Brotli)
+    return 'v3:' + urlSafe;
+  } catch (error) {
+    console.error('Encryption failed:', error);
     throw new Error('Failed to encrypt message');
   }
 }
 
-export function decryptMessage(encryptedData: string): SecretData {
+export async function decryptMessage(encryptedData: string): Promise<SecretData> {
   try {
-    const decoded = decodeURIComponent(encryptedData);
-    const decrypted = CryptoJS.AES.decrypt(decoded, SECRET_KEY);
-    const jsonString = decrypted.toString(CryptoJS.enc.Utf8);
+    if (!encryptedData.startsWith('v3:')) {
+      throw new Error('Invalid message format');
+    }
     
-    if (!jsonString) {
+    // Current Brotli format
+    const urlSafeData = encryptedData.substring(3); // Remove 'v3:' prefix
+    
+    // Step 1: Decode from base64url
+    const encryptedBytes = base64urlDecode(urlSafeData);
+    const textDecoder = new TextDecoder();
+    const encryptedString = textDecoder.decode(encryptedBytes);
+    
+    // Step 2: Decrypt
+    const decrypted = CryptoJS.AES.decrypt(encryptedString, SECRET_KEY);
+    const compressedData = decrypted.toString(CryptoJS.enc.Utf8);
+    
+    if (!compressedData) {
       throw new Error('Invalid encrypted data');
     }
     
+    // Step 3: Decompress with Brotli
+    const jsonString = await decompressData(compressedData);
+    
+    // Step 4: Parse JSON
     return JSON.parse(jsonString);
-  } catch {
+  } catch (error) {
+    console.error('Decryption failed:', error);
     throw new Error('Failed to decrypt message');
   }
 }

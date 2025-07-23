@@ -11,7 +11,7 @@ export default function Home() {
     message: "",
     unlockDate: "",
     senderName: "",
-    hints: [""],
+    hint: "",
     template: "",
   });
 
@@ -24,6 +24,23 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate character limits
+    if (formData.message.length > 1000) {
+      alert("Message exceeds 1000 character limit");
+      return;
+    }
+    
+    if (formData.senderName.length > 100) {
+      alert("Sender name exceeds 100 character limit");
+      return;
+    }
+    
+    if (formData.hint.length > 200) {
+      alert("Hint exceeds 200 character limit");
+      return;
+    }
+    
     setIsGenerating(true);
 
     try {
@@ -32,9 +49,9 @@ export default function Home() {
         message: formData.message,
         unlockDate: formData.unlockDate,
         senderName: formData.senderName,
-        hints: formData.hints.filter(hint => hint.trim() !== "")
+        hint: formData.hint.trim() || undefined
       };
-      const encrypted = encryptMessage(messageData);
+      const encrypted = await encryptMessage(messageData);
       
       // Generate view URL instead of redirecting to calendar
       const viewUrl = `${window.location.origin}/view?love=${encrypted}`;
@@ -62,7 +79,7 @@ export default function Home() {
       message: "",
       unlockDate: "",
       senderName: "",
-      hints: [""],
+      hint: "",
       template: "",
     });
     setGeneratedLink("");
@@ -108,29 +125,6 @@ export default function Home() {
     trackTemplateUsed(templateKey);
   };
 
-  const addHint = () => {
-    setFormData({
-      ...formData,
-      hints: [...formData.hints, ""]
-    });
-  };
-
-  const removeHint = (index: number) => {
-    const newHints = formData.hints.filter((_, i) => i !== index);
-    setFormData({
-      ...formData,
-      hints: newHints.length > 0 ? newHints : [""]
-    });
-  };
-
-  const updateHint = (index: number, value: string) => {
-    const newHints = [...formData.hints];
-    newHints[index] = value;
-    setFormData({
-      ...formData,
-      hints: newHints
-    });
-  };
 
   const calculateTimeRemaining = useCallback(() => {
     if (!formData.unlockDate) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -175,21 +169,36 @@ export default function Home() {
 
             {/* Sender Name */}
             <div>
-              <label
-                htmlFor="senderName"
-                className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2"
-              >
-                From (Optional)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="senderName"
+                  className="block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                >
+                  From (Optional)
+                </label>
+                <span className={`text-xs ${formData.senderName.length > 100 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {formData.senderName.length}/100
+                </span>
+              </div>
               <input
                 type="text"
                 id="senderName"
                 name="senderName"
+                maxLength={100}
                 value={formData.senderName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
-                placeholder="Your name (will show to recipient)"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white ${
+                  formData.senderName.length > 100 
+                    ? 'border-red-400 dark:border-red-600' 
+                    : 'border-purple-400 dark:border-purple-600'
+                }`}
+                placeholder="Your name (max 100 characters)"
               />
+              {formData.senderName.length > 100 && (
+                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  Name exceeds 100 character limit
+                </p>
+              )}
             </div>
 
             <div>
@@ -200,61 +209,73 @@ export default function Home() {
                 >
                   Secret Message
                 </label>
-                <button
-                  type="button"
-                  onClick={() => setShowTemplatesDialog(true)}
-                  className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                >
-                  📝 Use Template
-                </button>
+                <div className="flex items-center gap-3">
+                  <span className={`text-xs ${formData.message.length > 1000 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                    {formData.message.length}/1000
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowTemplatesDialog(true)}
+                    className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                  >
+                    📝 Use Template
+                  </button>
+                </div>
               </div>
               <textarea
                 id="message"
                 name="message"
                 rows={8}
+                maxLength={1000}
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
-                placeholder="Write your secret message here..."
+                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white ${
+                  formData.message.length > 1000 
+                    ? 'border-red-400 dark:border-red-600' 
+                    : 'border-purple-400 dark:border-purple-600'
+                }`}
+                placeholder="Write your secret message here... (max 1000 characters)"
                 required
               />
+              {formData.message.length > 1000 && (
+                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  Message exceeds 1000 character limit
+                </p>
+              )}
             </div>
 
-            {/* Hints Section */}
+            {/* Hint Section */}
             <div>
-              <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                Progressive Hints (Optional)
-              </label>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
-                These hints will be revealed progressively as the unlock date approaches
-              </p>
-              {formData.hints.map((hint, index) => (
-                <div key={index} className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={hint}
-                    onChange={(e) => updateHint(index, e.target.value)}
-                    className="flex-1 px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
-                    placeholder={`Hint ${index + 1}`}
-                  />
-                  {formData.hints.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeHint(index)}
-                      className="px-3 py-2 bg-red-500 text-white rounded-md transition-colors duration-200"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={addHint}
-                className="px-3 py-1 text-xs bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 rounded-md transition-colors duration-200"
-              >
-                + Add Hint
-              </button>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="hint"
+                  className="block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                >
+                  Hint (Optional)
+                </label>
+                <span className={`text-xs ${formData.hint.length > 200 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {formData.hint.length}/200
+                </span>
+              </div>
+              <input
+                type="text"
+                id="hint"
+                name="hint"
+                maxLength={200}
+                value={formData.hint}
+                onChange={handleChange}
+                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white ${
+                  formData.hint.length > 200 
+                    ? 'border-red-400 dark:border-red-600' 
+                    : 'border-purple-400 dark:border-purple-600'
+                }`}
+                placeholder="Optional hint for the recipient (max 200 characters)"
+              />
+              {formData.hint.length > 200 && (
+                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  Hint exceeds 200 character limit
+                </p>
+              )}
             </div>
 
             <div>
@@ -359,10 +380,10 @@ export default function Home() {
                       {previewTimeRemaining.days}d {previewTimeRemaining.hours}h {previewTimeRemaining.minutes}m {previewTimeRemaining.seconds}s
                     </div>
                   </div>
-                  {formData.hints.some(hint => hint.trim()) && (
+                  {formData.hint.trim() && (
                     <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm">
                       <p className="font-medium mb-1">Hint:</p>
-                      <p className="text-white/90">{formData.hints.find(hint => hint.trim()) || "No hints available yet"}</p>
+                      <p className="text-white/90">{formData.hint}</p>
                     </div>
                   )}
                 </div>

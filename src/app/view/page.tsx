@@ -112,7 +112,6 @@ function ViewSecretContent() {
   });
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
-  const [currentHint, setCurrentHint] = useState<string>("");
   const [calendarError, setCalendarError] = useState<string>("");
 
   const handleAddToCalendar = (provider: string) => {
@@ -216,7 +215,7 @@ function ViewSecretContent() {
         // Initialize time synchronization
         await initTimeSync();
         
-        const decrypted = decryptMessage(data);
+        const decrypted = await decryptMessage(data);
         setSecretData(decrypted);
 
         // Use secure server time for unlock check
@@ -243,34 +242,12 @@ function ViewSecretContent() {
             }
           };
 
-          // Update progressive hints using server time
-          const updateHints = () => {
-            if (decrypted.hints && decrypted.hints.length > 0) {
-              const remaining = getTimeRemainingServerSync(decrypted.unlockDate);
-              
-              // Calculate progress based on server time
-              if (remaining.total > 0) {
-                const totalDuration = 24 * 60 * 60 * 1000; // Assume 24 hours for hint progression
-                const elapsed = totalDuration - remaining.total;
-                const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
-
-                const hintIndex = Math.floor(progress * decrypted.hints.length);
-                if (hintIndex >= 0 && hintIndex < decrypted.hints.length) {
-                  setCurrentHint(decrypted.hints[hintIndex]);
-                }
-              }
-            }
-          };
-
           updateTimer(); // Initial call
-          updateHints(); // Initial call
           
           const timerInterval = setInterval(updateTimer, 1000);
-          const hintInterval = setInterval(updateHints, 30000); // Update hints every 30 seconds
 
           return () => {
             clearInterval(timerInterval);
-            clearInterval(hintInterval);
           };
         }
       } catch (error) {
@@ -511,14 +488,14 @@ function ViewSecretContent() {
                   </div>
                 </div>
 
-                {/* Progressive Hints */}
-                {currentHint && (
+                {/* Hint */}
+                {secretData.hint && (
                   <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200/50 dark:border-yellow-700/50">
                     <p className="text-sm text-yellow-800 dark:text-yellow-200 font-medium mb-1">
                       💡 Hint:
                     </p>
                     <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                      {currentHint}
+                      {secretData.hint}
                     </p>
                   </div>
                 )}
