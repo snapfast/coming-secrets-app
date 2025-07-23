@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import { isDateUnlockedServer, getTimeRemainingServer } from './time';
 
 export interface SecretData {
   message: string;
@@ -41,6 +42,10 @@ export function isDateUnlocked(unlockDate: string): boolean {
   return now >= unlock;
 }
 
+export async function isDateUnlockedSecure(unlockDate: string): Promise<boolean> {
+  return await isDateUnlockedServer(unlockDate);
+}
+
 export function getTimeRemaining(unlockDate: string): {
   days: number;
   hours: number;
@@ -62,4 +67,14 @@ export function getTimeRemaining(unlockDate: string): {
   const seconds = Math.floor((total % (1000 * 60)) / 1000);
   
   return { days, hours, minutes, seconds, total };
+}
+
+export async function getTimeRemainingSecure(unlockDate: string): Promise<{
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  total: number;
+}> {
+  return await getTimeRemainingServer(unlockDate);
 }

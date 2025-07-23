@@ -11,6 +11,7 @@
 - **Styling**: Tailwind CSS 4.0
 - **UI Components**: Custom React components
 - **Encryption**: CryptoJS for AES encryption
+- **Time Security**: Server-synchronized UTC time (WorldTimeAPI)
 - **Fonts**: Google Fonts (Geist, Geist Mono, Cinzel Decorative)
 - **Build Tool**: Turbopack (dev mode)
 
@@ -46,7 +47,9 @@ src/
 │       └── success/
 │           └── page.tsx    # Success page after calendar setup
 └── lib/
-    └── crypto.ts           # Enhanced encryption/decryption utilities
+    ├── crypto.ts           # Enhanced encryption/decryption utilities
+    ├── time.ts             # Server time synchronization utilities
+    └── analytics.ts        # Google Analytics tracking functions
 ```
 
 ### Key Features
@@ -78,7 +81,19 @@ src/
    - AES encryption with fixed secret key
    - Support for sender name and hints in message data
    - Base64 encoding for URL safety
-   - Time validation utilities
+   - Secure time validation using server-synchronized time
+
+5. **Server Time Security System** (`src/lib/time.ts`)
+   - Clock manipulation prevention via server UTC time synchronization
+   - WorldTimeAPI integration with multi-layer fallbacks
+   - Cached time offset with periodic re-synchronization
+   - Secure unlock validation resistant to device clock changes
+
+6. **Analytics Integration** (`src/lib/analytics.ts`)
+   - Google Analytics tracking for all user interactions
+   - Message creation, template usage, and sharing analytics
+   - Calendar integration and viewing behavior tracking
+   - Complete user journey analytics
 
 ## Enhanced User Flows
 
@@ -279,11 +294,26 @@ src/
 
 ## Enhanced Security Considerations
 
-### Current Implementation
+### Server Time Synchronization Security
+- **Clock Manipulation Prevention**: Uses server-synchronized UTC time to prevent users from changing device clocks to unlock messages early
+- **WorldTimeAPI Integration**: Primary time source via `https://worldtimeapi.org/api/timezone/UTC`
+- **Multi-Layer Fallback**: WorldTimeAPI → HTTP Date headers → Local time (with security warning)
+- **Time Offset Caching**: Calculates and caches server-client time difference for performance
+- **Periodic Re-sync**: Automatically re-synchronizes every 5 minutes to maintain accuracy
+
+### Security Functions (`src/lib/time.ts`)
+- `getServerTime()`: Async function for accurate server time
+- `getServerTimeSync()`: Synchronous function using cached offset for frequent operations
+- `isDateUnlockedServer()`: Secure unlock validation using server time
+- `getTimeRemainingServer()`: Secure countdown using server time
+- `initTimeSync()`: Initialize time synchronization on app load
+
+### Enhanced Encryption & Validation
 - **Enhanced Encryption**: AES encryption supporting sender name and hints
+- **Secure Time Validation**: All unlock checks use `isDateUnlockedSecure()` instead of local time
 - **Backward Compatibility**: Existing links continue to work
-- **Client-Side Validation**: Enhanced date validation
-- **Error Handling**: Improved error messages for invalid data
+- **Client-Side Validation**: Enhanced date validation with server time
+- **Error Handling**: Improved error messages for invalid data and time sync failures
 
 ### Data Structure
 ```typescript
@@ -305,9 +335,17 @@ interface SecretData {
 - [ ] Enhanced sharing options (6 platforms)
 - [ ] Calendar integration (Google, Apple, Outlook)
 - [ ] Celebration animations
-- [ ] Reaction system functionality
+- [ ] Analytics tracking for all user interactions
 - [ ] Error handling for calendar popups
 - [ ] Mobile responsiveness for all new features
+
+### Security Testing
+- [ ] Server time synchronization on page load
+- [ ] Clock manipulation resistance (change device time, verify unlock doesn't work early)
+- [ ] WorldTimeAPI fallback to HTTP Date headers
+- [ ] Time offset caching and 5-minute re-sync
+- [ ] Secure unlock validation using server time
+- [ ] Error handling for time sync failures
 
 ### Existing Feature Testing
 - [ ] Message creation with various dates

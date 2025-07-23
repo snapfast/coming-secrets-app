@@ -8,11 +8,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
   decryptMessage,
-  isDateUnlocked,
-  getTimeRemaining,
+  isDateUnlockedSecure,
   SecretData,
 } from "@/lib/crypto";
 import { trackSecretViewed, trackCalendarReminder } from "@/lib/analytics";
+import { initTimeSync, getTimeRemainingServerSync } from "@/lib/time";
 
 // Generate Google Calendar URL with proper encoding
 function generateGoogleCalendarUrl(
@@ -205,69 +205,81 @@ function ViewSecretContent() {
   };
 
   useEffect(() => {
-    const data = searchParams.get("love");
-    if (!data) {
-      setError("No secret data found in URL");
-      return;
-    }
-
-    try {
-      const decrypted = decryptMessage(data);
-      setSecretData(decrypted);
-
-      const unlocked = isDateUnlocked(decrypted.unlockDate);
-      setIsUnlocked(unlocked);
-      
-      // Track secret viewing
-      trackSecretViewed(unlocked);
-
-      if (!unlocked) {
-        const updateTimer = () => {
-          const remaining = getTimeRemaining(decrypted.unlockDate);
-          setTimeRemaining(remaining);
-
-          if (remaining.total <= 0) {
-            setShowCelebration(true);
-            setTimeout(() => {
-              setShowCelebration(false);
-              setIsUnlocked(true);
-              // Track when message unlocks
-              trackSecretViewed(true);
-            }, 3000);
-          }
-        };
-
-        // Update progressive hints
-        const updateHints = () => {
-          if (decrypted.hints && decrypted.hints.length > 0) {
-            const remaining = getTimeRemaining(decrypted.unlockDate);
-            const now = new Date().getTime();
-            const unlockTime = new Date(decrypted.unlockDate).getTime();
-            const totalDuration = unlockTime - (now - remaining.total);
-            const elapsed = now - (unlockTime - totalDuration);
-            const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
-
-            const hintIndex = Math.floor(progress * decrypted.hints.length);
-            if (hintIndex >= 0 && hintIndex < decrypted.hints.length) {
-              setCurrentHint(decrypted.hints[hintIndex]);
-            }
-          }
-        };
-
-        updateHints();
-        const hintInterval = setInterval(updateHints, 30000); // Update hints every 30 seconds
-
-        updateTimer();
-        const interval = setInterval(updateTimer, 1000);
-
-        return () => {
-          clearInterval(interval);
-          clearInterval(hintInterval);
-        };
+    const initializeSecretViewing = async () => {
+      const data = searchParams.get("love");
+      if (!data) {
+        setError("No secret data found in URL");
+        return;
       }
-    } catch {
-      setError("Invalid or corrupted secret link");
-    }
+
+      try {
+        // Initialize time synchronization
+        await initTimeSync();
+        
+        const decrypted = decryptMessage(data);
+        setSecretData(decrypted);
+
+        // Use secure server time for unlock check
+        const unlocked = await isDateUnlockedSecure(decrypted.unlockDate);
+        setIsUnlocked(unlocked);
+        
+        // Track secret viewing
+        trackSecretViewed(unlocked);
+
+        if (!unlocked) {
+          const updateTimer = () => {
+            // Use server time synchronously for frequent timer updates
+            const remaining = getTimeRemainingServerSync(decrypted.unlockDate);
+            setTimeRemaining(remaining);
+
+            if (remaining.total <= 0) {
+              setShowCelebration(true);
+              setTimeout(() => {
+                setShowCelebration(false);
+                setIsUnlocked(true);
+                // Track when message unlocks
+                trackSecretViewed(true);
+              }, 3000);
+            }
+          };
+
+          // Update progressive hints using server time
+          const updateHints = () => {
+            if (decrypted.hints && decrypted.hints.length > 0) {
+              const remaining = getTimeRemainingServerSync(decrypted.unlockDate);
+              
+              // Calculate progress based on server time
+              if (remaining.total > 0) {
+                const totalDuration = 24 * 60 * 60 * 1000; // Assume 24 hours for hint progression
+                const elapsed = totalDuration - remaining.total;
+                const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
+
+                const hintIndex = Math.floor(progress * decrypted.hints.length);
+                if (hintIndex >= 0 && hintIndex < decrypted.hints.length) {
+                  setCurrentHint(decrypted.hints[hintIndex]);
+                }
+              }
+            }
+          };
+
+          updateTimer(); // Initial call
+          updateHints(); // Initial call
+          
+          const timerInterval = setInterval(updateTimer, 1000);
+          const hintInterval = setInterval(updateHints, 30000); // Update hints every 30 seconds
+
+          return () => {
+            clearInterval(timerInterval);
+            clearInterval(hintInterval);
+          };
+        }
+      } catch (error) {
+        console.error("Error loading secret:", error);
+        setError("Failed to load secret message");
+      }
+    };
+
+    initializeSecretViewing();
   }, [searchParams]);
 
   if (error) {
