@@ -314,29 +314,13 @@ function ViewSecretContent() {
       <div className="page-container p-8 relative overflow-hidden">
         <div className="max-w-4xl mx-auto pt-6">
           <Header />
-          {/* Celebration Effects */}
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-4 h-4 bg-yellow-400 rounded-full animate-bounce"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  animationDuration: `${1 + Math.random()}s`,
-                }}
-              ></div>
-            ))}
-          </div>
 
           <div className="flex items-center justify-center min-h-[50vh] pb-8 relative z-10">
             <div className="text-center">
-              <div className="text-6xl mb-4 animate-bounce text-yellow-400 font-bold">★</div>
-              <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-2xl animate-pulse">
+              <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-2xl">
                 Unlocking...
               </h1>
-              <div className="text-6xl font-bold text-white drop-shadow-2xl animate-pulse">
+              <div className="text-2xl text-white drop-shadow-2xl">
                 3... 2... 1...
               </div>
             </div>
@@ -633,59 +617,38 @@ function ViewSecretContent() {
             Create New Message
           </Link>
         </div>
-        <div className="text-center mb-8 relative">
-          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-green-400/20 rounded-full blur-xl"></div>
-          <div className="text-6xl mb-4 relative z-10 drop-shadow-2xl text-green-400 font-bold">★</div>
-          <h1
-            className="text-3xl font-bold text-white mb-2 drop-shadow-2xl relative z-10"
-            style={{
-              textShadow:
-                "0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(255,255,255,0.1)",
-            }}
-          >
-            Secret Unlocked!
-          </h1>
-          <p className="text-white/90 dark:text-white/80 drop-shadow-lg font-medium relative z-10">
-            Your time-locked message is now available
-          </p>
-          {/* Decorative line */}
-          <div className="mt-4 mx-auto w-24 h-0.5 bg-gradient-to-r from-transparent via-green-400/60 to-transparent"></div>
-        </div>
 
-        <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 border border-white/30 dark:border-gray-700/30 relative overflow-hidden">
-          {/* Decorative background elements */}
-          <div className="absolute -top-6 -right-6 w-32 h-32 bg-green-100/30 dark:bg-green-900/30 rounded-full blur-xl"></div>
-          <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-emerald-100/20 dark:bg-emerald-900/20 rounded-full blur-xl"></div>
-
-          <div className="relative z-10">
-            {/* Sender Info */}
-            {secretData.senderName && (
-              <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/30 rounded-lg border border-green-200/50 dark:border-green-700/50">
-                <p className="text-sm text-green-700 dark:text-green-300">
-                  From:{" "}
-                  <span className="font-medium">{secretData.senderName}</span>
-                </p>
-              </div>
-            )}
-
+        <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 border border-white/30 dark:border-gray-700/30">
+          {/* Sender Info */}
+          {secretData.senderName && (
             <div className="mb-4">
-              <label className="block text-sm font-medium text-purple-900 dark:text-purple-200 mb-2">
-                Secret Message:
-              </label>
-              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 border border-purple-200/50 dark:border-purple-700/50 shadow-inner">
-                <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
-                  {secretData.message}
-                </p>
-              </div>
-            </div>
-
-            <div className="text-center pt-4 border-t border-purple-300/50 dark:border-purple-600/50">
-              <p className="text-sm text-purple-700 dark:text-purple-300 mb-4">
-                Unlocked on {new Date(secretData.unlockDate).toLocaleString()}
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                From: <span className="font-medium">{secretData.senderName}</span>
               </p>
-
-
             </div>
+          )}
+
+          {/* Hint */}
+          {secretData.hint && (
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Hint: <span className="font-medium">{secretData.hint}</span>
+              </p>
+            </div>
+          )}
+
+          {/* Message */}
+          <div className="mb-4">
+            <p className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
+              {secretData.message}
+            </p>
+          </div>
+
+          {/* Timestamp */}
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Unlocked on {new Date(secretData.unlockDate).toLocaleString()}
+            </p>
           </div>
         </div>
 
