@@ -181,7 +181,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setShowTemplatesDialog(true)}
-                    className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-800/50 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    className="text-xs px-2 py-1 bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 rounded-md hover:bg-green-200 dark:hover:bg-green-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
                   >
                     Use Template
                   </button>
@@ -269,28 +269,28 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setQuickDate(1)}
-                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
                   >
                     1 Day
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(7)}
-                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
                   >
                     1 Week
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(30)}
-                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
                   >
                     1 Month
                   </button>
                   <button
                     type="button"
                     onClick={() => setQuickDate(365)}
-                    className="px-3 py-2 text-sm bg-purple-100 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-md transition-colors duration-200"
+                    className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
                   >
                     1 Year
                   </button>
@@ -304,7 +304,7 @@ export default function Home() {
                 disabled={
                   isGenerating || !formData.message || !formData.unlockDate
                 }
-                className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-purple-600 to-pink-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed"
               >
                 {isGenerating ? "Creating Message..." : "Create Secret Message"}
               </button>
@@ -332,7 +332,7 @@ export default function Home() {
                   />
                   <button
                     onClick={copyToClipboard}
-                    className="w-full sm:w-auto px-8 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                    className="w-full sm:w-auto px-8 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                   >
                     {copySuccess ? "Copied!" : "Copy"}
                   </button>
@@ -355,7 +355,7 @@ export default function Home() {
                       alert('Link copied to clipboard!');
                     }
                   }}
-                  className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                  className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                 >
                   Share
                 </button>
