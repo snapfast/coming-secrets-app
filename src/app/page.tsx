@@ -378,7 +378,7 @@ export default function Home() {
           <h3 className="text-white text-xl font-semibold text-center mb-4">
             Key Features
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white/90">
+          <div className="gap-4 text-white/90">
             <div>
               <h4 className="font-medium text-white">Time-Locked Messages</h4>
             </div>
@@ -386,16 +386,16 @@ export default function Home() {
               <h4 className="font-medium text-white">Smart Reminders</h4>
             </div>
             <div>
-              <h4 className="font-medium text-white">Progressive Hints</h4>
+              <h4 className="font-medium text-white">Your secrets are safe with us. We keep them completely private.</h4>
             </div>
             <div>
               <h4 className="font-medium text-white">Easy Sharing</h4>
             </div>
             <div>
-              <h4 className="font-medium text-white">Message Templates</h4>
+              <h4 className="font-medium text-white">Nobody can unlock your secrets before the due date, not even you. Try Hard.</h4>
             </div>
             <div>
-              <h4 className="font-medium text-white">Celebration Effects</h4>
+              <h4 className="font-medium text-white">Send Feedback - smartrahulrdb [at] gmail [dot] com</h4>
             </div>
           </div>
         </div>
