@@ -1,5 +1,33 @@
 # CLAUDE.md - Coming Secrets App
 
+## 🎨 Design System Rule - CRITICAL
+
+**ALWAYS USE ONLY GLOBALS.CSS CLASSES - NEVER DIRECT TAILWIND**
+
+All styling must use the centralized CSS design system in `src/app/globals.css`. This rule is non-negotiable for maintainability and consistency.
+
+### Styling Guidelines:
+- ✅ **CORRECT**: Use single class names like `cs-secret-title`, `cs-countdown-container`, `cs-calendar-button-google`
+- ❌ **WRONG**: Use multiple classes like `cs-heading-1 cs-text-purple-dark mb-4` or direct Tailwind classes
+- ✅ **CORRECT**: Create new consolidated classes in globals.css when needed
+- ❌ **WRONG**: Apply Tailwind classes directly in TSX files
+
+### Example:
+```tsx
+// ✅ CORRECT - Single semantic class
+<h1 className="cs-secret-title">Secret Locked</h1>
+
+// ❌ WRONG - Multiple classes or direct Tailwind
+<h1 className="text-4xl font-bold text-purple-900 dark:text-purple-100 mb-4">Secret Locked</h1>
+<h1 className="cs-heading-1 cs-text-purple-dark cs-mb-4">Secret Locked</h1>
+```
+
+### Benefits:
+- **Maintainability**: Change design in one place (globals.css)
+- **Consistency**: Unified design patterns across all pages
+- **Performance**: Optimized CSS with no duplication
+- **Developer Experience**: Self-documenting semantic class names
+
 ## Project Overview
 
 **Coming Secrets** is a Next.js web application that allows users to create time-locked secret messages that can only be opened on a specific future date. The app features a beautiful gradient UI with animated elements and smart reminders through calendar systems (for locked messages only).
