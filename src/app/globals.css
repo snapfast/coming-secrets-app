@@ -90,3 +90,487 @@ body {
     );
   }
 }
+
+/* ===== COMING SECRETS DESIGN SYSTEM ===== */
+
+/* Layout Classes */
+.cs-page-wrapper {
+  @apply min-h-screen bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700;
+}
+
+.cs-container {
+  @apply container mx-auto px-4 py-8 pb-8;
+}
+
+.cs-content-container {
+  @apply max-w-4xl mx-auto;
+}
+
+.cs-form-container {
+  @apply max-w-2xl mx-auto;
+}
+
+/* Typography Classes */
+.cs-heading-1 {
+  @apply text-4xl font-bold;
+}
+
+.cs-heading-2 {
+  @apply text-2xl font-bold;
+}
+
+.cs-heading-3 {
+  @apply text-xl font-semibold;
+}
+
+.cs-body-large {
+  @apply text-lg;
+}
+
+.cs-body-base {
+  @apply text-base;
+}
+
+.cs-body-small {
+  @apply text-sm;
+}
+
+.cs-body-xs {
+  @apply text-xs;
+}
+
+/* Text Color Classes */
+.cs-text-primary {
+  @apply text-white;
+}
+
+.cs-text-secondary {
+  @apply text-white/90;
+}
+
+.cs-text-muted {
+  @apply text-white/70;
+}
+
+.cs-text-accent {
+  @apply text-yellow-300;
+}
+
+/* Card Classes */
+.cs-card-base {
+  @apply bg-white/10 backdrop-blur-sm rounded-lg p-6;
+}
+
+.cs-card-overlay {
+  @apply bg-white/20 backdrop-blur-md rounded-lg p-6;
+}
+
+.cs-card-stats {
+  @apply bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center text-white;
+}
+
+/* Button Classes */
+.cs-button-primary {
+  @apply bg-white text-purple-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors;
+}
+
+.cs-button-secondary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors;
+}
+
+.cs-button-danger {
+  @apply bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors;
+}
+
+.cs-button-template {
+  @apply bg-blue-100 dark:bg-blue-800 hover:bg-blue-200 dark:hover:bg-blue-700 text-blue-700 dark:text-blue-200 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-center;
+}
+
+/* Form Classes */
+.cs-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white;
+}
+
+.cs-textarea {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none dark:bg-gray-700 dark:border-gray-600 dark:text-white;
+}
+
+.cs-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2;
+}
+
+/* Status Badge Classes */
+.cs-badge-unlocked {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100;
+}
+
+.cs-badge-locked {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100;
+}
+
+/* Navigation Classes */
+.cs-nav-container {
+  @apply flex justify-center mb-6;
+}
+
+.cs-nav-list {
+  @apply flex gap-6;
+}
+
+.cs-nav-link {
+  @apply text-white/80 hover:text-white transition-colors text-sm font-medium;
+}
+
+/* Grid Layout Classes */
+.cs-grid-stats {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+}
+
+.cs-grid-templates {
+  @apply grid grid-cols-2 sm:grid-cols-4 gap-2;
+}
+
+.cs-grid-sharing {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3;
+}
+
+/* Flex Layout Classes */
+.cs-flex-center {
+  @apply flex justify-center;
+}
+
+.cs-flex-between {
+  @apply flex justify-between;
+}
+
+.cs-flex-column {
+  @apply flex flex-col;
+}
+
+.cs-flex-column-center {
+  @apply flex flex-col items-center;
+}
+
+.cs-flex-buttons {
+  @apply flex flex-col sm:flex-row gap-4;
+}
+
+/* Special Animation Classes */
+.cs-brand-title {
+  @apply text-4xl font-bold text-white drop-shadow-2xl mb-4 tracking-wider;
+  font-family: var(--font-cinzel-decorative);
+  text-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3);
+}
+
+.cs-brand-animated {
+  @apply relative inline-block;
+  background: linear-gradient(90deg, white 0%, white 70%, black 80%, black 90%, white 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: blackSplash 7s ease-out infinite;
+}
+
+@keyframes blackSplash {
+  0% { background-position: 100% 0; }
+  21% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+.cs-brand-subtitle {
+  @apply text-lg text-white/90 drop-shadow-md;
+}
+
+.cs-brand-accent {
+  @apply text-yellow-300 font-bold italic transform rotate-2 inline-block bg-purple-900/30 px-2 py-1 rounded-lg border-2 border-dashed border-yellow-300/50 animate-pulse;
+}
+
+/* ===== PAGE LAYOUT PATTERNS ===== */
+
+/* Standard page layout with consistent padding */
+.cs-page-layout {
+  @apply min-h-screen bg-gradient-to-br from-orange-600 via-pink-600 to-purple-700;
+}
+
+.cs-page-content {
+  @apply container mx-auto px-4 py-8 pb-8;
+}
+
+.cs-page-inner {
+  @apply max-w-4xl mx-auto pt-6;
+}
+
+/* Loading state layout */
+.cs-loading-container {
+  @apply flex items-center justify-center min-h-[400px];
+}
+
+.cs-loading-text {
+  @apply text-white text-lg;
+}
+
+/* Error state layout */
+.cs-error-container {
+  @apply max-w-2xl mx-auto;
+}
+
+.cs-error-card {
+  @apply bg-red-50 text-red-600 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center;
+}
+
+.cs-error-title {
+  @apply text-lg font-medium mb-2;
+}
+
+.cs-error-message {
+  @apply mb-4;
+}
+
+/* ===== COMPONENT PATTERNS ===== */
+
+/* Page headers */
+.cs-page-header {
+  @apply text-center mb-8 text-white;
+}
+
+.cs-page-title {
+  @apply text-4xl font-bold mb-4;
+}
+
+.cs-page-subtitle {
+  @apply text-lg text-white/90;
+}
+
+/* Statistics grid */
+.cs-stats-container {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8;
+}
+
+.cs-stats-card {
+  @apply bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center text-white;
+}
+
+.cs-stats-number {
+  @apply text-3xl font-bold;
+}
+
+.cs-stats-label {
+  @apply text-sm text-white/90;
+}
+
+/* Empty state */
+.cs-empty-state {
+  @apply bg-white/10 backdrop-blur-sm rounded-lg p-12 text-center text-white;
+}
+
+.cs-empty-icon {
+  @apply text-6xl mb-4;
+}
+
+.cs-empty-title {
+  @apply text-2xl font-bold mb-4;
+}
+
+.cs-empty-description {
+  @apply text-lg text-white/90 mb-6;
+}
+
+/* Action buttons section */
+.cs-action-buttons {
+  @apply flex flex-col sm:flex-row gap-4 mb-6;
+}
+
+.cs-primary-action {
+  @apply bg-white text-purple-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors flex-1 text-center;
+}
+
+.cs-secondary-action {
+  @apply bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors;
+}
+
+/* List items */
+.cs-list-container {
+  @apply space-y-4;
+}
+
+.cs-list-item {
+  @apply bg-white/10 backdrop-blur-sm rounded-lg p-6;
+}
+
+.cs-list-item-content {
+  @apply flex flex-col lg:flex-row lg:items-center justify-between gap-4;
+}
+
+.cs-list-item-main {
+  @apply flex-1;
+}
+
+.cs-list-item-meta {
+  @apply flex items-center gap-3 mb-2;
+}
+
+.cs-list-item-meta-text {
+  @apply text-white/70 text-sm;
+}
+
+.cs-list-item-title {
+  @apply text-white font-medium mb-2;
+}
+
+.cs-list-item-subtitle {
+  @apply text-white/90 text-sm mb-1;
+}
+
+.cs-list-item-description {
+  @apply text-white/90 text-sm mb-2;
+}
+
+.cs-list-item-date {
+  @apply text-white/90 text-sm;
+}
+
+.cs-list-item-actions {
+  @apply flex flex-col sm:flex-row gap-2;
+}
+
+/* ===== FORM PATTERNS ===== */
+
+/* Form containers */
+.cs-form-wrapper {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700;
+}
+
+.cs-form-section {
+  @apply space-y-6;
+}
+
+/* Form fields */
+.cs-field-container {
+  @apply mb-4;
+}
+
+.cs-field-header {
+  @apply flex items-center justify-between mb-2;
+}
+
+.cs-field-label {
+  @apply block text-sm font-semibold text-gray-800 dark:text-gray-200;
+}
+
+.cs-field-counter {
+  @apply text-xs text-gray-500 dark:text-gray-400;
+}
+
+.cs-field-counter-error {
+  @apply text-xs text-red-600 dark:text-red-400;
+}
+
+.cs-field-input {
+  @apply w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white border-purple-400 dark:border-purple-600;
+}
+
+.cs-field-input-error {
+  @apply w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white border-red-400 dark:border-red-600;
+}
+
+.cs-field-textarea {
+  @apply w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white border-purple-400 dark:border-purple-600 resize-none;
+}
+
+.cs-field-textarea-error {
+  @apply w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white border-red-400 dark:border-red-600 resize-none;
+}
+
+.cs-field-error-message {
+  @apply text-xs text-red-600 dark:text-red-400 mt-1;
+}
+
+/* Form buttons */
+.cs-form-submit {
+  @apply w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed;
+}
+
+.cs-form-button-container {
+  @apply flex justify-center;
+}
+
+/* Quick date buttons */
+.cs-quick-date-container {
+  @apply mt-3;
+}
+
+.cs-quick-date-grid {
+  @apply grid grid-cols-2 sm:flex gap-2 sm:justify-center;
+}
+
+.cs-quick-date-button {
+  @apply px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200;
+}
+
+/* ===== SUCCESS/RESULT PATTERNS ===== */
+
+/* Success message container */
+.cs-success-container {
+  @apply mt-8 p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800;
+}
+
+.cs-success-title {
+  @apply text-lg font-semibold text-purple-800 dark:text-purple-200 mb-4;
+}
+
+.cs-success-field {
+  @apply mb-4;
+}
+
+.cs-success-label {
+  @apply block text-sm font-medium text-purple-700 dark:text-purple-300 mb-2;
+}
+
+.cs-success-input-container {
+  @apply flex flex-col sm:flex-row gap-3;
+}
+
+.cs-success-input {
+  @apply flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-purple-300 dark:border-purple-600 rounded-lg text-sm font-mono text-gray-800 dark:text-gray-200;
+}
+
+.cs-success-copy-button {
+  @apply w-full sm:w-auto px-8 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+}
+
+.cs-success-actions {
+  @apply flex flex-col sm:flex-row gap-3 justify-center;
+}
+
+.cs-success-share-button {
+  @apply w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+}
+
+.cs-success-reset-container {
+  @apply flex justify-center mt-4;
+}
+
+.cs-success-reset-button {
+  @apply w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+}
+
+/* ===== FEATURES/INFO PATTERNS ===== */
+
+/* Features section */
+.cs-features-container {
+  @apply mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20;
+}
+
+.cs-features-title {
+  @apply text-white text-xl font-semibold text-center mb-4;
+}
+
+.cs-features-list {
+  @apply gap-4 text-white/90;
+}
+
+.cs-features-item {
+  @apply font-medium text-white;
+}

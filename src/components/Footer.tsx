@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className="flex justify-center">
+    <div className="cs-flex-center">
       <Image
         src="/icon-garden-dig.svg"
         alt="Garden Digging"

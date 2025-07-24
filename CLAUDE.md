@@ -40,14 +40,21 @@ src/
 ├── app/
 │   ├── layout.tsx          # Root layout with fonts and metadata
 │   ├── page.tsx            # Message creation form with character limits (1000 chars)
-│   ├── globals.css         # Global styles
+│   ├── globals.css         # Global styles + centralized CSS design system
+│   ├── profile/
+│   │   └── page.tsx        # User profile with local storage management
 │   ├── view/
 │   │   └── page.tsx        # Message viewing with single hint (no reactions/calendar)
 │   ├── test/
 │   │   └── page.tsx        # Comprehensive 1000-word integrity testing suite
+├── components/
+│   ├── Header.tsx          # Navigation header with consistent design
+│   ├── Footer.tsx          # Simple footer component
+│   └── MessageTemplatesDialog.tsx # Template selection dialog
 └── lib/
     ├── crypto.ts           # Brotli compression + AES encryption (v3 format only)
     ├── time.ts             # Server time synchronization utilities
+    ├── storage.ts          # Local storage utilities for profile management
     └── analytics.ts        # Google Analytics tracking functions
 ```
 
@@ -61,8 +68,17 @@ src/
    - Sender personalization with optional name field
    - Character limits: 1000 chars message, 100 chars sender, 200 chars hint
    - Real-time Brotli compression + AES encryption
+   - Automatic profile storage integration
 
-2. **Simplified Time-Locked Viewing** (`src/app/view/page.tsx`)
+2. **Profile Management** (`src/app/profile/page.tsx`)
+   - Local storage-based secret management
+   - Statistics dashboard (total, locked, unlocked secrets)
+   - Secret list with status indicators and metadata
+   - Copy link and delete functionality for each secret
+   - Empty state with onboarding guidance
+   - Consistent design system integration
+
+3. **Simplified Time-Locked Viewing** (`src/app/view/page.tsx`)
    - Single hint display (always visible, no progressive unlock)
    - Enhanced countdown with multiple formats and progress bar
    - Celebration animations for unlock moment
@@ -70,14 +86,21 @@ src/
    - No reaction/reply system (removed for alpha)
    - Sender context display
 
-3. **Smart Reminders Integration** (Locked Messages Only)
+4. **Smart Reminders Integration** (Locked Messages Only)
    - Calendar buttons with logos (Google, Apple, Outlook)
    - Inline integration within viewer flow (locked state only)
    - Popup handling for web calendars
    - ICS file generation for offline calendars
    - Error handling for blocked popups
 
-4. **Brotli Compression + AES Encryption** (`src/lib/crypto.ts`)
+5. **Local Storage Management** (`src/lib/storage.ts`)
+   - Client-side secret storage with metadata
+   - Profile secret management (save, retrieve, delete)
+   - Statistics calculation for dashboard
+   - Secure data structure with preview generation
+   - Storage availability detection and error handling
+
+6. **Brotli Compression + AES Encryption** (`src/lib/crypto.ts`)
    - Brotli compression for significant URL size reduction
    - AES encryption with fixed secret key
    - v3 format only (no backward compatibility for alpha)
@@ -85,19 +108,19 @@ src/
    - Base64URL encoding for URL safety
    - Secure time validation using server-synchronized time
 
-5. **Server Time Security System** (`src/lib/time.ts`)
+7. **Server Time Security System** (`src/lib/time.ts`)
    - Clock manipulation prevention via server UTC time synchronization
    - WorldTimeAPI integration with multi-layer fallbacks
    - Cached time offset with periodic re-synchronization
    - Secure unlock validation resistant to device clock changes
 
-6. **Analytics Integration** (`src/lib/analytics.ts`)
+8. **Analytics Integration** (`src/lib/analytics.ts`)
    - Google Analytics tracking for all user interactions
    - Message creation, template usage, and sharing analytics
    - Calendar integration and viewing behavior tracking
    - Complete user journey analytics
 
-7. **Comprehensive Testing Suite** (`src/app/test/page.tsx`)
+9. **Comprehensive Testing Suite** (`src/app/test/page.tsx`)
    - 1000-word message integrity testing
    - SHA-256 cryptographic verification
    - Character-by-character data preservation testing
@@ -469,9 +492,14 @@ interface SecretData {
 5. **Character Limits**: Enforced 1000/100/200 character limits for message/sender/hint
 6. **Backward Compatibility Removal**: v3 format only, no legacy support for alpha product
 7. **Comprehensive Testing Suite**: Added `/test` page for 1000-word message integrity testing
+8. **Profile Management System**: Added local storage-based profile page with secret management
+9. **Centralized Design System**: Implemented comprehensive CSS design system using Tailwind's `@apply`
 
 ### Current Feature Set (Alpha)
 - ✅ Message creation with templates and preview
+- ✅ Profile page with local storage management
+- ✅ Statistics dashboard (total, locked, unlocked secrets)
+- ✅ Secret list with copy/delete functionality
 - ✅ Single hint system (always visible)
 - ✅ Character limits with validation
 - ✅ Brotli compression + AES encryption
@@ -480,6 +508,8 @@ interface SecretData {
 - ✅ Multi-platform sharing
 - ✅ Analytics tracking
 - ✅ Comprehensive testing suite
+- ✅ Centralized CSS design system
+- ✅ Consistent page layouts and spacing
 - ❌ Progressive hints (removed)
 - ❌ Reaction/reply system (removed)
 - ❌ Calendar buttons for unlocked messages (removed)
@@ -515,16 +545,91 @@ interface SecretData {
 - **Error Detection**: Precise character-level difference reporting
 
 ### Dependencies (Alpha)
-```json
-{
-  "brotli-compress": "^1.3.3",    // New: Brotli compression
-  "crypto-js": "^4.2.0",          // AES encryption
-  "next": "^15.3.5",              // React framework
-  "react": "^19.0.0",             // UI library
-  "tailwindcss": "^4"             // CSS framework
-}
-```
+- **brotli-compress**: Brotli compression for URL optimization
+- **crypto-js**: AES encryption for message security
+- **next**: React framework (v15.3.5)
+- **react**: UI library (v19.0.0)
+- **tailwindcss**: CSS framework (v4)
 
 ---
 
-*Last updated: January 2025 - Alpha version with Brotli compression, simplified UX, character limits, comprehensive testing suite, and removal of backward compatibility*
+## Centralized Design System Implementation (January 2025)
+
+### Design System Architecture
+A comprehensive CSS design system has been implemented using Tailwind's `@apply` directive to ensure consistency across all components and pages.
+
+#### **Core Design Principles**
+- **Single Source of Truth**: All design patterns centralized in `src/app/globals.css`
+- **Semantic Naming**: CSS classes use `cs-` prefix (Coming Secrets) with descriptive names
+- **No Circular Dependencies**: All classes use only base Tailwind utilities, no class-to-class references
+- **Performance Optimized**: Tailwind automatically optimizes and purges unused CSS
+- **Developer Experience**: Intuitive class names that clearly indicate their purpose
+
+#### **Design System Structure**
+The design system provides comprehensive CSS classes using Tailwind's `@apply` directive, organized into logical categories:
+
+- **Page Layout Patterns**: Consistent page structure with `.cs-page-layout`, `.cs-page-content`, `.cs-page-inner`
+- **Component Patterns**: Headers, statistics cards, empty states, list items, and actions
+- **Form Patterns**: Complete form styling with inputs, labels, buttons, and validation states
+- **Success/Result Patterns**: Success messages, copy buttons, and feature showcases
+- **Button System**: Primary, secondary, danger, and template buttons with proper states
+- **Navigation System**: Header navigation with consistent link styling
+- **Badge System**: Status indicators for locked/unlocked secrets
+- **Typography Hierarchy**: Six heading levels and four body text sizes
+- **Color System**: Primary, secondary, muted, and accent text colors
+- **Layout Utilities**: Flexbox and grid utilities for responsive layouts
+
+### **Implementation Benefits**
+
+#### **Consistency Across All Pages**
+- **Unified Layout Structure**: All pages use the same `.cs-page-layout` → `.cs-page-content` → `.cs-page-inner` hierarchy
+- **Consistent Spacing**: Top padding (`pt-6`) applied uniformly through `.cs-page-inner`
+- **Standardized Components**: All cards, buttons, and form elements follow the same design patterns
+- **Responsive Design**: All patterns include mobile-first responsive breakpoints
+
+#### **Maintainability**
+- **Single Source Updates**: Change one CSS class to update design globally
+- **Semantic Naming**: Class names clearly indicate their purpose and usage
+- **No Duplication**: Design patterns defined once and reused everywhere
+- **Easy Debugging**: Clear class names make it easy to identify and fix styling issues
+
+#### **Performance**
+- **Optimized CSS**: Tailwind automatically purges unused styles
+- **Minimal Bundle Size**: Centralized patterns reduce CSS duplication
+- **Fast Compilation**: `@apply` directive compiles to standard CSS
+- **Cache Friendly**: Consistent class usage improves CSS caching
+
+#### **Developer Experience**
+- **Intuitive Usage**: `.cs-page-header`, `.cs-empty-state`, `.cs-list-item` are self-explanatory
+- **Fast Development**: Pre-built patterns speed up component creation
+- **Type Safety**: Can be extended with TypeScript for class name validation
+- **Easy Onboarding**: New developers can quickly understand the design system
+
+### **Design System Usage Patterns**
+
+All pages follow consistent patterns:
+- **Standard Layout**: Use `.cs-page-layout` → `.cs-page-content` → `.cs-page-inner` hierarchy
+- **Page Headers**: Use `.cs-page-header` with `.cs-page-title` and `.cs-page-subtitle`
+- **Statistics**: Use `.cs-stats-container` with `.cs-stats-card` components
+- **Lists**: Use `.cs-list-container` with structured `.cs-list-item` components
+- **Actions**: Use `.cs-action-buttons` with `.cs-primary-action` and `.cs-secondary-action`
+
+### **Migration Strategy**
+The design system was implemented through a systematic approach:
+1. **Centralized Definitions**: All patterns defined in `globals.css` using `@apply`
+2. **Circular Dependency Resolution**: All classes use only base Tailwind utilities
+3. **Component Updates**: All existing components migrated to use new classes
+4. **Consistent Naming**: All classes follow the `cs-[category]-[element]` pattern
+5. **Build Verification**: Ensured all pages compile and render correctly
+
+### **Future Extensibility**
+The design system is built to easily accommodate:
+- **New Components**: Follow existing naming patterns
+- **Theme Variations**: Modify base colors in CSS variables
+- **Additional Breakpoints**: Add responsive variants to existing classes
+- **Animation Patterns**: Extend with animation-specific classes
+- **Dark Mode**: Already includes dark mode variants where appropriate
+
+---
+
+*Last updated: 24 July 2025 - Alpha version with profile management, local storage integration, centralized CSS design system, Brotli compression, simplified UX, character limits, comprehensive testing suite, and removal of backward compatibility*

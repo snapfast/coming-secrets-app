@@ -59,7 +59,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cinzelDecorative.variable} antialiased`}
       >
-{/* Google Analytics - REQUIRED: Loads GA script globally and automatically tracks all page views across the app */}
+        {/* Google Analytics - REQUIRED: Loads GA script globally and automatically tracks all page views across the app */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-53FQVZMTS5"
           strategy="afterInteractive"
