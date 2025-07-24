@@ -162,13 +162,6 @@ export default function ProfilePage() {
       <main className="cs-page-content">
         <div className="cs-page-inner">
           <Header />
-          {/* Page Header */}
-          <div className="cs-page-header">
-            <h1 className="cs-page-title">My Secret Messages</h1>
-            <p className="cs-page-subtitle">
-              Manage all the time-locked messages you&apos;ve created
-            </p>
-          </div>
 
           {/* Statistics */}
           <div className="cs-stats-container">
