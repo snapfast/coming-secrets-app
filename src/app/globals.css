@@ -598,16 +598,20 @@ body {
   @apply text-sm text-purple-600 dark:text-purple-400 mb-3 text-center;
 }
 
+.cs-calendar-grid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4;
+}
+
 .cs-calendar-button-google {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden border-2 border-blue-300 dark:border-blue-600 hover:border-blue-500;
 }
 
 .cs-calendar-button-apple {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden border-2 border-gray-300 dark:border-gray-600 hover:border-gray-500;
 }
 
 .cs-calendar-button-outlook {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all duration-200 relative overflow-hidden border border-gray-200 dark:border-gray-700;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden border-2 border-blue-300 dark:border-blue-600 hover:border-blue-500;
 }
 
 .cs-calendar-decorative-blue {

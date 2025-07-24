@@ -491,11 +491,11 @@ function ViewSecretContent() {
                     Get notified when this unlocks:
                   </p>
 
-                  <div className="cs-flex-column cs-calendar-grid">
+                  <div className="cs-calendar-grid">
                     {/* Google Calendar */}
                     <button
                       onClick={() => handleAddToCalendar("google")}
-                      className="cs-calendar-button"
+                      className="cs-calendar-button-google"
                     >
                       <div className="cs-calendar-decorative-blue"></div>
                       <div className="cs-calendar-content">
@@ -520,7 +520,7 @@ function ViewSecretContent() {
                     {/* Apple Calendar */}
                     <button
                       onClick={() => handleAddToCalendar("apple")}
-                      className="cs-calendar-button-gray"
+                      className="cs-calendar-button-apple"
                     >
                       <div className="cs-calendar-decorative-gray"></div>
                       <div className="cs-calendar-content">
@@ -545,7 +545,7 @@ function ViewSecretContent() {
                     {/* Outlook Calendar */}
                     <button
                       onClick={() => handleAddToCalendar("outlook")}
-                      className="cs-calendar-button"
+                      className="cs-calendar-button-outlook"
                     >
                       <div className="cs-calendar-decorative-blue"></div>
                       <div className="cs-calendar-content">
