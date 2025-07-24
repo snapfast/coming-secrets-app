@@ -194,48 +194,50 @@ export default function TestPage() {
   };
 
   return (
-    <div className="page-container p-8">
-      <div className="max-w-4xl mx-auto pt-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-            🔍 Message Integrity Test - 1000 Words
-          </h1>
+    <div className="cs-page-layout">
+      <div className="cs-page-content">
+        <div className="cs-page-inner">
+          <div className="cs-form-wrapper">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+              🔍 Message Integrity Test - 1000 Words
+            </h1>
           
-          <div className="mb-6 space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button
-                onClick={() => runIntegrityTest(false)}
-                disabled={isRunning}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-              >
-                {isRunning ? 'Running Test...' : '🎲 Random Message Test'}
-              </button>
-              
-              <button
-                onClick={() => runIntegrityTest(true)}
-                disabled={isRunning}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-              >
-                {isRunning ? 'Running Test...' : '🔢 Deterministic Test'}
-              </button>
-            </div>
+            <div className="mb-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button
+                  onClick={() => runIntegrityTest(false)}
+                  disabled={isRunning}
+                  className="cs-form-submit disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  {isRunning ? 'Running Test...' : '🎲 Random Message Test'}
+                </button>
+                
+                <button
+                  onClick={() => runIntegrityTest(true)}
+                  disabled={isRunning}
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                >
+                  {isRunning ? 'Running Test...' : '🔢 Deterministic Test'}
+                </button>
+              </div>
             
-            <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-              <p className="font-medium mb-2">Test Features:</p>
-              <ul className="space-y-1 list-disc list-inside">
-                <li><strong>Random Test:</strong> 1000 words with special characters, emojis, Unicode, line breaks</li>
-                <li><strong>Deterministic Test:</strong> Predictable 1000-word sequence for consistent results</li>
-                <li><strong>Integrity Verification:</strong> SHA-256 hashing, character-by-character comparison</li>
-                <li><strong>Compression Analysis:</strong> Size reduction measurement and URL length validation</li>
-              </ul>
+              <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <p className="font-medium mb-2">Test Features:</p>
+                <ul className="space-y-1 list-disc list-inside">
+                  <li><strong>Random Test:</strong> 1000 words with special characters, emojis, Unicode, line breaks</li>
+                  <li><strong>Deterministic Test:</strong> Predictable 1000-word sequence for consistent results</li>
+                  <li><strong>Integrity Verification:</strong> SHA-256 hashing, character-by-character comparison</li>
+                  <li><strong>Compression Analysis:</strong> Size reduction measurement and URL length validation</li>
+                </ul>
+              </div>
             </div>
-          </div>
           
-          {testResult && (
-            <div className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 font-mono text-sm whitespace-pre-wrap overflow-auto max-h-96">
-              {testResult}
-            </div>
-          )}
+            {testResult && (
+              <div className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 font-mono text-sm whitespace-pre-wrap overflow-auto max-h-96">
+                {testResult}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

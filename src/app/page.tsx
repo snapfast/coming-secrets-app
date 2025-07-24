@@ -142,19 +142,19 @@ export default function Home() {
         <div className="cs-page-inner">
           <Header />
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-purple-800 dark:border-purple-700">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="cs-form-wrapper">
+            <form onSubmit={handleSubmit} className="cs-form-section">
 
               {/* Sender Name */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
+              <div className="cs-field-container">
+                <div className="cs-field-header">
                   <label
                     htmlFor="senderName"
-                    className="block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                    className="cs-field-label"
                   >
                     From (Optional)
                   </label>
-                  <span className={`text-xs ${formData.senderName.length > 100 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                  <span className={`${formData.senderName.length > 100 ? 'cs-field-counter-error' : 'cs-field-counter'}`}>
                     {formData.senderName.length}/100
                   </span>
                 </div>
@@ -165,29 +165,26 @@ export default function Home() {
                   maxLength={100}
                   value={formData.senderName}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white ${formData.senderName.length > 100
-                      ? 'border-red-400 dark:border-red-600'
-                      : 'border-purple-400 dark:border-purple-600'
-                    }`}
+                  className={`${formData.senderName.length > 100 ? 'cs-field-input-error' : 'cs-field-input'}`}
                   placeholder="Your name (max 100 characters)"
                 />
                 {formData.senderName.length > 100 && (
-                  <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  <p className="cs-field-error-message">
                     Name exceeds 100 character limit
                   </p>
                 )}
               </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-2">
+              <div className="cs-field-container">
+                <div className="cs-field-header">
                   <label
                     htmlFor="message"
-                    className="block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                    className="cs-field-label"
                   >
                     Secret Message
                   </label>
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs ${formData.message.length > 1000 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                    <span className={`${formData.message.length > 1000 ? 'cs-field-counter-error' : 'cs-field-counter'}`}>
                       {formData.message.length}/1000
                     </span>
                     <button
@@ -206,30 +203,27 @@ export default function Home() {
                   maxLength={1000}
                   value={formData.message}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white ${formData.message.length > 1000
-                      ? 'border-red-400 dark:border-red-600'
-                      : 'border-purple-400 dark:border-purple-600'
-                    }`}
+                  className={`${formData.message.length > 1000 ? 'cs-field-textarea-error' : 'cs-field-textarea'}`}
                   placeholder="Write your secret message here... (max 1000 characters)"
                   required
                 />
                 {formData.message.length > 1000 && (
-                  <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  <p className="cs-field-error-message">
                     Message exceeds 1000 character limit
                   </p>
                 )}
               </div>
 
               {/* Hint Section */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
+              <div className="cs-field-container">
+                <div className="cs-field-header">
                   <label
                     htmlFor="hint"
-                    className="block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                    className="cs-field-label"
                   >
                     Hint (Optional)
                   </label>
-                  <span className={`text-xs ${formData.hint.length > 200 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                  <span className={`${formData.hint.length > 200 ? 'cs-field-counter-error' : 'cs-field-counter'}`}>
                     {formData.hint.length}/200
                   </span>
                 </div>
@@ -240,23 +234,20 @@ export default function Home() {
                   maxLength={200}
                   value={formData.hint}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white ${formData.hint.length > 200
-                      ? 'border-red-400 dark:border-red-600'
-                      : 'border-purple-400 dark:border-purple-600'
-                    }`}
+                  className={`${formData.hint.length > 200 ? 'cs-field-input-error' : 'cs-field-input'}`}
                   placeholder="Optional hint for the recipient (max 200 characters)"
                 />
                 {formData.hint.length > 200 && (
-                  <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                  <p className="cs-field-error-message">
                     Hint exceeds 200 character limit
                   </p>
                 )}
               </div>
 
-              <div>
+              <div className="cs-field-container">
                 <label
                   htmlFor="unlockDate"
-                  className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2"
+                  className="cs-field-label"
                 >
                   Unlock Date
                 </label>
@@ -271,36 +262,36 @@ export default function Home() {
                       .toISOString()
                       .split("T")[0]
                   }
-                  className="w-full px-3 py-2 border border-purple-400 dark:border-purple-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white"
+                  className="cs-field-input"
                   required
                 />
-                <div className="mt-3">
-                  <div className="grid grid-cols-2 sm:flex gap-2 sm:justify-center">
+                <div className="cs-quick-date-container">
+                  <div className="cs-quick-date-grid">
                     <button
                       type="button"
                       onClick={() => setQuickDate(1)}
-                      className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
+                      className="cs-quick-date-button"
                     >
                       1 Day
                     </button>
                     <button
                       type="button"
                       onClick={() => setQuickDate(7)}
-                      className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
+                      className="cs-quick-date-button"
                     >
                       1 Week
                     </button>
                     <button
                       type="button"
                       onClick={() => setQuickDate(30)}
-                      className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
+                      className="cs-quick-date-button"
                     >
                       1 Month
                     </button>
                     <button
                       type="button"
                       onClick={() => setQuickDate(365)}
-                      className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md transition-colors duration-200"
+                      className="cs-quick-date-button"
                     >
                       1 Year
                     </button>
@@ -308,13 +299,13 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex justify-center">
+              <div className="cs-form-button-container">
                 <button
                   type="submit"
                   disabled={
                     isGenerating || !formData.message || !formData.unlockDate
                   }
-                  className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                  className="cs-form-submit"
                 >
                   {isGenerating ? "Creating Message..." : "Create Secret Message"}
                 </button>
@@ -324,32 +315,32 @@ export default function Home() {
 
             {/* Generated link section */}
             {generatedLink && (
-              <div className="mt-8 p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-200 mb-4">
+              <div className="cs-success-container">
+                <h3 className="cs-success-title">
                   Secret Message Created Successfully!
                 </h3>
 
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-purple-700 dark:text-purple-300 mb-2">
+                <div className="cs-success-field">
+                  <label className="cs-success-label">
                     Shareable Link:
                   </label>
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="cs-success-input-container">
                     <input
                       type="text"
                       value={generatedLink}
                       readOnly
-                      className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-purple-300 dark:border-purple-600 rounded-lg text-sm font-mono text-gray-800 dark:text-gray-200"
+                      className="cs-success-input"
                     />
                     <button
                       onClick={copyToClipboard}
-                      className="w-full sm:w-auto px-8 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                      className="cs-success-copy-button"
                     >
                       {copySuccess ? "Copied!" : "Copy"}
                     </button>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <div className="cs-success-actions">
                   <button
                     onClick={() => {
                       trackShareAction('native_share');
@@ -365,15 +356,15 @@ export default function Home() {
                         alert('Link copied to clipboard!');
                       }
                     }}
-                    className="w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    className="cs-success-share-button"
                   >
                     Share
                   </button>
                 </div>
-                <div className="flex justify-center mt-4">
+                <div className="cs-success-reset-container">
                   <button
                     onClick={resetForm}
-                    className="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    className="cs-success-reset-button"
                   >
                     Create Another
                   </button>
@@ -384,28 +375,28 @@ export default function Home() {
           </div>
 
           {/* Features section */}
-          <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-            <h3 className="text-white text-xl font-semibold text-center mb-4">
+          <div className="cs-features-container">
+            <h3 className="cs-features-title">
               Key Features
             </h3>
-            <div className="gap-4 text-white/90">
+            <div className="cs-features-list">
               <div>
-                <h4 className="font-medium text-white">Time-Locked Messages</h4>
+                <h4 className="cs-features-item">Time-Locked Messages</h4>
               </div>
               <div>
-                <h4 className="font-medium text-white">Smart Reminders</h4>
+                <h4 className="cs-features-item">Smart Reminders</h4>
               </div>
               <div>
-                <h4 className="font-medium text-white">Your secrets are safe with us. We keep them completely private.</h4>
+                <h4 className="cs-features-item">Your secrets are safe with us. We keep them completely private.</h4>
               </div>
               <div>
-                <h4 className="font-medium text-white">Easy Sharing</h4>
+                <h4 className="cs-features-item">Easy Sharing</h4>
               </div>
               <div>
-                <h4 className="font-medium text-white">Nobody can unlock your secrets before the due date, not even you. Try Hard.</h4>
+                <h4 className="cs-features-item">Nobody can unlock your secrets before the due date, not even you. Try Hard.</h4>
               </div>
               <div>
-                <h4 className="font-medium text-white">Send Feedback - smartrahulrdb [at] gmail [dot] com</h4>
+                <h4 className="cs-features-item">Send Feedback - smartrahulrdb [at] gmail [dot] com</h4>
               </div>
             </div>
           </div>

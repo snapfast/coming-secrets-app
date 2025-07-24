@@ -261,49 +261,45 @@ function ViewSecretContent() {
 
   if (error) {
     return (
-      <div className="page-container p-8">
-        <div className="max-w-4xl mx-auto pt-6">
-          <Header />
-          <div className="flex items-center justify-center min-h-[50vh] pb-8">
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 max-w-md w-full text-center border border-red-400/50 dark:border-red-500/50 relative overflow-hidden">
-              {/* Decorative background elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-red-100/30 dark:bg-red-900/30 rounded-full blur-xl"></div>
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-orange-100/20 dark:bg-orange-900/20 rounded-full blur-xl"></div>
-
-              <div className="relative z-10">
-                <div className="text-red-500 text-6xl mb-4 drop-shadow-sm">
+      <div className="cs-page-layout">
+        <div className="cs-page-content">
+          <div className="cs-page-inner">
+            <Header />
+            <div className="cs-error-container">
+              <div className="cs-error-card">
+                <div className="text-red-500 text-6xl mb-4">
                   ❌
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 drop-shadow-sm">
+                <div className="cs-error-title">
                   Error
-                </h1>
-                <p className="text-gray-700 dark:text-gray-300">{error}</p>
+                </div>
+                <div className="cs-error-message">{error}</div>
               </div>
             </div>
+            <Footer />
           </div>
         </div>
-        
-        <Footer />
       </div>
     );
   }
 
   if (!secretData) {
     return (
-      <div className="page-container p-8">
-        <div className="max-w-4xl mx-auto pt-6">
-          <Header />
-          <div className="flex items-center justify-center min-h-[50vh] pb-8">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
-              <p className="text-white/90 dark:text-white/80 drop-shadow-md font-medium">
-                Loading secret...
-              </p>
+      <div className="cs-page-layout">
+        <div className="cs-page-content">
+          <div className="cs-page-inner">
+            <Header />
+            <div className="cs-loading-container">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
+                <p className="cs-loading-text">
+                  Loading secret...
+                </p>
+              </div>
             </div>
+            <Footer />
           </div>
         </div>
-        
-        <Footer />
       </div>
     );
   }
@@ -311,30 +307,31 @@ function ViewSecretContent() {
   // Celebration animation overlay
   if (showCelebration) {
     return (
-      <div className="page-container p-8 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto pt-6">
-          <Header />
+      <div className="cs-page-layout relative overflow-hidden">
+        <div className="cs-page-content">
+          <div className="cs-page-inner">
+            <Header />
 
-          <div className="flex items-center justify-center min-h-[50vh] pb-8 relative z-10">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-2xl">
-                Unlocking...
-              </h1>
-              <div className="text-2xl text-white drop-shadow-2xl">
-                3... 2... 1...
+            <div className="flex items-center justify-center min-h-[50vh] pb-8 relative z-10">
+              <div className="text-center">
+                <h1 className="text-4xl font-bold text-white mb-4 drop-shadow-2xl">
+                  Unlocking...
+                </h1>
+                <div className="text-2xl text-white drop-shadow-2xl">
+                  3... 2... 1...
+                </div>
               </div>
             </div>
+            <Footer />
           </div>
         </div>
-        
-        <Footer />
       </div>
     );
   }
 
   if (!isUnlocked) {
     return (
-      <div className="page-container p-8 relative overflow-hidden">
+      <div className="cs-page-layout relative overflow-hidden">
         {/* Floating decorative elements */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 dark:bg-white/5 rounded-full blur-xl animate-pulse"></div>
         <div
@@ -350,18 +347,19 @@ function ViewSecretContent() {
           style={{ animationDelay: "3s" }}
         ></div>
 
-        <div className="max-w-4xl mx-auto pt-6 relative z-10">
-          <Header />
+        <div className="cs-page-content">
+          <div className="cs-page-inner relative z-10">
+            <Header />
 
-          {/* Create New Message button */}
-          <div className="flex justify-center mb-4">
-            <Link
-              href="/"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 shadow-lg backdrop-blur-sm"
-            >
-              Create New Message
-            </Link>
-          </div>
+            {/* Create New Message button */}
+            <div className="cs-flex-center mb-4">
+              <Link
+                href="/"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 shadow-lg backdrop-blur-sm"
+              >
+                Create New Message
+              </Link>
+            </div>
 
           <div className="flex items-center justify-center min-h-[50vh] pb-8">
             <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 max-w-2xl w-full text-center border border-white/30 dark:border-gray-700/30 relative overflow-hidden">
@@ -493,7 +491,7 @@ function ViewSecretContent() {
                     Get notified when this unlocks:
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                  <div className="cs-flex-column gap-3 mb-4">
                     {/* Google Calendar */}
                     <button
                       onClick={() => handleAddToCalendar("google")}
@@ -581,15 +579,15 @@ function ViewSecretContent() {
               </div>
             </div>
           </div>
+            <Footer />
+          </div>
         </div>
-        
-        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="page-container p-8 relative overflow-hidden">
+    <div className="cs-page-layout relative overflow-hidden">
       {/* Floating decorative elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 dark:bg-white/5 rounded-full blur-xl animate-pulse"></div>
       <div
@@ -605,18 +603,19 @@ function ViewSecretContent() {
         style={{ animationDelay: "3s" }}
       ></div>
 
-      <div className="max-w-4xl mx-auto pt-6 relative z-10">
-        <Header />
+      <div className="cs-page-content">
+        <div className="cs-page-inner relative z-10">
+          <Header />
 
-        {/* Create New Message button */}
-        <div className="flex justify-center mb-4">
-          <Link
-            href="/"
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 backdrop-blur-sm"
-          >
-            Create New Message
-          </Link>
-        </div>
+          {/* Create New Message button */}
+          <div className="cs-flex-center mb-4">
+            <Link
+              href="/"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 backdrop-blur-sm"
+            >
+              Create New Message
+            </Link>
+          </div>
 
         <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 mb-8 border border-white/30 dark:border-gray-700/30">
           {/* Sender Info */}
@@ -652,8 +651,9 @@ function ViewSecretContent() {
           </div>
         </div>
 
+          <Footer />
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }
@@ -662,19 +662,21 @@ export default function ViewSecret() {
   return (
     <Suspense
       fallback={
-        <div className="page-container p-8">
-          <div className="max-w-4xl mx-auto pt-6">
-            <Header />
-            <div className="flex items-center justify-center min-h-[50vh] pb-8">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
-                <p className="text-white/90 dark:text-white/80 drop-shadow-md font-medium">
-                  Loading secret...
-                </p>
+        <div className="cs-page-layout">
+          <div className="cs-page-content">
+            <div className="cs-page-inner">
+              <Header />
+              <div className="cs-loading-container">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg"></div>
+                  <p className="cs-loading-text">
+                    Loading secret...
+                  </p>
+                </div>
               </div>
+              <Footer />
             </div>
           </div>
-          <Footer />
         </div>
       }
     >
