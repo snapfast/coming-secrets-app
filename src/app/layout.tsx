@@ -20,21 +20,21 @@ const cinzelDecorative = Cinzel_Decorative({
 });
 
 export const metadata: Metadata = {
-  title: "Coming Secrets",
+  title: "Comings",
   description: "Send time-locked messages that can only be opened on a specific date",
   icons: {
     icon: '/icon-garden-dig.svg',
   },
   openGraph: {
-    title: "Coming Secrets",
+    title: "Comings Secrets",
     description: "Send time-locked messages that can only be opened on a specific date",
     url: "https://comingss.netlify.app",
-    siteName: "Coming Secrets",
+    siteName: "Comings Secrets",
     images: [
       {
-        url: "/og-image.svg",
-        width: 1200,
-        height: 630,
+        url: "/icon-garden-dig.svg",
+        width: 96,
+        height: 96,
         alt: "Coming Secrets - Send time-locked messages that unlock on a specific date",
       },
     ],
