@@ -210,7 +210,7 @@ body {
 
 /* Navigation Classes */
 .cs-nav-container {
-  @apply flex justify-center mb-6;
+  @apply flex justify-center mb-6 mt-6;
 }
 
 .cs-nav-list {
