@@ -605,22 +605,9 @@ body {
   @apply grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4;
 }
 
-/* Unified calendar button class */
+/* Single unified calendar button class */
 .cs-calendar-button {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden;
-}
-
-/* Legacy aliases for existing components */
-.cs-calendar-button-google {
-  @apply cs-calendar-button;
-}
-
-.cs-calendar-button-apple {
-  @apply cs-calendar-button;
-}
-
-.cs-calendar-button-outlook {
-  @apply cs-calendar-button;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-6 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden flex items-center justify-center text-center min-h-16;
 }
 
 .cs-calendar-decorative-blue {

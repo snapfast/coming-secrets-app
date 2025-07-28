@@ -468,11 +468,11 @@ function ViewSecretContent() {
                   Get notified when this unlocks:
                 </p>
 
-                <div className="cs-flex-column gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   {/* Google Calendar */}
                   <button
                     onClick={() => handleAddToCalendar("google")}
-                    className="cs-calendar-button-google"
+                    className="cs-calendar-button"
                   >
                     <div className="cs-calendar-decorative-blue"></div>
                     <div className="cs-calendar-content">
@@ -497,7 +497,7 @@ function ViewSecretContent() {
                   {/* Apple Calendar */}
                   <button
                     onClick={() => handleAddToCalendar("apple")}
-                    className="cs-calendar-button-apple"
+                    className="cs-calendar-button"
                   >
                     <div className="cs-calendar-decorative-gray"></div>
                     <div className="cs-calendar-content">
@@ -522,7 +522,7 @@ function ViewSecretContent() {
                   {/* Outlook Calendar */}
                   <button
                     onClick={() => handleAddToCalendar("outlook")}
-                    className="cs-calendar-button-outlook"
+                    className="cs-calendar-button"
                   >
                     <div className="cs-calendar-decorative-blue"></div>
                     <div className="cs-calendar-content">
