@@ -164,7 +164,7 @@ body {
 /* ===== BUTTON SYSTEM ===== */
 
 .cs-button-primary {
-  @apply bg-white text-purple-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors;
+  @apply bg-white dark:bg-gray-100 text-purple-700 dark:text-purple-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 dark:hover:bg-gray-200 transition-colors;
 }
 
 .cs-button-secondary {
@@ -478,7 +478,7 @@ body {
 }
 
 .cs-primary-action {
-  @apply bg-white text-purple-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors flex-1 text-center;
+  @apply bg-white dark:bg-gray-100 text-purple-700 dark:text-purple-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 dark:hover:bg-gray-200 transition-colors flex-1 text-center;
 }
 
 .cs-secondary-action {
@@ -808,6 +808,11 @@ body {
 
 .cs-pb-8 {
   @apply pb-8;
+}
+
+/* Gap utilities */
+.gap-3 {
+  @apply gap-3;
 }
 
 /* Container utilities */

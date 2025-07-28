@@ -202,12 +202,12 @@ export default function TestPage() {
               🔍 Message Integrity Test - 1000 Words
             </h1>
           
-            <div className="mb-6 space-y-4">
+            <div className="cs-mb-4">
               <div className="cs-flex-buttons">
                 <button
                   onClick={() => runIntegrityTest(false)}
                   disabled={isRunning}
-                  className="cs-form-submit disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="cs-form-submit"
                 >
                   {isRunning ? 'Running Test...' : '🎲 Random Message Test'}
                 </button>
@@ -221,9 +221,9 @@ export default function TestPage() {
                 </button>
               </div>
             
-              <div className="cs-info-container cs-info-purple">
-                <p className="font-medium mb-2">Test Features:</p>
-                <ul className="space-y-1 list-disc list-inside">
+              <div className="cs-info-container cs-info-purple cs-mb-4">
+                <p className="cs-font-medium cs-mb-4">Test Features:</p>
+                <ul className="cs-body-small">
                   <li><strong>Random Test:</strong> 1000 words with special characters, emojis, Unicode, line breaks</li>
                   <li><strong>Deterministic Test:</strong> Predictable 1000-word sequence for consistent results</li>
                   <li><strong>Integrity Verification:</strong> SHA-256 hashing, character-by-character comparison</li>
@@ -234,7 +234,7 @@ export default function TestPage() {
           
             {testResult && (
               <div className="cs-info-container cs-info-yellow">
-                <pre className="cs-body-small font-mono whitespace-pre-wrap overflow-auto max-h-96">
+                <pre className="cs-body-small">
                   {testResult}
                 </pre>
               </div>

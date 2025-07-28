@@ -115,17 +115,20 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="cs-page-layout">
-        <main className="cs-page-content">
+        <div className="cs-page-content">
           <div className="cs-page-inner">
             <Header />
-            <div className="cs-loading-container">
-              <div className="cs-loading-text">
-                Loading your secrets...
+            <div className="cs-form-wrapper">
+              <div className="cs-content-center">
+                <div className="cs-loading-spinner"></div>
+                <p className="cs-loading-text">
+                  Loading your secrets...
+                </p>
               </div>
             </div>
             <Footer />
           </div>
-        </main>
+        </div>
       </div>
     );
   }
@@ -133,10 +136,10 @@ export default function ProfilePage() {
   if (error) {
     return (
       <div className="cs-page-layout">
-        <main className="cs-page-content">
+        <div className="cs-page-content">
           <div className="cs-page-inner">
             <Header />
-            <div className="cs-error-container">
+            <div className="cs-form-wrapper">
               <div className="cs-error-card">
                 <div className="cs-error-title">
                   Error Loading Profile
@@ -152,14 +155,14 @@ export default function ProfilePage() {
             </div>
             <Footer />
           </div>
-        </main>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="cs-page-layout">
-      <main className="cs-page-content">
+      <div className="cs-page-content">
         <div className="cs-page-inner">
           <Header />
 
@@ -268,7 +271,7 @@ export default function ProfilePage() {
           )}
           <Footer />
         </div>
-      </main>
+      </div>
     </div>
   );
 }
