@@ -207,7 +207,7 @@ export default function TestPage() {
                 <button
                   onClick={() => runIntegrityTest(false)}
                   disabled={isRunning}
-                  className="cs-form-submit"
+                  className="cs-button-green"
                 >
                   {isRunning ? 'Running Test...' : '🎲 Random Message Test'}
                 </button>

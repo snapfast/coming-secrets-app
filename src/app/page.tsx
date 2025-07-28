@@ -305,7 +305,7 @@ export default function Home() {
                   disabled={
                     isGenerating || !formData.message || !formData.unlockDate
                   }
-                  className="cs-form-submit"
+                  className="cs-button-green"
                 >
                   {isGenerating ? "Creating Message..." : "Create Secret Message"}
                 </button>
@@ -333,7 +333,7 @@ export default function Home() {
                     />
                     <button
                       onClick={copyToClipboard}
-                      className="cs-success-copy-button"
+                      className="cs-button-green"
                     >
                       {copySuccess ? "Copied!" : "Copy"}
                     </button>
@@ -356,7 +356,7 @@ export default function Home() {
                         alert('Link copied to clipboard!');
                       }
                     }}
-                    className="cs-success-share-button"
+                    className="cs-button-green"
                   >
                     Share
                   </button>

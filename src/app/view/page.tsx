@@ -341,7 +341,7 @@ function ViewSecretContent() {
               <div className="cs-flex-center cs-mb-4">
                 <Link
                   href="/"
-                  className="cs-button-success"
+                  className="cs-button-green"
                 >
                   Create New Message
                 </Link>
@@ -573,7 +573,7 @@ function ViewSecretContent() {
             <div className="cs-flex-center cs-mb-4">
               <Link
                 href="/"
-                className="cs-button-success cs-button-hover-scale"
+                className="cs-button-green cs-button-hover-scale"
               >
                 Create New Message
               </Link>
