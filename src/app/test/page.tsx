@@ -198,12 +198,12 @@ export default function TestPage() {
       <div className="cs-page-content">
         <div className="cs-page-inner">
           <div className="cs-form-wrapper">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+            <h1 className="cs-heading-2 cs-text-gray-dark cs-mb-4">
               🔍 Message Integrity Test - 1000 Words
             </h1>
           
             <div className="mb-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="cs-flex-buttons">
                 <button
                   onClick={() => runIntegrityTest(false)}
                   disabled={isRunning}
@@ -215,13 +215,13 @@ export default function TestPage() {
                 <button
                   onClick={() => runIntegrityTest(true)}
                   disabled={isRunning}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+                  className="cs-button-secondary"
                 >
                   {isRunning ? 'Running Test...' : '🔢 Deterministic Test'}
                 </button>
               </div>
             
-              <div className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+              <div className="cs-info-container cs-info-purple">
                 <p className="font-medium mb-2">Test Features:</p>
                 <ul className="space-y-1 list-disc list-inside">
                   <li><strong>Random Test:</strong> 1000 words with special characters, emojis, Unicode, line breaks</li>
@@ -233,8 +233,10 @@ export default function TestPage() {
             </div>
           
             {testResult && (
-              <div className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 font-mono text-sm whitespace-pre-wrap overflow-auto max-h-96">
-                {testResult}
+              <div className="cs-info-container cs-info-yellow">
+                <pre className="cs-body-small font-mono whitespace-pre-wrap overflow-auto max-h-96">
+                  {testResult}
+                </pre>
               </div>
             )}
           </div>
