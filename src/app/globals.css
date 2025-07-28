@@ -95,7 +95,7 @@ body {
   @apply text-yellow-300;
 }
 
-/* Purple theme text colors */
+/* Purple theme text colors - keeping original classes for compatibility */
 .cs-text-purple-dark {
   @apply text-purple-900 dark:text-purple-100;
 }
@@ -144,6 +144,7 @@ body {
 
 /* ===== CARD SYSTEM ===== */
 
+/* Card classes - consolidated but avoiding class-to-class references */
 .cs-card-base {
   @apply bg-white/10 backdrop-blur-sm rounded-lg p-6;
 }
@@ -176,7 +177,7 @@ body {
 }
 
 .cs-button-green {
-  @apply w-full sm:w-auto px-8 py-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed;
+  @apply w-full sm:w-auto px-8 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed;
 }
 
 .cs-button-template {
@@ -218,6 +219,7 @@ body {
   @apply text-xs text-red-600 dark:text-red-400;
 }
 
+/* Consolidated input classes */
 .cs-field-input {
   @apply w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-800 focus:border-purple-800 dark:bg-gray-700 dark:text-white border-purple-400 dark:border-purple-600;
 }
@@ -603,16 +605,22 @@ body {
   @apply grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4;
 }
 
+/* Unified calendar button class */
+.cs-calendar-button {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden;
+}
+
+/* Legacy aliases for existing components */
 .cs-calendar-button-google {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden border-2 border-blue-300 dark:border-blue-600 hover:border-blue-500;
+  @apply cs-calendar-button;
 }
 
 .cs-calendar-button-apple {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden border-2 border-gray-300 dark:border-gray-600 hover:border-gray-500;
+  @apply cs-calendar-button;
 }
 
 .cs-calendar-button-outlook {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 relative overflow-hidden border-2 border-blue-300 dark:border-blue-600 hover:border-blue-500;
+  @apply cs-calendar-button;
 }
 
 .cs-calendar-decorative-blue {
