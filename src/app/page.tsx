@@ -384,19 +384,16 @@ export default function Home() {
                 <h4 className="cs-features-item">Time-Locked Messages</h4>
               </div>
               <div>
-                <h4 className="cs-features-item">Smart Reminders</h4>
+                <h4 className="cs-features-item">Secure & Private</h4>
+              </div>
+              <div>
+                <h4 className="cs-features-item">Smart Reminders - Google, Outlook, Apple</h4>
               </div>
               <div>
                 <h4 className="cs-features-item">Your secrets are safe with us. We keep them completely private.</h4>
               </div>
               <div>
-                <h4 className="cs-features-item">Easy Sharing</h4>
-              </div>
-              <div>
-                <h4 className="cs-features-item">Nobody can unlock your secrets before the due date, not even you. Try Hard.</h4>
-              </div>
-              <div>
-                <h4 className="cs-features-item">Send Feedback - smartrahulrdb [at] gmail [dot] com</h4>
+                <h4 className="cs-features-item">Send Feedback -&gt; smartrahulrdb [at] gmail [dot] com</h4>
               </div>
             </div>
           </div>
