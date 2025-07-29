@@ -413,15 +413,15 @@ body {
 
 /* Statistics */
 .cs-stats-container {
-  @apply grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8;
+  @apply flex gap-4 mb-8;
 }
 
 .cs-stats-card {
-  @apply bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center text-white;
+  @apply bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center text-white;
 }
 
 .cs-stats-number {
-  @apply text-3xl font-bold;
+  @apply text-2xl font-bold;
 }
 
 .cs-stats-label {
