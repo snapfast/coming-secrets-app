@@ -739,7 +739,7 @@ body {
 }
 
 .cs-features-item {
-  @apply font-medium text-white;
+  @apply text-sm font-normal text-white;
 }
 
 /* ===== BRAND ELEMENTS ===== */
