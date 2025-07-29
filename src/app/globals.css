@@ -356,11 +356,11 @@ body {
 }
 
 .cs-loading-spinner {
-  @apply animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 mx-auto mb-4 drop-shadow-lg;
+  @apply animate-spin rounded-full h-12 w-12 border-b-2 border-white/70 dark:border-gray-300/70 mx-auto mb-4 drop-shadow-lg;
 }
 
 .cs-loading-text {
-  @apply text-white text-lg;
+  @apply text-white dark:text-gray-200 text-lg;
 }
 
 .cs-error-container {
