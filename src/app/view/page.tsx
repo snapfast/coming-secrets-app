@@ -366,7 +366,14 @@ function ViewSecretContent() {
               </h1>
               <p className="cs-secret-description">
                 This secret will unlock on{" "}
-                {new Date(secretData.unlockDate).toLocaleString()}
+                {new Date(secretData.unlockDate).toLocaleString('en-GB', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false
+                })}
               </p>
 
               {/* Enhanced Countdown Display */}
@@ -434,12 +441,8 @@ function ViewSecretContent() {
                         0,
                         Math.min(
                           100,
-                          ((new Date().getTime() -
-                            new Date(secretData.unlockDate).getTime() +
-                            timeRemaining.total) /
-                            (new Date().getTime() -
-                              new Date(secretData.unlockDate).getTime() +
-                              timeRemaining.total)) *
+                          ((new Date().getTime() - new Date(secretData.createDate).getTime()) /
+                            (new Date(secretData.unlockDate).getTime() - new Date(secretData.createDate).getTime())) *
                             100
                         )
                       )}%`,
@@ -609,7 +612,14 @@ function ViewSecretContent() {
             {/* Timestamp */}
             <div className="cs-unlocked-timestamp-section">
               <p className="cs-unlocked-timestamp-text">
-                Unlocked on {new Date(secretData.unlockDate).toLocaleString()}
+                Unlocked on {new Date(secretData.unlockDate).toLocaleString('en-GB', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false
+                })}
               </p>
             </div>
           </div>

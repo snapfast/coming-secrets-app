@@ -45,9 +45,16 @@ export default function Home() {
 
     try {
       const { encryptMessage } = await import("@/lib/crypto");
+      const { getServerTime } = await import("@/lib/time");
+      
+      // Get server time for creation timestamp
+      const serverTime = await getServerTime();
+      const createDate = new Date(serverTime).toISOString();
+      
       const messageData = {
         message: formData.message,
         unlockDate: `${formData.unlockDate}T${formData.unlockTime}:00`,
+        createDate: createDate,
         senderName: formData.senderName,
         hint: formData.hint.trim() || undefined
       };

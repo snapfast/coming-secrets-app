@@ -5,6 +5,7 @@ import { isDateUnlockedServer, getTimeRemainingServer } from './time';
 export interface SecretData {
   message: string;
   unlockDate: string;
+  createDate: string;
   senderName?: string;
   hint?: string;
 }

@@ -69,6 +69,7 @@ export default function TestPage() {
       const testData = {
         message: testMessage,
         unlockDate: '2025-12-25T00:00:00.000Z',
+        createDate: new Date().toISOString(),
         senderName: 'Test Sender™ with Special Chars: áéíóú €£¥',
         hint: 'Hint with emojis 🔑💡 and symbols: ∞∑∏√ «special quotes» \'and\' "various" `types`'
       };

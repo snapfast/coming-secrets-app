@@ -6,6 +6,7 @@ export interface ProfileSecret {
   createdAt: string;
   messagePreview: string; // First 50 chars of message
   unlockDate: string;
+  createDate: string;
   senderName?: string;
   hint?: string;
   encryptedUrl: string;
@@ -40,6 +41,7 @@ export function saveSecretToProfile(secretData: SecretData, encryptedUrl: string
       createdAt: new Date().toISOString(),
       messagePreview: getMessagePreview(secretData.message),
       unlockDate: secretData.unlockDate,
+      createDate: secretData.createDate,
       senderName: secretData.senderName,
       hint: secretData.hint,
       encryptedUrl,

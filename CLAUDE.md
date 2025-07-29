@@ -41,15 +41,18 @@ src/lib/
 ### Message Creation (`src/app/page.tsx`)
 - 8 message templates + preview modal
 - Character limits: 1000 message / 100 sender / 200 hint
+- Date & time selection (default: 09:41)
+- NTP server time for creation timestamps
 - Single hint system (always visible)
 - Multi-platform sharing (6 platforms)
 - Automatic profile storage
 
 ### Message Viewing (`src/app/view/page.tsx`)
 - Single hint display (no progressive unlock)
-- Multi-format countdown + progress bar
+- Multi-format countdown + progress bar (creation → unlock time)
+- 24-hour time format throughout
 - Calendar reminders (locked messages only)
-- Celebration animations
+- Celebration animations  
 - Green "Create New Message" button (`cs-button-green`)
 
 ### Calendar Integration (Locked Only)
@@ -80,7 +83,8 @@ src/lib/
 ```typescript
 interface SecretData {
   message: string;       // Max 1000 chars
-  unlockDate: string;
+  unlockDate: string;    // ISO datetime format
+  createDate: string;    // NTP server timestamp (ISO)
   senderName?: string;   // Max 100 chars
   hint?: string;         // Max 200 chars
 }
@@ -106,6 +110,15 @@ interface SecretData {
 .cs-flex-center      # Centered flex containers
 .cs-form-wrapper     # Card containers
 
+/* Date & Time Inputs */
+.cs-datetime-container # Flex container for date/time
+.cs-datetime-date    # Date input styling
+.cs-datetime-time    # Time input styling
+
+/* Responsive Features */
+.cs-features-mobile  # Show on mobile only
+.cs-features-desktop # Show on desktop only
+
 /* Typography */
 .cs-heading-1/2/3    # Text hierarchy
 .cs-text-purple-dark # Themed colors
@@ -116,8 +129,26 @@ interface SecretData {
 - Calendar buttons: Single `cs-calendar-button` class
 - Form inputs: Consolidated base patterns
 - Card system: Unified glass effects
+- Date/time inputs: Side-by-side responsive layout
+- Features: Responsive mobile/desktop content
 
 ## Layout Patterns
+
+### Date & Time Input Layout
+```tsx
+<div className="cs-datetime-container">
+  <input 
+    type="date" 
+    className="cs-field-input cs-datetime-date"
+    defaultValue="2024-01-01" 
+  />
+  <input 
+    type="time" 
+    className="cs-field-input cs-datetime-time"
+    defaultValue="09:41" 
+  />
+</div>
+```
 
 ### Responsive Calendar Buttons
 ```tsx
@@ -144,15 +175,14 @@ interface SecretData {
 ```
 
 ## Alpha Features (Current State)
+- ✅ Date/Time selection (default: 09:41, 24hr format)
+- ✅ NTP creation timestamps + progress tracking
 - ✅ Single hint system (always visible)
 - ✅ Calendar reminders (locked messages only)
 - ✅ Brotli compression + AES encryption
 - ✅ Server time synchronization
 - ✅ Profile management with local storage
 - ✅ Centralized CSS design system
-- ❌ Progressive hints (removed)
-- ❌ Reaction/reply system (removed)
-- ❌ Backward compatibility (removed)
 
 ## Common Tasks
 
