@@ -11,6 +11,7 @@ export default function Home() {
   const [formData, setFormData] = useState({
     message: "",
     unlockDate: "",
+    unlockTime: "09:41",
     senderName: "",
     hint: "",
     template: "",
@@ -46,7 +47,7 @@ export default function Home() {
       const { encryptMessage } = await import("@/lib/crypto");
       const messageData = {
         message: formData.message,
-        unlockDate: formData.unlockDate,
+        unlockDate: `${formData.unlockDate}T${formData.unlockTime}:00`,
         senderName: formData.senderName,
         hint: formData.hint.trim() || undefined
       };
@@ -88,6 +89,7 @@ export default function Home() {
     setFormData({
       message: "",
       unlockDate: "",
+      unlockTime: "09:41",
       senderName: "",
       hint: "",
       template: "",
@@ -111,6 +113,7 @@ export default function Home() {
     setFormData({
       ...formData,
       unlockDate: dateString,
+      unlockTime: "09:41",
     });
   };
 
@@ -249,22 +252,33 @@ export default function Home() {
                   htmlFor="unlockDate"
                   className="cs-field-label"
                 >
-                  Unlock Date
+                  Unlock Date & Time
                 </label>
-                <input
-                  type="date"
-                  id="unlockDate"
-                  name="unlockDate"
-                  value={formData.unlockDate}
-                  onChange={handleChange}
-                  min={
-                    new Date(Date.now() + 24 * 60 * 60 * 1000)
-                      .toISOString()
-                      .split("T")[0]
-                  }
-                  className="cs-field-input"
-                  required
-                />
+                <div className="cs-datetime-container">
+                  <input
+                    type="date"
+                    id="unlockDate"
+                    name="unlockDate"
+                    value={formData.unlockDate}
+                    onChange={handleChange}
+                    min={
+                      new Date(Date.now() + 24 * 60 * 60 * 1000)
+                        .toISOString()
+                        .split("T")[0]
+                    }
+                    className="cs-field-input cs-datetime-date"
+                    required
+                  />
+                  <input
+                    type="time"
+                    id="unlockTime"
+                    name="unlockTime"
+                    value={formData.unlockTime}
+                    onChange={handleChange}
+                    className="cs-field-input cs-datetime-time"
+                    required
+                  />
+                </div>
                 <div className="cs-quick-date-container">
                   <div className="cs-quick-date-grid">
                     <button
