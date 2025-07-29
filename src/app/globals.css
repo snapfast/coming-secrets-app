@@ -307,7 +307,7 @@ body {
 /* ===== NAVIGATION SYSTEM ===== */
 
 .cs-nav-container {
-  @apply flex justify-center mb-6 mt-6;
+  @apply flex justify-center mb-6 mt-6 px-4;
 }
 
 .cs-nav-list {
