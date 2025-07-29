@@ -381,19 +381,34 @@ export default function Home() {
             </h3>
             <div className="cs-features-list">
               <div>
-                <h4 className="cs-features-item">Time-Locked Messages</h4>
+                <h4 className="cs-features-item">
+                  <span className="cs-features-mobile">Time-Locked Messages</span>
+                  <span className="cs-features-desktop">Create time-locked messages that remain securely encrypted until your specified unlock date and time arrives.</span>
+                </h4>
               </div>
               <div>
-                <h4 className="cs-features-item">Secure & Private</h4>
+                <h4 className="cs-features-item">
+                  <span className="cs-features-mobile">Secure & Private</span>
+                  <span className="cs-features-desktop">Advanced AES encryption ensures your private messages remain completely confidential and protected from unauthorised access.</span>
+                </h4>
               </div>
               <div>
-                <h4 className="cs-features-item">Smart Reminders - Google, Outlook, Apple</h4>
+                <h4 className="cs-features-item">
+                  <span className="cs-features-mobile">Smart Calendar Reminders</span>
+                  <span className="cs-features-desktop">Integrated calendar reminders automatically sync with Google Calendar, Microsoft Outlook, and Apple Calendar for seamless scheduling.</span>
+                </h4>
               </div>
               <div>
-                <h4 className="cs-features-item">Your secrets are safe with us. We keep them completely private.</h4>
+                <h4 className="cs-features-item">
+                  <span className="cs-features-mobile">Local Storage Protection</span>
+                  <span className="cs-features-desktop">Local storage technology means your sensitive data never leaves your device, ensuring maximum privacy and security.</span>
+                </h4>
               </div>
               <div>
-                <h4 className="cs-features-item">Send Feedback -&gt; smartrahulrdb [at] gmail [dot] com</h4>
+                <h4 className="cs-features-item">
+                  <span className="cs-features-mobile">Support & Feedback</span>
+                  <span className="cs-features-desktop">For technical support and feature suggestions, please contact smartrahulrdb [at] gmail [dot] com.</span>
+                </h4>
               </div>
             </div>
           </div>
