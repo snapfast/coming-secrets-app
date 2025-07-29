@@ -575,7 +575,7 @@ function ViewSecretContent() {
             <div className="cs-flex-center cs-mb-4">
               <Link
                 href="/"
-                className="cs-button-green cs-button-hover-scale"
+                className="cs-button-green"
               >
                 Create New Message
               </Link>
