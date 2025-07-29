@@ -327,7 +327,7 @@ body {
 }
 
 .cs-nav-link {
-  @apply text-white/80 hover:text-white transition-colors text-sm font-medium underline;
+  @apply text-white/80 hover:text-white active:text-white/60 active:scale-95 transition-all duration-150 text-base font-medium underline;
 }
 
 /* ===== DECORATIVE ELEMENTS ===== */
@@ -788,7 +788,7 @@ body {
 }
 
 .cs-brand-subtitle {
-  @apply text-lg text-white/90 drop-shadow-md;
+  @apply text-sm text-white/90 drop-shadow-md;
 }
 
 .cs-brand-accent {

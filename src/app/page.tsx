@@ -10,7 +10,7 @@ import { saveSecretToProfile, isStorageAvailable } from "@/lib/storage";
 export default function Home() {
   const [formData, setFormData] = useState({
     message: "",
-    unlockDate: "",
+    unlockDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
     unlockTime: "09:41",
     senderName: "",
     hint: "",
@@ -21,6 +21,7 @@ export default function Home() {
   const [generatedLink, setGeneratedLink] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
   const [showTemplatesDialog, setShowTemplatesDialog] = useState(false);
+  const [showHintField, setShowHintField] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +96,7 @@ export default function Home() {
   const resetForm = () => {
     setFormData({
       message: "",
-      unlockDate: "",
+      unlockDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0],
       unlockTime: "09:41",
       senderName: "",
       hint: "",
@@ -103,6 +104,7 @@ export default function Home() {
     });
     setGeneratedLink("");
     setCopySuccess(false);
+    setShowHintField(false);
   };
 
   const handleChange = (
@@ -204,6 +206,15 @@ export default function Home() {
                     >
                       Use Template
                     </button>
+                    {!showHintField && (
+                      <button
+                        type="button"
+                        onClick={() => setShowHintField(true)}
+                        className="text-xs px-2 py-1 bg-green-100 dark:bg-green-800/50 text-green-700 dark:text-green-300 rounded-md hover:bg-green-200 dark:hover:bg-green-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
+                      >
+                        Add Hint
+                      </button>
+                    )}
                   </div>
                 </div>
                 <textarea
@@ -225,34 +236,36 @@ export default function Home() {
               </div>
 
               {/* Hint Section */}
-              <div className="cs-field-container">
-                <div className="cs-field-header">
-                  <label
-                    htmlFor="hint"
-                    className="cs-field-label"
-                  >
-                    Hint (Optional)
-                  </label>
-                  <span className={`${formData.hint.length > 200 ? 'cs-field-counter-error' : 'cs-field-counter'}`}>
-                    {formData.hint.length}/200
-                  </span>
+              {showHintField && (
+                <div className="cs-field-container">
+                  <div className="cs-field-header">
+                    <label
+                      htmlFor="hint"
+                      className="cs-field-label"
+                    >
+                      Hint (Optional)
+                    </label>
+                    <span className={`${formData.hint.length > 200 ? 'cs-field-counter-error' : 'cs-field-counter'}`}>
+                      {formData.hint.length}/200
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    id="hint"
+                    name="hint"
+                    maxLength={200}
+                    value={formData.hint}
+                    onChange={handleChange}
+                    className={`${formData.hint.length > 200 ? 'cs-field-input-error' : 'cs-field-input'}`}
+                    placeholder="Optional hint for the recipient (max 200 characters)"
+                  />
+                  {formData.hint.length > 200 && (
+                    <p className="cs-field-error-message">
+                      Hint exceeds 200 character limit
+                    </p>
+                  )}
                 </div>
-                <input
-                  type="text"
-                  id="hint"
-                  name="hint"
-                  maxLength={200}
-                  value={formData.hint}
-                  onChange={handleChange}
-                  className={`${formData.hint.length > 200 ? 'cs-field-input-error' : 'cs-field-input'}`}
-                  placeholder="Optional hint for the recipient (max 200 characters)"
-                />
-                {formData.hint.length > 200 && (
-                  <p className="cs-field-error-message">
-                    Hint exceeds 200 character limit
-                  </p>
-                )}
-              </div>
+              )}
 
               <div className="cs-field-container">
                 <label
