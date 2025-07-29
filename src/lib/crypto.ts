@@ -69,7 +69,7 @@ export async function encryptMessage(data: SecretData): Promise<string> {
     const urlSafe = base64urlEncode(textEncoder.encode(encrypted));
     
     // Step 5: Add version prefix (v3 for Brotli)
-    return 'v3:' + urlSafe;
+    return 'v3' + urlSafe;
   } catch (error) {
     console.error('Encryption failed:', error);
     throw new Error('Failed to encrypt message');
@@ -78,12 +78,12 @@ export async function encryptMessage(data: SecretData): Promise<string> {
 
 export async function decryptMessage(encryptedData: string): Promise<SecretData> {
   try {
-    if (!encryptedData.startsWith('v3:')) {
+    if (!encryptedData.startsWith('v3')) {
       throw new Error('Invalid message format');
     }
     
     // Current Brotli format
-    const urlSafeData = encryptedData.substring(3); // Remove 'v3:' prefix
+    const urlSafeData = encryptedData.substring(2); // Remove 'v3' prefix
     
     // Step 1: Decode from base64url
     const encryptedBytes = base64urlDecode(urlSafeData);

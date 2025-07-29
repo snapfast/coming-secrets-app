@@ -97,7 +97,7 @@ export default function TestPage() {
       
       log += `✅ Encryption completed in ${encryptionTime.toFixed(2)}ms\n`;
       log += `📏 Encrypted data length: ${encrypted.length} characters\n`;
-      log += `🏷️ Version prefix: ${encrypted.startsWith('v3:') ? '✅ v3:' : '❌ Invalid'}\n\n`;
+      log += `🏷️ Version prefix: ${encrypted.startsWith('v3') ? '✅ v3' : '❌ Invalid'}\n\n`;
       
       // Calculate compression statistics
       const originalSize = JSON.stringify(testData).length;
