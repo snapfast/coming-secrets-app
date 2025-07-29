@@ -315,7 +315,7 @@ body {
 }
 
 .cs-nav-link {
-  @apply text-white/80 hover:text-white transition-colors text-sm font-medium;
+  @apply text-white/80 hover:text-white transition-colors text-sm font-medium underline;
 }
 
 /* ===== DECORATIVE ELEMENTS ===== */
@@ -413,7 +413,7 @@ body {
 
 /* Statistics */
 .cs-stats-container {
-  @apply flex gap-4 mb-8;
+  @apply flex gap-4 mb-8 justify-center;
 }
 
 .cs-stats-card {
@@ -471,13 +471,13 @@ body {
 }
 
 .cs-list-item-actions {
-  @apply flex flex-col sm:flex-row gap-2;
+  @apply flex flex-row gap-2;
 }
 
 /* ===== ACTION BUTTONS ===== */
 
 .cs-action-buttons {
-  @apply flex flex-col sm:flex-row gap-4 mb-6;
+  @apply flex flex-row gap-4 mb-6;
 }
 
 .cs-primary-action {
