@@ -731,7 +731,7 @@ body {
 }
 
 .cs-features-title {
-  @apply text-white text-xl font-semibold text-center mb-4;
+  @apply text-white text-sm font-semibold text-center mb-4;
 }
 
 .cs-features-list {
@@ -739,7 +739,7 @@ body {
 }
 
 .cs-features-item {
-  @apply text-sm font-normal text-white;
+  @apply text-xs font-normal text-white;
 }
 
 /* ===== BRAND ELEMENTS ===== */
